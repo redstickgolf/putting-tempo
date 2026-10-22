@@ -1,4 +1,4 @@
-var CACHE = 'putting-tempo-v3';
+var CACHE = 'putting-tempo-v4';
 var ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {

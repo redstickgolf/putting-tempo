@@ -24,6 +24,7 @@
   --accent: #C8151D;
   --on-accent: #FFFFFF;
   --warm: #F4F1EC;
+  --ball: 84px;
   --font: "Noto Sans KR", system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-display: "Sora", "Noto Sans KR", system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   color-scheme: dark;
@@ -46,11 +47,26 @@ body {
   left: 0;
   right: 0;
   top: 0;
-  height: 28px;
+  height: 14px;
   background: var(--accent);
   will-change: transform;
 }
 .bar.hit { background: var(--fg); }
+.ball {
+  position: absolute;
+  top: calc(-0.5 * var(--ball));
+  left: 50%;
+  width: var(--ball);
+  height: var(--ball);
+  margin-left: calc(-0.5 * var(--ball));
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, 0.1) 1.4px, transparent 2.2px) 0 0 / 9px 9px,
+    radial-gradient(circle at 35% 62%, #fff 0, #f2efea 48%, #c9c3bc 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+}
+.ball.hit { transform: translateY(5px) scale(1.06); box-shadow: 0 0 0 4px rgba(200, 21, 29, 0.55), 0 6px 18px rgba(0, 0, 0, 0.7); }
 
 .panel {
   position: fixed;
@@ -155,6 +171,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
 <div id="track" class="track" aria-hidden="true">
   <div id="bar" class="bar"></div>
+  <div id="ball" class="ball"></div>
 </div>
 
 <main id="panel" class="panel">
@@ -286,6 +303,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   var settingsEl = document.getElementById('settings');
   var trackEl = document.getElementById('track');
   var barEl = document.getElementById('bar');
+  var ballEl = document.getElementById('ball');
   var msgEl = document.getElementById('msg');
   var soundBtns = Array.prototype.slice.call(document.querySelectorAll('[data-sound]'));
 
@@ -472,6 +490,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     barEl.style.transform = 'translateY(' + (y * travel) + 'px)';
     if (hit !== wasHit) {
       barEl.classList.toggle('hit', hit);
+      ballEl.classList.toggle('hit', hit);
       wasHit = hit;
     }
     raf = requestAnimationFrame(frame);
@@ -508,6 +527,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     cancelAnimationFrame(raf);
     barEl.style.transform = 'translateY(0)';
     barEl.classList.remove('hit');
+    ballEl.classList.remove('hit');
     wasHit = false;
     panelEl.classList.remove('running');
     goBtn.textContent = t('start');
