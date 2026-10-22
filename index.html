@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Sora:wght@600;700;800&display=swap">
 <style>
-/* Brand: Redstick homepage system (ink #0A0504, red #C8151D, Sora for display, Noto Sans KR for body). Layout: the whole screen is the track (bar runs top edge to bottom edge). A floating panel holds the home view and a settings view (free sounds + paid sound packs). While running only the stop button stays. */
+/* Brand: Redstick homepage system (ink #0A0504, red #C8151D, Sora for display, Noto Sans KR for body). Layout: the whole screen is the track (bar runs top edge to bottom edge). A floating panel holds the home view and a settings view (sounds). While running only the stop button stays. */
 :root {
   --bg: #0A0504;
   --surface: #1A1A1A;
@@ -102,7 +102,7 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weig
 button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-offset: 3px; }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .pill {
-  flex: 1 1 64px;
+  flex: 1 1 calc(33% - 8px);
   min-height: 48px;
   padding-inline: 8px;
   border-radius: 2px;
@@ -113,34 +113,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   cursor: pointer;
 }
 .pill[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.pill.locked { border-style: dashed; color: var(--muted); }
 .brand { align-self: center; font: 600 13px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.04em; padding: 6px 10px; }
 
-.pack {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 6px;
-  background: var(--surface);
-}
-.pack-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.pack-name { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.pack-name strong { font-size: 17px; }
-.pack-name span { font-size: 13px; color: var(--muted); }
-.buy {
-  min-height: 44px;
-  padding-inline: 16px;
-  border-radius: 2px;
-  border: 0;
-  background: var(--accent);
-  color: var(--on-accent);
-  font: 800 15px var(--font-display);
-  cursor: pointer;
-  flex: none;
-}
-.owned { font-size: 13px; font-weight: 700; color: var(--warm); flex: none; }
-.note { margin: 0; font-size: 13px; line-height: 1.6; color: var(--muted); text-wrap: balance; }
 .msg { margin: 0; min-height: 1.6em; font-size: 14px; font-weight: 700; color: var(--warm); }
 
 .mode { display: flex; gap: 8px; }
@@ -218,37 +192,16 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       <span style="width:48px" aria-hidden="true"></span>
     </div>
 
-    <p class="label">기본 소리 (무료)</p>
-    <div class="pills" role="group" aria-label="기본 소리">
+    <p class="label">소리</p>
+    <div class="pills" role="group" aria-label="소리">
       <button class="pill" type="button" data-sound="tick" aria-pressed="true">딱</button>
       <button class="pill" type="button" data-sound="wood" aria-pressed="false">나무</button>
-    </div>
-
-    <p class="label">소리 팩</p>
-    <div class="pack">
-      <div class="pack-head">
-        <div class="pack-name"><strong>재미 팩</strong><span>방귀 · 폭탄</span></div>
-        <button class="buy" type="button" data-buy="fun">$1에 열기</button>
-        <span class="owned" data-owned="fun" hidden>열림</span>
-      </div>
-      <div class="pills" role="group" aria-label="재미 팩 소리">
-        <button class="pill" type="button" data-sound="fart" data-pack="fun" aria-pressed="false">방귀</button>
-        <button class="pill" type="button" data-sound="bomb" data-pack="fun" aria-pressed="false">폭탄</button>
-      </div>
-    </div>
-    <div class="pack">
-      <div class="pack-head">
-        <div class="pack-name"><strong>악기 팩</strong><span>종 · 북</span></div>
-        <button class="buy" type="button" data-buy="inst">$1에 열기</button>
-        <span class="owned" data-owned="inst" hidden>열림</span>
-      </div>
-      <div class="pills" role="group" aria-label="악기 팩 소리">
-        <button class="pill" type="button" data-sound="bell" data-pack="inst" aria-pressed="false">종</button>
-        <button class="pill" type="button" data-sound="drum" data-pack="inst" aria-pressed="false">북</button>
-      </div>
+      <button class="pill" type="button" data-sound="bell" aria-pressed="false">종</button>
+      <button class="pill" type="button" data-sound="drum" aria-pressed="false">북</button>
+      <button class="pill" type="button" data-sound="bomb" aria-pressed="false">폭탄</button>
+      <button class="pill" type="button" data-sound="fart" aria-pressed="false">방귀</button>
     </div>
     <p id="msg" class="msg" aria-live="polite"></p>
-    <p class="note">잠긴 소리도 눌러서 들어볼 수 있어요. 지금은 시연 버전이라 "$1에 열기"를 누르면 바로 열립니다. 실제 결제는 앱 출시 때 연결합니다.</p>
   </div>
 
   <div id="measure" class="measure" hidden>
@@ -280,8 +233,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   var barEl = document.getElementById('bar');
   var msgEl = document.getElementById('msg');
   var soundBtns = Array.prototype.slice.call(document.querySelectorAll('[data-sound]'));
-  var buyBtns = Array.prototype.slice.call(document.querySelectorAll('[data-buy]'));
-  var ownedEls = Array.prototype.slice.call(document.querySelectorAll('[data-owned]'));
 
   // Tour average (SAM PuttLab / Blast / Kenyon): backswing ~0.66 s, forward to impact ~0.33 s, ratio 2:1.
   var TOUR = { back: 0.667, fwd: 0.333 };
@@ -291,7 +242,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   var CYCLE = STROKE + 1;    // one stroke, then one second of rest at the top
 
   var sound = 'tick';
-  var unlocked = { fun: false, inst: false };
   var running = false;
   var ctx = null;
   var timer = null;
@@ -302,32 +252,15 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   var wakeLock = null;
 
   try {
-    var savedPacks = JSON.parse(localStorage.getItem('putting-tempo-packs') || '{}');
-    if (savedPacks && savedPacks.fun) unlocked.fun = true;
-    if (savedPacks && savedPacks.inst) unlocked.inst = true;
-  } catch (e) {}
-
-  function isLocked(btn) {
-    var p = btn.getAttribute('data-pack');
-    return !!p && !unlocked[p];
-  }
-
-  try {
     var saved = localStorage.getItem('putting-tempo-sound');
     var sb = saved && document.querySelector('[data-sound="' + saved + '"]');
-    if (sb && !isLocked(sb)) sound = saved;
+    if (sb) sound = saved;
   } catch (e) {}
 
   function renderSettings() {
     soundBtns.forEach(function (b) {
-      var name = b.getAttribute('data-sound');
-      var locked = isLocked(b);
-      b.setAttribute('aria-pressed', String(name === sound));
-      b.classList.toggle('locked', locked);
-      b.setAttribute('aria-label', locked ? b.textContent + ' (잠김, 눌러서 들어보기)' : b.textContent);
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-sound') === sound));
     });
-    buyBtns.forEach(function (b) { b.hidden = !!unlocked[b.getAttribute('data-buy')]; });
-    ownedEls.forEach(function (o) { o.hidden = !unlocked[o.getAttribute('data-owned')]; });
   }
 
   function ensureCtx() {
@@ -544,23 +477,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     b.addEventListener('click', function () {
       var name = b.getAttribute('data-sound');
       preview(name);
-      if (isLocked(b)) {
-        msgEl.textContent = '잠긴 소리예요. $1에 열면 쓸 수 있어요.';
-        return;
-      }
-      msgEl.textContent = '';
       sound = name;
       try { localStorage.setItem('putting-tempo-sound', sound); } catch (e) {}
-      renderSettings();
-    });
-  });
-
-  buyBtns.forEach(function (b) {
-    b.addEventListener('click', function () {
-      // Demo only: unlocks immediately. Real purchase goes here when the app ships to the stores.
-      unlocked[b.getAttribute('data-buy')] = true;
-      try { localStorage.setItem('putting-tempo-packs', JSON.stringify(unlocked)); } catch (e) {}
-      msgEl.textContent = '열렸어요. 소리를 골라보세요.';
       renderSettings();
     });
   });
