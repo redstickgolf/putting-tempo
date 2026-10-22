@@ -152,7 +152,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 .snd small { font: 500 12px/1 var(--font); color: var(--muted); margin-top: -4px; }
 .snd[aria-pressed="true"] small { color: var(--on-accent); }
 .type-line { text-align: center; color: var(--accent); font-size: 17px; margin-top: -6px; }
-#typeLine:empty, #tipLine:empty { display: none; }
+.stepper { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.stepper .icon-btn { width: 64px; height: 56px; font: 700 28px/1 var(--font-display); }
+.icon-btn:disabled { opacity: 0.35; cursor: default; }
+.stepval { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.stepval strong { font: 800 32px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.stepval span { color: var(--accent); font: 700 15px var(--font); }
 .brand { align-self: center; font: 600 13px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.04em; padding: 6px 10px; }
 
 .msg { margin: 0; min-height: 1.6em; font-size: 14px; font-weight: 700; color: var(--warm); }
@@ -309,26 +314,23 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       <button id="measureBack" class="icon-btn" type="button" aria-label="돌아가기" data-i18n-aria="back">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
       </button>
-      <h2 data-i18n="measureTitle">나의 템포 찾기</h2>
+      <h2 data-i18n="measureTitle">나의 템포 고르기</h2>
       <span style="width:48px" aria-hidden="true"></span>
     </div>
-        <p class="label" data-i18n="quick">바로 고르기</p>
+    <p class="tip" data-i18n="tipPick"></p>
+    <p class="label" data-i18n="quick">바로 고르기</p>
     <div class="sounds" role="group" data-i18n-aria="quick" aria-label="바로 고르기">
       <button class="snd" type="button" data-preset="slow"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 27a13 11 0 0 1 26 0z"/><path d="M14 27v5M27 27v5M7 24l-3 1"/><circle cx="35" cy="23" r="3.200"/><path d="M20 17v10M13 22l3 5M27 22l-3 5"/></svg><span data-i18n="type_slow"></span><small data-preset-sec="slow"></small></button>
       <button class="snd" type="button" data-preset="tour"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v29"/><path d="M12 8h19l-5 6 5 6H12"/></svg><span data-i18n="type_tour"></span><small data-preset-sec="tour"></small></button>
-      <button class="snd" type="button" data-preset="fast"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4 11 22h8l-2 14 13-19h-8z"/></svg><span data-i18n="type_fast"></span><small data-preset-sec="fast"></small></button>
+      <button class="snd" type="button" data-preset="fast"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="17" cy="27" rx="11" ry="7"/><circle cx="31" cy="20" r="5"/><path d="M29 16c-2-6-1-11 2-12 3 2 2 8 0 12"/><circle cx="33" cy="19" r="1.2" fill="currentColor" stroke="none"/><circle cx="5.500" cy="26" r="2.500"/><path d="M12 33v3M24 33v3"/></svg><span data-i18n="type_fast"></span><small data-preset-sec="fast"></small></button>
     </div>
-    <p class="label" data-i18n="measureIt">또는 직접 재기</p>
-    <p class="tip" data-i18n="tip2">퍼팅 스트로크를 하면서 세 번 눌러요.<br>3번 이상 재면 더 정확해요.</p>
-    <p id="stepLabel" class="step"></p>
-    <button id="tapBtn" class="tap" type="button"><span id="tapMain"></span><small id="tapSub"></small></button>
-    <div id="dots" class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
-    <div id="chips" class="chips" aria-live="polite"></div>
-    <p id="result" class="result" aria-live="polite"></p>
-    <p id="typeLine" class="result type-line" aria-live="polite"></p>
-    <p id="tipLine" class="tip" aria-live="polite"></p>
-    <button id="mineSave" class="go" type="button" disabled data-i18n="save">이 템포로 연습</button>
-    <button id="mineReset" class="ghost" type="button" data-i18n="reset">처음부터</button>
+    <p class="label" data-i18n="fine">미세 조정</p>
+    <div class="stepper">
+      <button id="stepDown" class="icon-btn" type="button" aria-label="-0.05">−</button>
+      <div class="stepval"><strong id="draftTotal"></strong><span id="draftType"></span></div>
+      <button id="stepUp" class="icon-btn" type="button" aria-label="+0.05">+</button>
+    </div>
+    <button id="mineSave" class="go" type="button" data-i18n="save">이 템포로 연습</button>
   </div>
 </main>
 
@@ -338,39 +340,36 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   var I18N = {
     ko: {
       title: '퍼팅 템포', appName: '퍼팅 템포', settings: '설정', modeGroup: '템포 종류', tour: '투어 평균', mine: '나의 템포',
-      factsAria: '현재 템포', total: function (n) { return '총 ' + n + '초'; },
+      factsAria: '현재 템포', total: function (n) { return '총 ' + n + '초'; }, sec: function (n) { return n + '초'; },
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트',
-      start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', remeasure: '나의 템포 다시 재기', back: '돌아가기', settingsTitle: '설정', sound: '소리',
-      s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀', language: '언어', sec: function (n) { return n + '초'; }, type_fast: '빠른 템포', type_tour: '투어 템포', type_slow: '느린 템포', tip_ok: '리듬이 좋아요. 투어 평균 2:1에 가까워요.', tip_short: '포워드에 비해 백스윙이 짧아요. 백스윙을 조금 더 길고 부드럽게 해 보세요.', tip_long: '포워드에 비해 백스윙이 길어요. 백스윙을 조금 짧게 해 보세요.', quick: '바로 고르기', measureIt: '또는 직접 재기', vsTour: '투어 평균 대비', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
-      measureTitle: '나의 템포 찾기', tip2: '퍼팅 스트로크를 하면서 세 번 눌러요.<br>3번 이상 재면 더 정확해요.',
-      save: '이 템포로 연습', reset: '처음부터', avg: '평균 ', warn: '간격이 너무 짧거나 길어요. 다시 해 봐요.',
-      steps: [['탭 1 / 3', '스윙을 시작할 때 눌러요', '퍼터를 뒤로 빼기 시작하는 순간'],
-              ['탭 2 / 3', '백스윙이 끝날 때 눌러요', '퍼터가 맨 뒤에서 멈추는 순간'],
-              ['탭 3 / 3', '공을 맞출 때 눌러요', '임팩트 순간']]
+      start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
+      sound: '소리', s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀',
+      language: '언어', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      type_fast: '빠른 템포', type_tour: '투어 템포', type_slow: '느린 템포',
+      measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
+      quick: '바로 고르기', fine: '미세 조정', save: '이 템포로 연습'
     },
     en: {
       title: 'Putting Tempo', appName: 'Putting Tempo', settings: 'Settings', modeGroup: 'Tempo type', tour: 'Tour average', mine: 'My tempo',
-      factsAria: 'Current tempo', total: function (n) { return 'Total ' + n + ' s'; },
+      factsAria: 'Current tempo', total: function (n) { return 'Total ' + n + ' s'; }, sec: function (n) { return n + ' s'; },
       tip1: 'Lay your phone flat and tap anywhere.<br>The line goes down on the backswing<br>and reaches the top at impact.',
-      start: 'Start', stop: 'Touch anywhere to stop', remeasure: 'Measure my tempo again', back: 'Back', settingsTitle: 'Settings', sound: 'Sound',
-      s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart', language: 'Language', sec: function (n) { return n + ' s'; }, type_fast: 'Fast tempo', type_tour: 'Tour tempo', type_slow: 'Slow tempo', tip_ok: 'Nice rhythm. Close to the tour 2:1.', tip_short: 'Your backswing is short compared with your forward stroke. Try a slightly longer, smoother backswing.', tip_long: 'Your backswing is long compared with your forward stroke. Try a slightly shorter backswing.', quick: 'Quick pick', measureIt: 'Or measure it yourself', vsTour: 'vs. tour average', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
-      measureTitle: 'Find my tempo', tip2: 'Tap three times as you make a putting stroke.<br>Measure 3 or more times for better accuracy.',
-      save: 'Use this tempo', reset: 'Start over', avg: 'Average ', warn: 'Interval too short or too long. Try again.',
-      steps: [['Tap 1 / 3', 'Tap when the stroke starts', 'The moment the putter starts back'],
-              ['Tap 2 / 3', 'Tap at the end of the backswing', 'The moment the putter stops at the top'],
-              ['Tap 3 / 3', 'Tap when you hit the ball', 'The moment of impact']]
+      start: 'Start', stop: 'Touch anywhere to stop', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
+      sound: 'Sound', s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart',
+      language: 'Language', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      type_fast: 'Fast tempo', type_tour: 'Tour tempo', type_slow: 'Slow tempo',
+      measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
+      quick: 'Quick pick', fine: 'Fine-tune', save: 'Use this tempo'
     },
     ja: {
       title: 'パッティング テンポ', appName: 'パッティング テンポ', settings: '設定', modeGroup: 'テンポの種類', tour: 'ツアー平均', mine: '自分のテンポ',
-      factsAria: '現在のテンポ', total: function (n) { return '合計 ' + n + '秒'; },
+      factsAria: '現在のテンポ', total: function (n) { return '合計 ' + n + '秒'; }, sec: function (n) { return n + '秒'; },
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>ラインが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
-      start: 'スタート', stop: '画面のどこかをタップで停止', remeasure: '自分のテンポを測り直す', back: '戻る', settingsTitle: '設定', sound: 'サウンド',
-      s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら', language: '言語', sec: function (n) { return n + '秒'; }, type_fast: '速いテンポ', type_tour: 'ツアーテンポ', type_slow: 'ゆったりテンポ', tip_ok: 'リズムが良好です。ツアー平均の2:1に近いです。', tip_short: 'フォワードに比べてバックスイングが短めです。少し長く、なめらかにしてみましょう。', tip_long: 'フォワードに比べてバックスイングが長めです。少し短くしてみましょう。', quick: 'すぐに選ぶ', measureIt: 'または自分で測る', vsTour: 'ツアー平均との比較', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
-      measureTitle: '自分のテンポを測る', tip2: 'パッティングのストロークに合わせて3回タップ。<br>3回以上測ると、より正確になります。',
-      save: 'このテンポで練習', reset: '最初から', avg: '平均 ', warn: '間隔が短すぎるか長すぎます。もう一度どうぞ。',
-      steps: [['タップ 1 / 3', 'スイング開始でタップ', 'パターを引き始める瞬間'],
-              ['タップ 2 / 3', 'バックスイングの終わりでタップ', 'パターが一番後ろで止まる瞬間'],
-              ['タップ 3 / 3', 'ボールを打つ瞬間にタップ', 'インパクトの瞬間']]
+      start: 'スタート', stop: '画面のどこかをタップで停止', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
+      sound: 'サウンド', s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら',
+      language: '言語', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      type_fast: '速いテンポ', type_tour: 'ツアーテンポ', type_slow: 'ゆったりテンポ',
+      measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
+      quick: 'すぐに選ぶ', fine: '微調整', save: 'このテンポで練習'
     }
   };
   var lang = 'en';
@@ -651,13 +650,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     if (running) stop(); else start();
   });
 
-  // ---- 나의 템포 찾기: three taps (start, end of backswing, impact) give backswing and forward times ----
+  // ---- my tempo: picked by feel (presets + fine-tune), not measured ----
   var measureEl = document.getElementById('measure');
   var mode = 'tour';
   var mine = null;
-  var taps = [];
-  var trials = [];
-  var warn = '';
 
   try {
     var m = JSON.parse(localStorage.getItem('putting-tempo-mine') || 'null');
@@ -693,86 +689,51 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     renderHome();
   }
 
+  var draft = { back: 0.6, fwd: 0.3 };
+  var MIN_TOTAL = 0.6;
+  var MAX_TOTAL = 1.5;
+
+  // "Find my tempo" is by feel: pick a preset or nudge the total time; the 2:1 ratio is kept.
+  function setDraftTotal(total) {
+    total = Math.min(MAX_TOTAL, Math.max(MIN_TOTAL, total));
+    draft = { back: +(total * 2 / 3).toFixed(3), fwd: +(total / 3).toFixed(3) };
+  }
+
   function showMeasure(on) {
     if (running) stop();
     measureEl.hidden = !on;
     homeEl.hidden = on;
     settingsEl.hidden = true;
-    if (on) { taps = []; trials = []; warn = ''; renderMeasure(); panelEl.scrollTop = 0; }
-    else renderHome();
+    if (on) {
+      var T = mine || TOUR;
+      setDraftTotal(T.back + T.fwd);
+      renderMeasure();
+      panelEl.scrollTop = 0;
+    } else renderHome();
   }
-
-  function average() {
-    if (!trials.length) return null;
-    var a = 0, b = 0;
-    trials.forEach(function (t) { a += t.back; b += t.fwd; });
-    return { back: a / trials.length, fwd: b / trials.length };
-  }
-
 
   function renderMeasure() {
-    var step = taps.length;
-    var STEPS = t('steps');
-    document.getElementById('stepLabel').textContent = STEPS[step][0];
-    document.getElementById('tapMain').textContent = STEPS[step][1];
-    document.getElementById('tapSub').textContent = STEPS[step][2];
-    Array.prototype.forEach.call(document.getElementById('dots').children, function (d, i) {
-      d.className = i < step ? 'on' : '';
+    var total = draft.back + draft.fwd;
+    document.getElementById('draftTotal').textContent = t('sec')(+total.toFixed(2));
+    document.getElementById('draftType').textContent = t('type_' + typeOf(draft));
+    document.getElementById('stepDown').disabled = total <= MIN_TOTAL + 0.001;
+    document.getElementById('stepUp').disabled = total >= MAX_TOTAL - 0.001;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-preset]'), function (b) {
+      var P = PRESETS[b.getAttribute('data-preset')];
+      b.setAttribute('aria-pressed', String(Math.abs(P.back + P.fwd - total) < 0.005));
     });
-    var box = document.getElementById('chips');
-    box.textContent = '';
-    if (warn) {
-      var w = document.createElement('span');
-      w.className = 'chip warn';
-      w.textContent = warn;
-      box.appendChild(w);
-    }
-    trials.forEach(function (t) {
-      var c = document.createElement('span');
-      c.className = 'chip';
-      c.textContent = t.back.toFixed(2) + ' : ' + t.fwd.toFixed(2);
-      box.appendChild(c);
-    });
-    var avg = average();
-    document.getElementById('result').textContent = avg
-      ? t('avg') + avg.back.toFixed(2) + ' : ' + avg.fwd.toFixed(2) + '  (' + (avg.back / avg.fwd).toFixed(1) + ' : 1)'
-      : '';
-    document.getElementById('typeLine').textContent = avg ? t('type_' + typeOf(avg)) + ' · ' + t('sec')(+(avg.back + avg.fwd).toFixed(2)) : '';
-    document.getElementById('tipLine').textContent = avg ? t(tipOf(avg)) : '';
-    document.getElementById('mineSave').disabled = !avg;
   }
 
-  function onTap() {
-    if (!ensureCtx()) return;
-    var t = performance.now() / 1000;
-    if (taps.length && t - taps[taps.length - 1] > 3.5) taps = [];
-    play(ctx.currentTime + 0.005, taps.length === 2 ? 'impact' : 'start');
-    taps.push(t);
-    warn = '';
-    if (taps.length === 3) {
-      var b = taps[1] - taps[0];
-      var f = taps[2] - taps[1];
-      taps = [];
-      if (b < 0.25 || b > 2.5 || f < 0.12 || f > 1.5) {
-        warn = t('warn');
-      } else {
-        trials.push({ back: b, fwd: f });
-        if (trials.length > 5) trials.shift();
-      }
-    }
+  function nudge(delta) {
+    setDraftTotal(+(draft.back + draft.fwd + delta).toFixed(2));
     renderMeasure();
   }
 
-  document.getElementById('tapBtn').addEventListener('pointerdown', function (e) { e.preventDefault(); onTap(); });
-  document.getElementById('tapBtn').addEventListener('keydown', function (e) {
-    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); onTap(); }
-  });
-  document.getElementById('mineReset').addEventListener('click', function () { taps = []; trials = []; warn = ''; renderMeasure(); });
+  document.getElementById('stepDown').addEventListener('click', function () { nudge(-0.05); });
+  document.getElementById('stepUp').addEventListener('click', function () { nudge(0.05); });
   document.getElementById('measureBack').addEventListener('click', function () { showMeasure(false); });
   document.getElementById('mineSave').addEventListener('click', function () {
-    var avg = average();
-    if (!avg) return;
-    mine = { back: +avg.back.toFixed(3), fwd: +avg.fwd.toFixed(3) };
+    mine = { back: draft.back, fwd: draft.fwd };
     try { localStorage.setItem('putting-tempo-mine', JSON.stringify(mine)); } catch (e) {}
     mode = 'mine';
     try { localStorage.setItem('putting-tempo-mode', mode); } catch (e) {}
@@ -825,14 +786,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
   var PRESETS = { slow: { back: 0.73, fwd: 0.37 }, tour: { back: 0.6, fwd: 0.3 }, fast: { back: 0.5, fwd: 0.25 } };
 
-  // Type by total stroke time vs. the 0.9 s tour average; tip by backswing:forward ratio vs. the tour 1.8-2.2.
+  // Type by total stroke time vs. the 0.9 s tour average.
   function typeOf(T) {
     var total = T.back + T.fwd;
     return total < 0.8 ? 'fast' : total > 1.0 ? 'slow' : 'tour';
-  }
-  function tipOf(T) {
-    var r = T.back / T.fwd;
-    return r < 1.8 ? 'tip_short' : r > 2.2 ? 'tip_long' : 'tip_ok';
   }
 
   function renderPresets() {
@@ -844,13 +801,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-preset]'), function (b) {
     b.addEventListener('click', function () {
-      var T = PRESETS[b.getAttribute('data-preset')];
-      mine = { back: T.back, fwd: T.fwd };
-      try { localStorage.setItem('putting-tempo-mine', JSON.stringify(mine)); } catch (e) {}
-      mode = 'mine';
-      try { localStorage.setItem('putting-tempo-mode', mode); } catch (e) {}
-      applyTempo();
-      showMeasure(false);
+      var P = PRESETS[b.getAttribute('data-preset')];
+      setDraftTotal(P.back + P.fwd);
+      renderMeasure();
     });
   });
 
