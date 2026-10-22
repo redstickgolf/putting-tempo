@@ -53,20 +53,42 @@ body {
 }
 .bar.hit { background: var(--fg); }
 .ball {
-  position: absolute;
+  /* always the top layer: lives outside the track, above panels and settings */
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
   top: calc(-0.5 * var(--ball));
   left: 50%;
   width: var(--ball);
   height: var(--ball);
   margin-left: calc(-0.5 * var(--ball));
   border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(0, 0, 0, 0.1) 1.4px, transparent 2.2px) 0 0 / 9px 9px,
-    radial-gradient(circle at 35% 62%, #fff 0, #f2efea 48%, #c9c3bc 100%);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+  background: #ece8e1;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 12px 28px rgba(0, 0, 0, 0.8);
   transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
 }
-.ball.hit { transform: translateY(5px) scale(1.06); box-shadow: 0 0 0 4px rgba(200, 21, 29, 0.55), 0 6px 18px rgba(0, 0, 0, 0.7); }
+.ball svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border-radius: 50%; }
+.ball::before {   /* small red brand mark */
+  content: "";
+  position: absolute;
+  left: 50%;
+  z-index: 2;
+  top: 74%;
+  width: 9%;
+  height: 9%;
+  margin-left: -4.5%;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.8), 0 0 4px rgba(200, 21, 29, 0.6);
+}
+.ball.hit {
+  transform: translateY(5px) scale(1.06);
+  box-shadow:
+    0 0 0 4px rgba(200, 21, 29, 0.55),
+    0 12px 28px rgba(0, 0, 0, 0.8);
+}
 
 .panel {
   position: fixed;
@@ -241,7 +263,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
 <div id="track" class="track" aria-hidden="true">
   <div id="bar" class="bar"></div>
-  <div id="ball" class="ball"></div>
 </div>
 
 <main id="panel" class="panel">
@@ -333,6 +354,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     <button id="mineSave" class="go" type="button" data-i18n="save">이 템포로 연습</button>
   </div>
 </main>
+
+<div id="ball" class="ball" aria-hidden="true"></div>
 
 <script>
 (function () {
@@ -783,6 +806,44 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       applyHand();
     });
   });
+
+  // Golf ball: ~400 dimples on a Fibonacci sphere, orthographic projection (foreshortened toward the rim), then sphere shading + specular.
+  (function buildBall() {
+    var N = 400, DR = 0.04, tilt = 0.5;
+    var NS = 'http://www.w3.org/2000/svg';
+    var out = [];
+    for (var i = 0; i < N; i++) {
+      var y0 = 1 - 2 * (i + 0.5) / N;
+      var rr = Math.sqrt(1 - y0 * y0);
+      var th = i * 2.399963;
+      var x = Math.cos(th) * rr;
+      var y1 = y0;
+      var z1 = Math.sin(th) * rr;
+      // tilt about the x axis so the spiral pole is not in view
+      var y = y1 * Math.cos(tilt) - z1 * Math.sin(tilt);
+      var z = y1 * Math.sin(tilt) + z1 * Math.cos(tilt);
+      if (z < 0.1) continue;
+      var sy = -y;
+      var ang = Math.atan2(sy, x) * 180 / Math.PI;
+      var rx = (DR * Math.max(z, 0.15)).toFixed(4);
+      var ry = DR.toFixed(4);
+      var g = 'translate(' + x.toFixed(4) + ' ' + sy.toFixed(4) + ') rotate(' + ang.toFixed(1) + ')';
+      var gl = 'translate(' + (x + 0.011).toFixed(4) + ' ' + (sy + 0.011).toFixed(4) + ') rotate(' + ang.toFixed(1) + ')';
+      out.push('<ellipse transform="' + gl + '" rx="' + rx + '" ry="' + ry + '" fill="#fff" opacity="0.75"/>');
+      out.push('<ellipse transform="' + g + '" rx="' + rx + '" ry="' + ry + '" fill="#6b5f52" opacity="' + (0.16 + 0.1 * z).toFixed(2) + '"/>');
+    }
+    var svg = '<svg viewBox="-1 -1 2 2" aria-hidden="true">' +
+      '<defs>' +
+      '<radialGradient id="bBase" cx="0.4" cy="0.62" r="0.85"><stop offset="0" stop-color="#ffffff"/><stop offset="0.45" stop-color="#f5f1ea"/><stop offset="0.8" stop-color="#d8d1c6"/><stop offset="1" stop-color="#a39a8d"/></radialGradient>' +
+      '<radialGradient id="bShade" cx="0.4" cy="0.58" r="0.62"><stop offset="0.55" stop-color="#2a1f14" stop-opacity="0"/><stop offset="1" stop-color="#2a1f14" stop-opacity="0.5"/></radialGradient>' +
+      '<radialGradient id="bSpec" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff" stop-opacity="0.95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+      '</defs>' +
+      '<circle r="1" fill="url(#bBase)"/>' + out.join('') +
+      '<circle r="1" fill="url(#bShade)"/>' +
+      '<ellipse cx="-0.3" cy="0.32" rx="0.26" ry="0.12" transform="rotate(-24 -0.3 0.32)" fill="url(#bSpec)"/>' +
+      '</svg>';
+    ballEl.insertAdjacentHTML('afterbegin', svg);
+  })();
 
   var BAR_SIZES = [8, 14, 24];
   var barSize = 14;
