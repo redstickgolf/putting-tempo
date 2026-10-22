@@ -162,6 +162,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
 .auto-hint::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: wait 1.6s ease-in-out infinite; }
 @keyframes wait { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.15); } }
 .vtitle { margin: 0; font: 700 28px/1.15 var(--font-display); letter-spacing: -0.02em; }
+.settings > .head, .measure > .head { margin-top: 24px; }   /* keep the title clear of the ball at the top edge */
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; justify-content: center;
   padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 8px) max(12px, env(safe-area-inset-left, 0px));
   background: rgba(12, 8, 7, 0.82); -webkit-backdrop-filter: blur(22px) saturate(1.3); backdrop-filter: blur(22px) saturate(1.3);
@@ -455,6 +456,13 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       <button class="snd" type="button" data-preset="tour"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v29"/><path d="M12 8h19l-5 6 5 6H12"/></svg><span data-i18n="type_tour"></span><small data-preset-sec="tour"></small></button>
       <button class="snd" type="button" data-preset="fast"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="17" cy="27" rx="11" ry="7"/><circle cx="31" cy="20" r="5"/><path d="M29 16c-2-6-1-11 2-12 3 2 2 8 0 12"/><circle cx="33" cy="19" r="1.2" fill="currentColor" stroke="none"/><circle cx="5.500" cy="26" r="2.500"/><path d="M12 33v3M24 33v3"/></svg><span data-i18n="type_fast"></span><small data-preset-sec="fast"></small></button>
     </div>
+    <p class="label" data-i18n="ratioLabel">리듬 비율</p>
+    <div class="pills" role="group" aria-label="리듬 비율" data-i18n-aria="ratioLabel">
+      <button class="pill" type="button" data-ratio="2" aria-pressed="true">2 : 1</button>
+      <button class="pill" type="button" data-ratio="1.5" aria-pressed="false">1.5 : 1</button>
+      <button class="pill" type="button" data-ratio="1" aria-pressed="false">1 : 1</button>
+    </div>
+    <p id="ratioNote" class="tip"></p>
     <p class="label" data-i18n="fine">미세 조정</p>
     <div class="stepper">
       <button id="stepDown" class="icon-btn" type="button" aria-label="-0.01">−</button>
@@ -509,7 +517,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', stopAuto: '폰을 들면 멈춰요', tip1Auto: '바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
       sound: '소리', s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀',
-      language: '언어', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '폰을 바닥에 평평하게 놓으면 시작돼요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_buzz: '진동', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1과 1:1 사이의 중간 비율이에요.', ratio_1: '오가는 시간이 같은 비율이에요. 일부 선수가 쓰지만 측정 자료는 적어요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '폰을 바닥에 평평하게 놓으면 시작돼요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_buzz: '진동', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       type_fast: '빠른 템포', type_tour: '투어 템포', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       bn_title: '템포는 잡았어요. 이제 방향이에요.', bn_body: '템포 연습은 폰 하나면 충분해요. 클럽에 자석으로 붙이는 정렬 기준, 레드스틱도 있어요.', bn_cta: '레드스틱 보러가기',
@@ -521,7 +529,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       tip1: 'Lay your phone flat and tap anywhere.<br>The bar goes down for the backstroke<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', stopAuto: 'Lift the phone to stop', tip1Auto: 'The bar goes down for the backstroke<br>and reaches the top at impact.', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart',
-      language: 'Language', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay the phone flat to start', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_buzz: 'Vibrate', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'A middle ratio between 2:1 and 1:1.', ratio_1: 'Backstroke and forward take the same time. Some players use it, but there is little measured data.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay the phone flat to start', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_buzz: 'Vibrate', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       type_fast: 'Fast tempo', type_tour: 'Tour tempo', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       bn_title: 'Tempo set. Next, your line.', bn_body: 'This app needs no extra gear. If you\'d like an easy alignment reference on your putter, Redstick snaps on magnetically.', bn_cta: 'See on Amazon',
@@ -533,7 +541,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', stopAuto: 'スマホを持ち上げると停止', tip1Auto: 'バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
       sound: 'サウンド', s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら',
-      language: '言語', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_buzz: '振動', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: '2:1と1:1の中間の比率です。', ratio_1: '行きと戻りが同じ時間の比率です。使う選手もいますが、計測データは少ないです。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_buzz: '振動', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       type_fast: '速いテンポ', type_tour: 'ツアーテンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       bn_title: 'テンポは整いました。次は方向。', bn_body: 'テンポ練習はスマホ1つでOK。クラブに磁石で付けられる、方向合わせの目安のRedstickもあります。', bn_cta: 'Amazonで見る',
@@ -885,14 +893,25 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   var MAX_TOTAL = 1.5;
 
   // "Find my tempo" is by feel: pick a preset or nudge the total time; the 2:1 ratio is kept.
+  var RATIOS = [2, 1.5, 1];
+  var draftRatio = 2;
+
+  function nearestRatio(r) {
+    return RATIOS.reduce(function (best, x) { return Math.abs(x - r) < Math.abs(best - r) ? x : best; }, 2);
+  }
+
   function setDraftTotal(total) {
     total = Math.min(MAX_TOTAL, Math.max(MIN_TOTAL, total));
-    draft = { back: +(total * 2 / 3).toFixed(3), fwd: +(total / 3).toFixed(3) };
+    draft = { back: +(total * draftRatio / (draftRatio + 1)).toFixed(3), fwd: +(total / (draftRatio + 1)).toFixed(3) };
   }
 
 
   function renderMeasure() {
     var total = draft.back + draft.fwd;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ratio]'), function (b) {
+      b.setAttribute('aria-pressed', String(parseFloat(b.getAttribute('data-ratio')) === draftRatio));
+    });
+    document.getElementById('ratioNote').textContent = t('ratio_' + String(draftRatio).replace('.', ''));
     document.getElementById('draftTotal').innerHTML = numUnit(t('sec')(total.toFixed(2)));
     document.getElementById('draftType').textContent = t('type_' + typeOf(draft));
     document.getElementById('stepDown').disabled = total <= MIN_TOTAL + 0.001;
@@ -902,6 +921,15 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       b.setAttribute('aria-pressed', String(Math.abs(P.back + P.fwd - total) < 0.005));
     });
   }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ratio]'), function (b) {
+    b.addEventListener('click', function () {
+      var total = draft.back + draft.fwd;
+      draftRatio = parseFloat(b.getAttribute('data-ratio'));
+      setDraftTotal(total);
+      renderMeasure();
+    });
+  });
 
   function nudge(delta) {
     setDraftTotal(Math.round((draft.back + draft.fwd + delta) * 100) / 100);
@@ -1347,6 +1375,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     settingsEl.hidden = name !== 'settings';
     if (name === 'measure') {
       var T = mine || TOUR;
+      draftRatio = nearestRatio(T.back / T.fwd);
       setDraftTotal(T.back + T.fwd);
       renderMeasure();
     } else if (name === 'settings') {
