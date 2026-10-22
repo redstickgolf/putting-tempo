@@ -379,8 +379,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   var msgEl = document.getElementById('msg');
   var soundBtns = Array.prototype.slice.call(document.querySelectorAll('[data-sound]'));
 
-  // Tour average (SAM PuttLab / Blast / Kenyon): backswing ~0.66 s, forward to impact ~0.33 s, ratio 2:1.
-  var TOUR = { back: 0.667, fwd: 0.333 };
+  // Tour average (Blast Motion tour ranges: backstroke .57-.63 s, forward .29-.31 s, total .86-.94 s): backswing 0.6 s, forward to impact 0.3 s, ratio 2:1.
+  var TOUR = { back: 0.6, fwd: 0.3 };
   var BACK = TOUR.back;
   var FWD = TOUR.fwd;
   var STROKE = BACK + FWD;   // 1.0 s
