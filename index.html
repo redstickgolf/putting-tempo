@@ -103,7 +103,7 @@ body {
 .home, .settings, .measure { display: flex; flex-direction: column; gap: 20px; flex: 1; width: 100%; max-width: 420px; margin-inline: auto; }
 .topbar { display: flex; align-items: center; justify-content: space-between; min-height: 46px; }
 .home > .mode { margin-top: 6px; }
-.home > .facts2 { margin-top: auto; }
+.home > .preview { margin-top: auto; }
 .home > .go { margin-top: auto; }
 .measure > .go { margin-top: auto; }
 .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -200,6 +200,19 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
 .steps li { display: flex; gap: 12px; align-items: flex-start; font: 400 14px/1.6 var(--font); color: var(--fg); word-break: keep-all; }
 .steps i { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font: 700 12px/1 var(--font-display); font-style: normal; color: var(--fg); background: rgba(200, 21, 29, 0.22); border: 1px solid var(--accent); margin-top: 1px; }
 button.acc-link { width: 100%; text-align: left; background: var(--surface-2); cursor: pointer; }
+.preview { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.pv-phone { position: relative; flex: none; width: 92px; height: 164px; padding: 5px; border-radius: 20px; border: 1.5px solid var(--hair-2); background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.pv-track { position: relative; width: 100%; height: 100%; border-radius: 15px; overflow: hidden; background: #0A0504; transition: box-shadow 0.15s; }
+.pv-track.turn { box-shadow: inset 0 -30px 24px -16px rgba(200, 21, 29, 0.65); }
+.pv-bar { position: absolute; left: 0; right: 0; top: 0; height: 5px; background: linear-gradient(180deg, #DC2229, var(--accent-lo)); box-shadow: 0 0 14px rgba(200, 21, 29, 0.55); will-change: transform; }
+.pv-bar.hit { background: var(--fg); box-shadow: 0 0 14px rgba(244, 241, 236, 0.5); }
+.pv-ball { position: absolute; top: -12px; left: 50%; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: radial-gradient(circle at 40% 68%, #fff 0%, #ebe6de 52%, #b4ada3 100%); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); transition: transform 0.12s ease-out; }
+.pv-ball.hit { transform: translateY(2px) scale(1.14); }
+.pv-lab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 7px; font: 600 11px/1.2 var(--font); letter-spacing: 0.04em; color: var(--muted); opacity: 0.45; transition: opacity 0.18s, color 0.18s; }
+.pv-lab i { font-style: normal; }
+.pv-lab svg { color: var(--accent); }
+.pv-lab.on { opacity: 1; color: var(--fg); }
+@media (max-height: 660px) { .preview { display: none; } }
 .brand { align-self: center; font: 600 12px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.1em; padding: 6px 10px; }
 
 /* ---- segmented controls ---- */
@@ -351,6 +364,11 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     <div class="extra mode" role="group" aria-label="템포 종류" data-i18n-aria="modeGroup">
       <button id="modeTour" class="pill" type="button" aria-pressed="true" data-i18n="tour">투어 평균</button>
       <button id="modeMine" class="pill" type="button" aria-pressed="false" data-i18n="mine">나의 템포</button>
+    </div>
+    <div class="extra preview" aria-hidden="true">
+      <span id="pvBack" class="pv-lab"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg><i data-i18n="backLabel">백스트로크</i></span>
+      <div class="pv-phone"><div id="pvTrack" class="pv-track"><div id="pvBar" class="pv-bar"></div><div id="pvBall" class="pv-ball"></div></div></div>
+      <span id="pvFwd" class="pv-lab"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg><i data-i18n="fwdLabel">포워드</i></span>
     </div>
     <div class="extra facts2" aria-label="현재 템포" data-i18n-aria="factsAria">
       <div class="fact"><span class="fl" data-i18n="backLabel">백스트로크</span><strong id="factBack"></strong></div>
@@ -814,6 +832,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     goBtn.setAttribute('aria-pressed', 'false');
     armed = false;
     if (!autoOn) unlockScreen();
+    pvStart();
   }
 
 
@@ -855,6 +874,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     FWD = T.fwd;
     STROKE = BACK + FWD;
     CYCLE = STROKE + 1;
+    if (typeof pvStart === 'function') pvStart();
   }
 
   function renderHome() {
@@ -1387,6 +1407,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     if (to !== from) enter(name === 'home' ? homeEl : name === 'measure' ? measureEl : settingsEl, to > from ? 1 : -1);
     updateTabbar();
     syncSegs();
+    pvStart();
   }
 
   function showSettings(on) { goTab(on ? 'settings' : 'home'); }
@@ -1492,6 +1513,58 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     });
   })();
 
+  // ---- home preview: the bar moves at the chosen tempo (same easing and rest as the real screen) ----
+  var pvRaf = 0;
+  var pvT0 = 0;
+  var pvBar = document.getElementById('pvBar');
+  var pvBall = document.getElementById('pvBall');
+  var pvTrack = document.getElementById('pvTrack');
+  var pvBack = document.getElementById('pvBack');
+  var pvFwd = document.getElementById('pvFwd');
+  var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  function pvActive() {
+    return !running && tab === 'home' && !document.hidden && !homeEl.hidden && !reduceMotion;
+  }
+
+  function pvSet(y, hit, turn, phase) {
+    var travel = pvTrack.clientHeight - pvBar.offsetHeight;
+    pvBar.style.transform = 'translateY(' + (y * travel) + 'px)';
+    pvBar.classList.toggle('hit', hit);
+    pvBall.classList.toggle('hit', hit);
+    pvTrack.classList.toggle('turn', turn);
+    pvBack.classList.toggle('on', phase === 1);
+    pvFwd.classList.toggle('on', phase === 2);
+  }
+
+  function pvFrame(now) {
+    if (!pvActive()) { pvRaf = 0; pvSet(0, false, false, 0); return; }
+    var t = (now - pvT0) / 1000;
+    var ph = t % (STROKE + 1);
+    var y = 0, hit = false, turn = false, phase = 0;
+    if (ph < BACK) {
+      y = easeInOut(ph / BACK);
+      phase = 1;
+    } else if (ph < STROKE) {
+      y = 1 - easeInOut((ph - BACK) / FWD);
+      phase = 2;
+      turn = ph - BACK < 0.16;
+    } else {
+      hit = ph < STROKE + 0.18;
+    }
+    pvSet(y, hit, turn, phase);
+    pvRaf = requestAnimationFrame(pvFrame);
+  }
+
+  function pvStart() {
+    if (!pvTrack) return;
+    if (reduceMotion) { pvSet(0.45, false, false, 0); return; }
+    pvT0 = performance.now();
+    if (!pvRaf && pvActive()) pvRaf = requestAnimationFrame(pvFrame);
+  }
+
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) pvStart(); });
+
   function applyLang() {
     document.documentElement.lang = lang;
     document.getElementById('buyLink').href = t('buyUrl');
@@ -1523,7 +1596,8 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   applyLang();
   renderSettings();
   updateTabbar();
-  window.addEventListener("load", function () { updateTabbar(); });
+  pvStart();
+  window.addEventListener("load", function () { updateTabbar(); pvStart(); });
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:' && !window.Capacitor) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
