@@ -1,8 +1,8 @@
 {
-  "name": "퍼팅 템포",
-  "short_name": "퍼팅 템포",
-  "description": "퍼팅 리듬을 눈과 귀로 맞추는 템포 트레이너",
-  "lang": "ko",
+  "name": "Putting Tempo",
+  "short_name": "Putting Tempo",
+  "description": "Train your putting rhythm with sight and sound",
+  "lang": "en",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
