@@ -163,10 +163,29 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 .go:disabled { opacity: 0.4; cursor: default; }
 .ghost { width: 100%; min-height: 48px; border-radius: 2px; border: 2px solid var(--line); background: transparent; color: var(--fg); font: 700 16px var(--font); cursor: pointer; }
 
-/* running: shrink the panel to just the stop button */
-.panel.running { padding: 8px; width: 160px; background: transparent; border: 0; }
+/* running: hide everything but a small hint near the bottom edge (tapping anywhere stops) */
+.panel.running {
+  top: auto;
+  bottom: max(28px, env(safe-area-inset-bottom, 0px));
+  transform: none;
+  max-width: none;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+}
 .panel.running .extra { display: none; }
-.panel.running .go { min-height: 56px; font-size: 20px; background: var(--fg); color: var(--bg); }
+.panel.running .go {
+  width: auto;
+  min-height: 0;
+  margin-inline: auto;
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--muted);
+  font: 500 14px/1.4 var(--font);
+  letter-spacing: 0.02em;
+  opacity: 0.7;
+}
 </style>
 
 <div id="track" class="track" aria-hidden="true">
@@ -254,7 +273,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       title: '퍼팅 템포', appName: '퍼팅 템포', settings: '설정', modeGroup: '템포 종류', tour: '투어 평균', mine: '나의 템포',
       factsAria: '현재 템포', total: function (n) { return '총 ' + n + '초'; },
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트',
-      start: '시작', stop: '정지', remeasure: '나의 템포 다시 재기', back: '돌아가기', settingsTitle: '설정', sound: '소리',
+      start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', remeasure: '나의 템포 다시 재기', back: '돌아가기', settingsTitle: '설정', sound: '소리',
       s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀', language: '언어',
       measureTitle: '나의 템포 찾기', tip2: '퍼팅 스트로크를 하면서 세 번 눌러요.<br>3번 이상 재면 더 정확해요.',
       save: '이 템포로 연습', reset: '처음부터', avg: '평균 ', warn: '간격이 너무 짧거나 길어요. 다시 해 봐요.',
@@ -266,7 +285,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       title: 'Putting Tempo', appName: 'Putting Tempo', settings: 'Settings', modeGroup: 'Tempo type', tour: 'Tour average', mine: 'My tempo',
       factsAria: 'Current tempo', total: function (n) { return 'Total ' + n + ' s'; },
       tip1: 'Lay your phone flat and tap anywhere.<br>The line goes down on the backswing<br>and reaches the top at impact.',
-      start: 'Start', stop: 'Stop', remeasure: 'Measure my tempo again', back: 'Back', settingsTitle: 'Settings', sound: 'Sound',
+      start: 'Start', stop: 'Touch anywhere to stop', remeasure: 'Measure my tempo again', back: 'Back', settingsTitle: 'Settings', sound: 'Sound',
       s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart', language: 'Language',
       measureTitle: 'Find my tempo', tip2: 'Tap three times as you make a putting stroke.<br>Measure 3 or more times for better accuracy.',
       save: 'Use this tempo', reset: 'Start over', avg: 'Average ', warn: 'Interval too short or too long. Try again.',
@@ -278,7 +297,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       title: 'パッティング テンポ', appName: 'パッティング テンポ', settings: '設定', modeGroup: 'テンポの種類', tour: 'ツアー平均', mine: '自分のテンポ',
       factsAria: '現在のテンポ', total: function (n) { return '合計 ' + n + '秒'; },
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>ラインが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
-      start: 'スタート', stop: 'ストップ', remeasure: '自分のテンポを測り直す', back: '戻る', settingsTitle: '設定', sound: 'サウンド',
+      start: 'スタート', stop: '画面のどこかをタップで停止', remeasure: '自分のテンポを測り直す', back: '戻る', settingsTitle: '設定', sound: 'サウンド',
       s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら', language: '言語',
       measureTitle: '自分のテンポを測る', tip2: 'パッティングのストロークに合わせて3回タップ。<br>3回以上測ると、より正確になります。',
       save: 'このテンポで練習', reset: '最初から', avg: '平均 ', warn: '間隔が短すぎるか長すぎます。もう一度どうぞ。',
