@@ -326,9 +326,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     </div>
     <p class="label" data-i18n="fine">미세 조정</p>
     <div class="stepper">
-      <button id="stepDown" class="icon-btn" type="button" aria-label="-0.05">−</button>
+      <button id="stepDown" class="icon-btn" type="button" aria-label="-0.01">−</button>
       <div class="stepval"><strong id="draftTotal"></strong><span id="draftType"></span></div>
-      <button id="stepUp" class="icon-btn" type="button" aria-label="+0.05">+</button>
+      <button id="stepUp" class="icon-btn" type="button" aria-label="+0.01">+</button>
     </div>
     <button id="mineSave" class="go" type="button" data-i18n="save">이 템포로 연습</button>
   </div>
@@ -714,7 +714,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
   function renderMeasure() {
     var total = draft.back + draft.fwd;
-    document.getElementById('draftTotal').textContent = t('sec')(+total.toFixed(2));
+    document.getElementById('draftTotal').textContent = t('sec')(total.toFixed(2));
     document.getElementById('draftType').textContent = t('type_' + typeOf(draft));
     document.getElementById('stepDown').disabled = total <= MIN_TOTAL + 0.001;
     document.getElementById('stepUp').disabled = total >= MAX_TOTAL - 0.001;
@@ -725,12 +725,34 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   }
 
   function nudge(delta) {
-    setDraftTotal(+(draft.back + draft.fwd + delta).toFixed(2));
+    setDraftTotal(Math.round((draft.back + draft.fwd + delta) * 100) / 100);
     renderMeasure();
   }
 
-  document.getElementById('stepDown').addEventListener('click', function () { nudge(-0.05); });
-  document.getElementById('stepUp').addEventListener('click', function () { nudge(0.05); });
+  // 0.01 s per step; hold the button to keep stepping (faster after a while)
+  function holdStep(id, delta) {
+    var el = document.getElementById(id);
+    var timer = null;
+    var n = 0;
+    function tick() {
+      nudge(delta);
+      n += 1;
+      timer = setTimeout(tick, n < 8 ? 120 : 50);
+    }
+    function end() { clearTimeout(timer); timer = null; n = 0; }
+    el.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      if (el.disabled) return;
+      nudge(delta);
+      timer = setTimeout(tick, 450);
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { el.addEventListener(ev, end); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nudge(delta); }
+    });
+  }
+  holdStep('stepDown', -0.01);
+  holdStep('stepUp', 0.01);
   document.getElementById('measureBack').addEventListener('click', function () { showMeasure(false); });
   document.getElementById('mineSave').addEventListener('click', function () {
     mine = { back: draft.back, fwd: draft.fwd };
