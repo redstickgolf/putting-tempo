@@ -788,8 +788,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
   // Type by total stroke time vs. the 0.9 s tour average.
   function typeOf(T) {
-    var total = T.back + T.fwd;
-    return total < 0.8 ? 'fast' : total > 1.0 ? 'slow' : 'tour';
+    var total = Math.round((T.back + T.fwd) * 100) / 100;
+    return total < 0.85 ? 'fast' : total > 1.0 ? 'slow' : 'tour';
   }
 
   function renderPresets() {
