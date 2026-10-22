@@ -257,6 +257,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       <button class="snd" type="button" data-sound="bomb" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="23" r="12"/><path d="M26 13c3-3 5-4 8-4"/><path d="M35 3.500v3M31.500 5.500h3M32.500 3l1.500 1.500" /><circle cx="13.500" cy="22" r="1.600" fill="currentColor" stroke="none"/><circle cx="22.500" cy="22" r="1.600" fill="currentColor" stroke="none"/><path d="M14.500 27.500c2 1.800 5 1.800 7 0"/></svg><span data-i18n="s_bomb"></span></button>
       <button class="snd" type="button" data-sound="fart" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 31a6 6 0 0 1-1.500-11.800 8.500 8.500 0 0 1 16-1.500A6.200 6.200 0 0 1 28 31z"/><circle cx="16.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><circle cx="23.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><path d="M17.500 27.500c1.500 1.200 3.500 1.200 5 0"/><path d="M4 12c2-2 3 2 5 0M5 7c2-2 3 2 5 0" /></svg><span data-i18n="s_fart"></span></button>
     </div>
+    <p class="label" data-i18n="barSize">바 굵기</p>
+    <div class="sounds" role="group" aria-label="바 굵기" data-i18n-aria="barSize">
+      <button class="snd bar-opt" type="button" data-bar="8" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" aria-hidden="true"><rect x="3" y="18.0" width="34" height="4" rx="1.5" fill="currentColor"/></svg><span data-i18n="bar_s"></span></button>
+      <button class="snd bar-opt" type="button" data-bar="14" aria-pressed="true"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" aria-hidden="true"><rect x="3" y="16.0" width="34" height="8" rx="1.5" fill="currentColor"/></svg><span data-i18n="bar_m"></span></button>
+      <button class="snd bar-opt" type="button" data-bar="24" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" aria-hidden="true"><rect x="3" y="13.0" width="34" height="14" rx="1.5" fill="currentColor"/></svg><span data-i18n="bar_l"></span></button>
+    </div>
     <p class="label" data-i18n="language">언어</p>
     <div class="pills" role="group" aria-label="언어">
       <button class="pill" type="button" data-lang="ko" aria-pressed="false">한국어</button>
@@ -294,7 +300,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       factsAria: '현재 템포', total: function (n) { return '총 ' + n + '초'; },
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', remeasure: '나의 템포 다시 재기', back: '돌아가기', settingsTitle: '설정', sound: '소리',
-      s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀', language: '언어',
+      s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀', language: '언어', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       measureTitle: '나의 템포 찾기', tip2: '퍼팅 스트로크를 하면서 세 번 눌러요.<br>3번 이상 재면 더 정확해요.',
       save: '이 템포로 연습', reset: '처음부터', avg: '평균 ', warn: '간격이 너무 짧거나 길어요. 다시 해 봐요.',
       steps: [['탭 1 / 3', '스윙을 시작할 때 눌러요', '퍼터를 뒤로 빼기 시작하는 순간'],
@@ -306,7 +312,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       factsAria: 'Current tempo', total: function (n) { return 'Total ' + n + ' s'; },
       tip1: 'Lay your phone flat and tap anywhere.<br>The line goes down on the backswing<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', remeasure: 'Measure my tempo again', back: 'Back', settingsTitle: 'Settings', sound: 'Sound',
-      s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart', language: 'Language',
+      s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart', language: 'Language', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       measureTitle: 'Find my tempo', tip2: 'Tap three times as you make a putting stroke.<br>Measure 3 or more times for better accuracy.',
       save: 'Use this tempo', reset: 'Start over', avg: 'Average ', warn: 'Interval too short or too long. Try again.',
       steps: [['Tap 1 / 3', 'Tap when the stroke starts', 'The moment the putter starts back'],
@@ -318,7 +324,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       factsAria: '現在のテンポ', total: function (n) { return '合計 ' + n + '秒'; },
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>ラインが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', remeasure: '自分のテンポを測り直す', back: '戻る', settingsTitle: '設定', sound: 'サウンド',
-      s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら', language: '言語',
+      s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら', language: '言語', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       measureTitle: '自分のテンポを測る', tip2: 'パッティングのストロークに合わせて3回タップ。<br>3回以上測ると、より正確になります。',
       save: 'このテンポで練習', reset: '最初から', avg: '平均 ', warn: '間隔が短すぎるか長すぎます。もう一度どうぞ。',
       steps: [['タップ 1 / 3', 'スイング開始でタップ', 'パターを引き始める瞬間'],
@@ -731,6 +737,28 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   document.getElementById('modeMine').addEventListener('click', function () { setMode('mine'); });
   document.getElementById('remeasure').addEventListener('click', function () { showMeasure(true); });
 
+  var BAR_SIZES = [8, 14, 24];
+  var barSize = 14;
+  try {
+    var savedBar = parseInt(localStorage.getItem('putting-tempo-bar'), 10);
+    if (BAR_SIZES.indexOf(savedBar) >= 0) barSize = savedBar;
+  } catch (e) {}
+
+  function applyBar() {
+    barEl.style.height = barSize + 'px';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-bar]'), function (b) {
+      b.setAttribute('aria-pressed', String(parseInt(b.getAttribute('data-bar'), 10) === barSize));
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-bar]'), function (b) {
+    b.addEventListener('click', function () {
+      barSize = parseInt(b.getAttribute('data-bar'), 10);
+      try { localStorage.setItem('putting-tempo-bar', String(barSize)); } catch (e) {}
+      applyBar();
+    });
+  });
+
   function applyLang() {
     document.documentElement.lang = lang;
     document.title = t('title');
@@ -751,6 +779,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   });
 
   applyTempo();
+  applyBar();
   applyLang();
   renderSettings();
 
