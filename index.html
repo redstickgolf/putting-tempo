@@ -91,7 +91,7 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weig
 .icon-btn {
   width: 48px;
   height: 48px;
-  border-radius: 2px;
+  border-radius: 14px;
   border: 2px solid var(--line);
   background: transparent;
   color: var(--fg);
@@ -129,6 +129,26 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   cursor: pointer;
 }
 .pill[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.sounds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.snd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 92px;
+  padding: 10px 4px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  font: 700 14px var(--font);
+  cursor: pointer;
+  transition: transform 0.1s ease-out, background 0.15s;
+}
+.snd:active { transform: scale(0.94); }
+.snd svg { display: block; }
+.snd[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .brand { align-self: center; font: 600 13px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.04em; padding: 6px 10px; }
 
 .msg { margin: 0; min-height: 1.6em; font-size: 14px; font-weight: 700; color: var(--warm); }
@@ -229,13 +249,13 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     </div>
 
     <p class="label" data-i18n="sound">소리</p>
-    <div class="pills" role="group" aria-label="소리" data-i18n-aria="sound">
-      <button class="pill" type="button" data-sound="tick" aria-pressed="true" data-i18n="s_tick">딱</button>
-      <button class="pill" type="button" data-sound="wood" aria-pressed="false" data-i18n="s_wood">나무</button>
-      <button class="pill" type="button" data-sound="bell" aria-pressed="false" data-i18n="s_bell">종</button>
-      <button class="pill" type="button" data-sound="drum" aria-pressed="false" data-i18n="s_drum">북</button>
-      <button class="pill" type="button" data-sound="bomb" aria-pressed="false" data-i18n="s_bomb">폭탄</button>
-      <button class="pill" type="button" data-sound="fart" aria-pressed="false" data-i18n="s_fart">방귀</button>
+    <div class="sounds" role="group" aria-label="소리" data-i18n-aria="sound">
+      <button class="snd" type="button" data-sound="tick" aria-pressed="true"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 35 16 6h8l6 29z"/><path d="M20 30 28 11"/><circle cx="28.5" cy="10" r="3" fill="currentColor"/><path d="M7 35h26"/></svg><span data-i18n="s_tick"></span></button>
+      <button class="snd" type="button" data-sound="wood" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="19" width="26" height="14" rx="5"/><path d="M12 25h5M21 25h5M12 29h8"/><path d="M33 5 22 16"/><circle cx="34" cy="4.5" r="2.6" fill="currentColor"/></svg><span data-i18n="s_wood"></span></button>
+      <button class="snd" type="button" data-sound="bell" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 8c-6 0-9.5 4.600-9.500 10.500V24l-3 4.500h25L29.500 24v-5.500C29.500 12.600 26 8 20 8z"/><circle cx="20" cy="6.500" r="1.800" fill="currentColor"/><path d="M16.500 32a3.500 3.500 0 0 0 7 0"/></svg><span data-i18n="s_bell"></span></button>
+      <button class="snd" type="button" data-sound="drum" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="20" cy="17" rx="13" ry="4.500"/><path d="M7 17v11c0 2.500 5.800 4.500 13 4.500S33 30.500 33 28V17"/><path d="M11 6l8 8M29 6l-8 8"/></svg><span data-i18n="s_drum"></span></button>
+      <button class="snd" type="button" data-sound="bomb" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="23" r="12"/><path d="M26 13c3-3 5-4 8-4"/><path d="M35 3.500v3M31.500 5.500h3M32.500 3l1.500 1.500" /><circle cx="13.500" cy="22" r="1.600" fill="currentColor" stroke="none"/><circle cx="22.500" cy="22" r="1.600" fill="currentColor" stroke="none"/><path d="M14.500 27.500c2 1.800 5 1.800 7 0"/></svg><span data-i18n="s_bomb"></span></button>
+      <button class="snd" type="button" data-sound="fart" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 31a6 6 0 0 1-1.500-11.800 8.500 8.500 0 0 1 16-1.500A6.200 6.200 0 0 1 28 31z"/><circle cx="16.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><circle cx="23.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><path d="M17.500 27.500c1.500 1.200 3.500 1.200 5 0"/><path d="M4 12c2-2 3 2 5 0M5 7c2-2 3 2 5 0" /></svg><span data-i18n="s_fart"></span></button>
     </div>
     <p class="label" data-i18n="language">언어</p>
     <div class="pills" role="group" aria-label="언어">
