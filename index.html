@@ -109,9 +109,6 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weig
   cursor: pointer;
   flex: none;
 }
-.facts { display: flex; justify-content: center; align-items: baseline; gap: 10px; font-variant-numeric: tabular-nums; }
-.big { font-family: var(--font-display); font-size: 44px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
-.facts .unit { font-size: 16px; font-weight: 700; color: var(--muted); }
 .tip { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); text-align: center; text-wrap: balance; }
 .label { margin: 0; font-size: 13px; font-weight: 700; color: var(--muted); }
 .go {
@@ -167,6 +164,14 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 .stepval { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .stepval strong { font: 800 32px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .stepval span { color: var(--accent); font: 700 15px var(--font); }
+.facts2 { display: flex; justify-content: center; gap: 34px; font-variant-numeric: tabular-nums; }
+.fact { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.fl { font: 700 12px/1 var(--font); letter-spacing: 0.06em; color: var(--muted); }
+.fact strong { font: 800 34px/1 var(--font-display); letter-spacing: -0.02em; white-space: nowrap; }
+.ratio-line { margin: -4px 0 0; text-align: center; font: 600 14px/1.4 var(--font-display); color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar.turn { background: var(--fg); box-shadow: 0 0 22px 5px rgba(255, 255, 255, 0.55); }
+.ripple { position: absolute; left: 50%; width: 360px; height: 360px; border-radius: 50%; border: 5px solid var(--fg); background: rgba(200, 21, 29, 0.18); pointer-events: none; }
+.cue { position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: 0; box-shadow: inset 0 0 90px 30px rgba(200, 21, 29, 0.8); }
 .brand { align-self: center; font: 600 13px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.04em; padding: 6px 10px; }
 
 .msg { margin: 0; min-height: 1.6em; font-size: 14px; font-weight: 700; color: var(--warm); }
@@ -268,10 +273,11 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       <button id="modeTour" class="pill" type="button" aria-pressed="true" data-i18n="tour">투어 평균</button>
       <button id="modeMine" class="pill" type="button" aria-pressed="false" data-i18n="mine">나의 템포</button>
     </div>
-    <div class="extra facts" aria-label="현재 템포" data-i18n-aria="factsAria">
-      <span id="factRatio" class="big">2 : 1</span>
-      <span id="factTotal" class="unit">총 1초</span>
+    <div class="extra facts2" aria-label="현재 템포" data-i18n-aria="factsAria">
+      <div class="fact"><span class="fl" data-i18n="backLabel">백스윙</span><strong id="factBack"></strong></div>
+      <div class="fact"><span class="fl" data-i18n="fwdLabel">포워드</span><strong id="factFwd"></strong></div>
     </div>
+    <p class="extra ratio-line"><span id="factRatio"></span> · <span id="factTotal"></span></p>
     <p id="homeType" class="extra label type-line" hidden></p>
     <p class="extra tip" data-i18n="tip1">폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트</p>
     <button id="go" class="go" type="button" aria-pressed="false">시작</button>
@@ -296,6 +302,14 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       <button class="snd" type="button" data-sound="drum" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="20" cy="17" rx="13" ry="4.500"/><path d="M7 17v11c0 2.500 5.800 4.500 13 4.500S33 30.500 33 28V17"/><path d="M11 6l8 8M29 6l-8 8"/></svg><span data-i18n="s_drum"></span></button>
       <button class="snd" type="button" data-sound="bomb" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="23" r="12"/><path d="M26 13c3-3 5-4 8-4"/><path d="M35 3.500v3M31.500 5.500h3M32.500 3l1.500 1.500" /><circle cx="13.500" cy="22" r="1.600" fill="currentColor" stroke="none"/><circle cx="22.500" cy="22" r="1.600" fill="currentColor" stroke="none"/><path d="M14.500 27.500c2 1.800 5 1.800 7 0"/></svg><span data-i18n="s_bomb"></span></button>
       <button class="snd" type="button" data-sound="fart" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 31a6 6 0 0 1-1.500-11.800 8.500 8.500 0 0 1 16-1.500A6.200 6.200 0 0 1 28 31z"/><circle cx="16.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><circle cx="23.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><path d="M17.500 27.500c1.500 1.200 3.500 1.200 5 0"/><path d="M4 12c2-2 3 2 5 0M5 7c2-2 3 2 5 0" /></svg><span data-i18n="s_fart"></span></button>
+    </div>
+    <p class="label" data-i18n="turn">전환 표시</p>
+    <div id="turnGrid" class="sounds" role="group" aria-label="전환 표시" data-i18n-aria="turn">
+      <button class="snd" type="button" data-turn="off" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="12"/><path d="M12 28 28 12"/></svg><span data-i18n="turn_off"></span></button>
+      <button class="snd" type="button" data-turn="flash" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="22" width="32" height="6" rx="1.500" fill="currentColor" stroke="none"/><path d="M20 6v10M11 9l4 8M29 9l-4 8"/></svg><span data-i18n="turn_flash"></span></button>
+      <button class="snd" type="button" data-turn="ring" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="3.500" fill="currentColor" stroke="none"/><circle cx="20" cy="20" r="9.500"/><circle cx="20" cy="20" r="16" opacity="0.55"/></svg><span data-i18n="turn_ring"></span></button>
+      <button class="snd" type="button" data-turn="screen" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="30" height="26" rx="6"/><rect x="11" y="13" width="18" height="14" rx="3" fill="currentColor" opacity="0.35" stroke="none"/></svg><span data-i18n="turn_screen"></span></button>
+      <button class="snd" type="button" data-turn="buzz" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="13" y="5" width="14" height="30" rx="3.500"/><path d="M6.500 14c-3 4-3 8 0 12M33.500 14c3 4 3 8 0 12"/></svg><span data-i18n="turn_buzz"></span></button>
     </div>
     <p class="label" data-i18n="hand">오른손 · 왼손</p>
     <div class="sounds two" role="group" aria-label="오른손 · 왼손" data-i18n-aria="hand">
@@ -342,6 +356,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   </div>
 </main>
 
+<div id="cue" class="cue" aria-hidden="true"></div>
 <div id="ball" class="ball" aria-hidden="true"></div>
 
 <script>
@@ -354,7 +369,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
       sound: '소리', s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀',
-      language: '언어', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      language: '언어', backLabel: '백스윙', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_buzz: '진동', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       type_fast: '빠른 템포', type_tour: '투어 템포', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       quick: '바로 고르기', fine: '미세 조정', save: '이 템포로 연습'
@@ -365,7 +380,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       tip1: 'Lay your phone flat and tap anywhere.<br>The line goes down on the backswing<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart',
-      language: 'Language', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      language: 'Language', backLabel: 'Backswing', fwdLabel: 'Forward', turn: 'Turnaround cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_buzz: 'Vibrate', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       type_fast: 'Fast tempo', type_tour: 'Tour tempo', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       quick: 'Quick pick', fine: 'Fine-tune', save: 'Use this tempo'
@@ -376,7 +391,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>ラインが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
       sound: 'サウンド', s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら',
-      language: '言語', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      language: '言語', backLabel: 'バックスイング', fwdLabel: 'フォワード', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_buzz: '振動', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       type_fast: '速いテンポ', type_tour: 'ツアーテンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       quick: 'すぐに選ぶ', fine: '微調整', save: 'このテンポで練習'
@@ -571,18 +586,25 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     var travel = trackEl.clientHeight - barEl.offsetHeight;   // very top to very bottom
     var y = 0;
     var hit = false;
+    var inTurn = false;
     if (t >= 0) {
       var ph = t % CYCLE;
       if (ph < BACK) {
         y = easeInOut(ph / BACK);
       } else if (ph < STROKE) {
         y = 1 - easeInOut((ph - BACK) / FWD);
+        inTurn = ph - BACK < 0.16;
       } else {
         y = 0;
         hit = ph < STROKE + 0.18;
       }
     }
     barEl.style.transform = 'translateY(' + (y * travel) + 'px)';
+    if (inTurn !== wasTurn) {
+      if (turnFx === 'flash') barEl.classList.toggle('turn', inTurn);
+      if (inTurn) fireTurn(turnFx, false);
+      wasTurn = inTurn;
+    }
     if (hit !== wasHit) {
       barEl.classList.toggle('hit', hit);
       ballEl.classList.toggle('hit', hit);
@@ -621,8 +643,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     clearTimeout(timer);
     cancelAnimationFrame(raf);
     barEl.style.transform = 'translateY(0)';
-    barEl.classList.remove('hit');
+    barEl.classList.remove('hit', 'turn');
     ballEl.classList.remove('hit');
+    wasTurn = false;
     wasHit = false;
     panelEl.classList.remove('running');
     goBtn.textContent = t('start');
@@ -682,6 +705,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
   function renderHome() {
     document.getElementById('modeTour').setAttribute('aria-pressed', String(mode === 'tour'));
     document.getElementById('modeMine').setAttribute('aria-pressed', String(mode === 'mine'));
+    document.getElementById('factBack').textContent = t('sec')(BACK.toFixed(2));
+    document.getElementById('factFwd').textContent = t('sec')(FWD.toFixed(2));
     document.getElementById('factRatio').textContent = (BACK / FWD).toFixed(1) + ' : 1';
     document.getElementById('factTotal').textContent = t('total')(+STROKE.toFixed(2));
     document.getElementById('remeasure').hidden = mode !== 'mine';
@@ -832,6 +857,57 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
     ballEl.insertAdjacentHTML('afterbegin', svg);
   })();
 
+  // Turnaround cue: fires when the bar reaches the bottom (backswing -> forward). Choose it in settings.
+  var turnFx = 'flash';
+  var TURN_FX = ['off', 'flash', 'ring', 'screen', 'buzz'];
+  var canBuzz = !!navigator.vibrate;
+  try {
+    var savedFx = localStorage.getItem('putting-tempo-turn');
+    if (TURN_FX.indexOf(savedFx) >= 0 && (savedFx !== 'buzz' || canBuzz)) turnFx = savedFx;
+  } catch (e) {}
+  var wasTurn = false;
+
+  function fireTurn(fx, preview) {
+    if (fx === 'flash' && preview) {
+      barEl.classList.add('turn');
+      setTimeout(function () { barEl.classList.remove('turn'); }, 220);
+    } else if (fx === 'ring' && barEl.animate) {
+      var el = document.createElement('div');
+      el.className = 'ripple';
+      var r = barEl.getBoundingClientRect();
+      el.style.top = (r.top + r.height / 2) + 'px';
+      trackEl.appendChild(el);
+      var a = el.animate([
+        { transform: 'translate(-50%, -50%) scale(0.15)', opacity: 0.95 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
+      ], { duration: 480, easing: 'ease-out' });
+      a.onfinish = function () { el.remove(); };
+    } else if (fx === 'screen') {
+      var cue = document.getElementById('cue');
+      if (cue.animate) cue.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, easing: 'ease-out' });
+    } else if (fx === 'buzz' && canBuzz) {
+      navigator.vibrate(40);
+    }
+  }
+
+  function applyTurn() {
+    var buzzBtn = document.querySelector('[data-turn="buzz"]');
+    if (buzzBtn) buzzBtn.hidden = !canBuzz;
+    document.getElementById('turnGrid').classList.toggle('two', !canBuzz);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-turn]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-turn') === turnFx));
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-turn]'), function (b) {
+    b.addEventListener('click', function () {
+      turnFx = b.getAttribute('data-turn');
+      try { localStorage.setItem('putting-tempo-turn', turnFx); } catch (e) {}
+      applyTurn();
+      fireTurn(turnFx, true);
+    });
+  });
+
   var BAR_SIZES = [8, 14, 24];
   var barSize = 14;
   try {
@@ -899,6 +975,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--fg); outline-of
 
   applyTempo();
   applyBar();
+  applyTurn();
   applyHand();
   applyLang();
   renderSettings();
