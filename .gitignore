@@ -1,0 +1,9 @@
+# whitelist: only the deployable PWA files
+/*
+!/.gitignore
+!/index.html
+!/manifest.webmanifest
+!/sw.js
+!/icons/
+!/img/
+!/.nojekyll
