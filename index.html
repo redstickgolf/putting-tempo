@@ -161,6 +161,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
   font: 600 15px var(--font);
   cursor: pointer;
 }
+.auto-hint { margin: 0; text-align: center; font: 600 13px/1.4 var(--font); color: var(--warm); display: flex; align-items: center; justify-content: center; gap: 9px; }
+.auto-hint::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: wait 1.6s ease-in-out infinite; }
+@keyframes wait { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.15); } }
 .brand { align-self: center; font: 600 12px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.1em; padding: 6px 10px; }
 
 /* ---- segmented controls ---- */
@@ -328,6 +331,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
     <p class="extra ratio-line"><span id="factRatio"></span> · <span id="factTotal"></span></p>
     <p id="homeType" class="extra label type-line" hidden></p>
     <p class="extra tip" data-i18n="tip1">폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트</p>
+    <p id="autoHint" class="extra auto-hint" hidden></p>
     <button id="go" class="go" type="button" aria-pressed="false">시작</button>
     <button id="remeasure" class="extra ghost" type="button" hidden data-i18n="remeasure">나의 템포 다시 재기</button>
     <a class="extra brand" href="https://redstickgolf.com" target="_blank" rel="noopener">redstickgolf.com</a>
@@ -372,6 +376,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
       <button class="pill" type="button" data-lead="0.1" aria-pressed="false" data-i18n="lead_1">0.1초 전</button>
       <button class="pill" type="button" data-lead="0.2" aria-pressed="false" data-i18n="lead_2">0.2초 전</button>
     </div>
+      </div></div></div>
+    </section>
+    <section class="acc">
+      <button class="acc-h" type="button" aria-expanded="false" aria-controls="acc-auto"><span class="acc-t" data-i18n="auto"></span><span class="acc-v" id="accv-auto"></span><svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="acc-w" id="acc-auto"><div class="acc-b"><div class="acc-i">
+      <div class="sounds two" role="group" aria-label="자동 시작" data-i18n-aria="auto">
+      <button class="snd" type="button" data-auto="0" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="12"/><path d="M12 28 28 12"/></svg><span data-i18n="auto_0"></span></button>
+      <button class="snd" type="button" data-auto="1" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5v12M14 12l6 6 6-6"/><rect x="5" y="24" width="30" height="9" rx="3"/><path d="M5 28.500h30" opacity="0.4"/></svg><span data-i18n="auto_1"></span></button>
+      </div>
       </div></div></div>
     </section>
     <section class="acc">
@@ -445,7 +458,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>선이 내려갈 때 백스윙,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
       sound: '소리', s_tick: '딱', s_wood: '나무', s_bell: '종', s_drum: '북', s_bomb: '폭탄', s_fart: '방귀',
-      language: '언어', backLabel: '백스윙', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_buzz: '진동', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      language: '언어', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '폰을 바닥에 평평하게 놓으면 시작돼요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스윙', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_buzz: '진동', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', hand: '오른손 · 왼손', hand_r: '오른손잡이', hand_l: '왼손잡이', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       type_fast: '빠른 템포', type_tour: '투어 템포', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       quick: '바로 고르기', fine: '미세 조정', save: '이 템포로 연습'
@@ -456,7 +469,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
       tip1: 'Lay your phone flat and tap anywhere.<br>The line goes down on the backswing<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_tick: 'Tick', s_wood: 'Wood', s_bell: 'Bell', s_drum: 'Drum', s_bomb: 'Bomb', s_fart: 'Fart',
-      language: 'Language', backLabel: 'Backswing', fwdLabel: 'Forward', turn: 'Turnaround cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_buzz: 'Vibrate', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      language: 'Language', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay the phone flat to start', autoDenied: 'Motion access was not allowed.', backLabel: 'Backswing', fwdLabel: 'Forward', turn: 'Turnaround cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_buzz: 'Vibrate', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', hand: 'Handedness', hand_r: 'Right-handed', hand_l: 'Left-handed', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       type_fast: 'Fast tempo', type_tour: 'Tour tempo', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       quick: 'Quick pick', fine: 'Fine-tune', save: 'Use this tempo'
@@ -467,7 +480,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>ラインが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
       sound: 'サウンド', s_tick: 'カチッ', s_wood: '木', s_bell: 'ベル', s_drum: '太鼓', s_bomb: '爆弾', s_fart: 'おなら',
-      language: '言語', backLabel: 'バックスイング', fwdLabel: 'フォワード', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_buzz: '振動', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      language: '言語', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'フォワード', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_buzz: '振動', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', hand: '利き手', hand_r: '右打ち', hand_l: '左打ち', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       type_fast: '速いテンポ', type_tour: 'ツアーテンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       quick: 'すぐに選ぶ', fine: '微調整', save: 'このテンポで練習'
@@ -733,7 +746,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
     if (panelEl.animate) panelEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
     goBtn.textContent = t('start');
     goBtn.setAttribute('aria-pressed', 'false');
-    unlockScreen();
+    armed = false;
+    if (!autoOn) unlockScreen();
   }
 
   function showSettings(on) {
@@ -798,6 +812,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
     var ht = document.getElementById('homeType');
     ht.hidden = !(mode === 'mine' && mine);
     if (!ht.hidden) ht.textContent = t('type_' + typeOf(mine));
+    var ah = document.getElementById('autoHint');
+    if (ah) { ah.hidden = !autoOn; if (autoOn) ah.textContent = t('autoHint'); }
   }
 
   function setMode(next) {
@@ -1091,6 +1107,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
     var ld = pressedText('[data-lead]');
     document.getElementById('accv-sound').textContent = pressedText('[data-sound]');
     document.getElementById('accv-turn').textContent = turn + (lead > 0 ? ' · ' + ld : '');
+    document.getElementById('accv-auto').textContent = pressedText('[data-auto]');
     document.getElementById('accv-hand').textContent = pressedText('[data-hand]');
     document.getElementById('accv-bar').textContent = pressedText('[data-bar]');
     document.getElementById('accv-lang').textContent = pressedText('[data-lang]');
@@ -1143,6 +1160,114 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
     el.classList.add('tick');
   }
 
+  // ---- auto start / stop: lay the phone flat to start, lift it to stop (accelerometer) ----
+  var autoOn = false;
+  var armed = false;
+  var flatSince = 0;
+  var liftCount = 0;
+  var motionBound = false;
+  try { autoOn = localStorage.getItem('putting-tempo-auto') === '1' && typeof DeviceMotionEvent !== 'undefined'; } catch (e) {}
+
+  function needsMotionPermission() {
+    return typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function';
+  }
+
+  function requestMotion() {
+    if (typeof DeviceMotionEvent === 'undefined') return Promise.resolve(false);
+    if (needsMotionPermission()) {
+      return DeviceMotionEvent.requestPermission().then(function (r) { return r === 'granted'; }, function () { return false; });
+    }
+    return Promise.resolve(true);
+  }
+
+  function onMotion(e) {
+    var g = e.accelerationIncludingGravity;
+    if (!autoOn || !g || g.z == null || document.hidden) return;
+    var x = g.x || 0, y = g.y || 0, z = g.z || 0;
+    var mag = Math.sqrt(x * x + y * y + z * z);
+    if (mag < 1) return;
+    var tilt = Math.acos(Math.min(1, Math.abs(z) / mag)) * 180 / Math.PI;   // 0 = lying flat (either face), sign-agnostic for iOS/Android
+    var dev = Math.abs(mag - 9.81);
+    if (running) {
+      if (tilt > 20 || dev > 4) {
+        liftCount += 1;
+        if (liftCount >= 3) { liftCount = 0; stop(); }
+      } else liftCount = 0;
+      return;
+    }
+    if (tilt > 20) { armed = true; flatSince = 0; return; }   // picked up: next time it is put down it may start
+    if (!armed || homeEl.hidden) { flatSince = 0; return; }
+    if (tilt < 8 && dev < 0.9) {
+      var now = performance.now();
+      if (!flatSince) flatSince = now;
+      else if (now - flatSince > 1000) { flatSince = 0; armed = false; start(); }
+    } else flatSince = 0;
+  }
+
+  function bindMotion() {
+    if (motionBound) return;
+    motionBound = true;
+    window.addEventListener('devicemotion', onMotion);
+  }
+
+  function renderAuto() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-auto]'), function (b) {
+      b.setAttribute('aria-pressed', String((b.getAttribute('data-auto') === '1') === autoOn));
+    });
+    var hint = document.getElementById('autoHint');
+    hint.hidden = !autoOn;
+    if (autoOn) hint.textContent = t('autoHint');
+  }
+
+  function setAuto(on) {
+    if (!on) {
+      autoOn = false;
+      armed = false;
+      try { localStorage.setItem('putting-tempo-auto', '0'); } catch (e) {}
+      if (!running) unlockScreen();
+      renderAuto();
+      return;
+    }
+    requestMotion().then(function (ok) {
+      if (!ok) {
+        autoOn = false;
+        msgEl.textContent = t('autoDenied');
+        renderAuto();
+        return;
+      }
+      autoOn = true;
+      armed = false;
+      msgEl.textContent = '';
+      try { localStorage.setItem('putting-tempo-auto', '1'); } catch (e) {}
+      bindMotion();
+      ensureCtx();     // unlock audio while we still have a user gesture
+      lockScreen();    // keep the screen on while waiting for the phone to be put down
+      renderAuto();
+      renderSummaries();
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-auto]'), function (b) {
+    b.addEventListener('click', function () { setAuto(b.getAttribute('data-auto') === '1'); });
+  });
+
+  function applyAuto() {
+    if (autoOn) {
+      if (needsMotionPermission()) {
+        // iOS asks again after a restart; it needs a tap, so ask on the first touch
+        document.addEventListener('pointerdown', function () {
+          requestMotion().then(function (ok) { if (ok) bindMotion(); else { autoOn = false; renderAuto(); } });
+        }, { once: true });
+      } else bindMotion();
+      lockScreen();
+    }
+    renderAuto();
+  }
+
+  // audio can only start after a touch: unlock it on the first one
+  document.addEventListener('pointerdown', function () { ensureCtx(); }, { once: true });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && (autoOn || running)) lockScreen(); });
+
   function applyLang() {
     document.documentElement.lang = lang;
     document.title = t('title');
@@ -1169,6 +1294,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
   applyBar();
   applyTurn();
   applyHand();
+  applyAuto();
   applyLang();
   renderSettings();
 
