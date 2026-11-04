@@ -30,7 +30,7 @@
   --accent-lo: #A8060A;
   --on-accent: #FFFFFF;
   --warm: #F4F1EC;
-  --ball: 84px;
+  --ball: 97px;
   --r-btn: 14px;
   --r-card: 16px;
   --font: "Noto Sans KR", system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
@@ -150,6 +150,18 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
 }
 .go:active { transform: scale(0.97); box-shadow: 0 6px 18px rgba(200, 21, 29, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18); }
 .go:disabled { opacity: 0.4; cursor: default; }
+.savebox { display: grid; grid-template-columns: 1fr 96px; gap: 10px; }
+.saveinput { min-width: 0; min-height: 48px; padding: 0 14px; border-radius: var(--r-btn); border: 1px solid var(--hair-2); background: var(--surface); color: var(--fg); font: 500 15px var(--font); }
+.saveinput:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.savedlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.savedlist li { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+.sv-use { min-width: 0; min-height: 52px; padding: 8px 14px; border-radius: var(--r-btn); border: 1px solid var(--hair-2); background: var(--surface); color: var(--fg); text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 3px; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.sv-use:active { transform: scale(0.97); transition-duration: 0.08s; }
+.sv-use[aria-pressed="true"] { border-color: var(--accent); background: rgba(200, 21, 29, 0.14); }
+.sv-use b { font: 600 15px var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sv-use span { font: 500 12px var(--font); color: var(--muted); font-variant-numeric: tabular-nums; }
+.sv-del { min-width: 52px; min-height: 52px; border-radius: var(--r-btn); border: 1px solid var(--hair-2); background: transparent; color: var(--muted); font: 600 13px var(--font); cursor: pointer; }
+.sv-empty { margin: 0; font-size: 13px; color: var(--muted); }
 .ghost {
   width: 100%;
   min-height: 48px;
@@ -160,8 +172,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
   font: 600 15px var(--font);
   cursor: pointer;
 }
-.auto-hint { margin: 0; text-align: center; font: 600 13px/1.4 var(--font); color: var(--warm); display: flex; align-items: center; justify-content: center; gap: 9px; }
-.auto-hint::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: wait 1.6s ease-in-out infinite; }
+.auto-hint { margin: 0; text-align: center; font: 700 15px/1.4 var(--font); color: var(--warm); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(200, 21, 29, 0.6); background: rgba(200, 21, 29, 0.14); word-break: keep-all; text-wrap: balance; animation: hintGlow 1.8s ease-in-out infinite; }
+.auto-hint::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgba(200, 21, 29, 0.9); }
+@keyframes hintGlow { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(200, 21, 29, 0); } 50% { opacity: 0.6; box-shadow: 0 0 20px 2px rgba(200, 21, 29, 0.5); } }
+@media (prefers-reduced-motion: reduce) { .auto-hint { animation: none; } }
 @keyframes wait { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.15); } }
 .vtitle { margin: 0; font: 700 28px/1.15 var(--font-display); letter-spacing: -0.02em; }
 .settings > .head, .measure > .head { margin-top: 24px; }   /* keep the title clear of the ball at the top edge */
@@ -195,6 +209,24 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
 .splash { position: fixed; inset: 0; z-index: 3000; background: #0A0504; display: grid; place-items: center; }
 .splash img { height: 36px; width: auto; animation: splashIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes splashIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+.manual { background: #1c1615; -webkit-backdrop-filter: none; backdrop-filter: none; z-index: 45; top: calc(env(safe-area-inset-top, 0px) + 64px); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); max-width: 560px; max-height: none; gap: 12px; overflow: hidden; }
+.manual .sm.ghost, #howtoMore { min-height: 44px; padding: 0 16px; font: 600 14px var(--font); }
+.man-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; }
+.man-body details { border: 1px solid var(--hair); border-radius: 14px; background: rgba(255, 255, 255, 0.03); }
+.man-body summary { list-style: none; cursor: pointer; padding: 14px 16px; font: 700 15px/1.4 var(--font); display: flex; align-items: center; justify-content: space-between; gap: 12px; word-break: keep-all; }
+.man-body summary::-webkit-details-marker { display: none; }
+.man-body summary::after { content: "+"; flex: none; font: 500 20px/1 var(--font); color: var(--muted); }
+.man-body details[open] summary::after { content: "\2212"; }
+.man-body details[open] summary { color: var(--warm); }
+.man-c { padding: 0 16px 14px; font: 400 14px/1.75 var(--font); color: var(--fg); word-break: keep-all; }
+.man-c p { margin: 0 0 10px; color: inherit; font: inherit; }
+.man-c p:last-child { margin-bottom: 0; }
+.man-c ul { margin: 0 0 10px; padding-left: 18px; }
+.man-c li { margin-bottom: 4px; }
+.man-c table { width: 100%; border-collapse: collapse; margin: 0 0 10px; font-variant-numeric: tabular-nums; font-size: 13px; }
+.man-c th, .man-c td { padding: 7px 6px; border-bottom: 1px solid var(--hair); text-align: left; }
+.man-c th { color: var(--muted); font-weight: 600; }
+.man-c .note { color: var(--muted); font-size: 12.5px; }
 .scrim { position: fixed; inset: 0; z-index: 25; background: rgba(0, 0, 0, 0.6); }
 .howto { z-index: 40; gap: 14px; max-height: calc(100dvh - 120px); overflow-y: auto; }
 .howto-title { font: 700 20px/1.2 var(--font-display); }
@@ -365,7 +397,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       <a id="logoLink" class="logo-link" href="https://www.amazon.com/dp/B0FZK2LQ7P" target="_blank" rel="noopener" aria-label="Redstick"><img class="extra logo" src="data:image/png;base64,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" alt="redstick" width="103" height="26"></a>
     </div>
     <div class="extra mode" role="group" aria-label="템포 종류" data-i18n-aria="modeGroup">
-      <button id="modeTour" class="pill" type="button" aria-pressed="true" data-i18n="tour">투어 평균</button>
+      <button id="modeTour" class="pill" type="button" aria-pressed="true" data-i18n="tour">기본 템포</button>
       <button id="modeMine" class="pill" type="button" aria-pressed="false" data-i18n="mine">나의 템포</button>
     </div>
     <div class="extra preview" aria-hidden="true">
@@ -392,6 +424,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       <div class="acc-w" id="acc-sound"><div class="acc-b"><div class="acc-i">
       <div class="sounds" role="group" aria-label="소리" data-i18n-aria="sound">
       <button class="snd" type="button" data-sound="metronome" aria-pressed="true"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 35 16 6h8l6 29z"/><path d="M20 30 28 11"/><circle cx="28.500" cy="10" r="3" fill="currentColor"/><path d="M7 35h26"/></svg><span data-i18n="s_metronome"></span></button>
+      <button class="snd" type="button" data-sound="digital" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="23" r="12"/><path d="M20 23v-7"/><path d="M16 6h8"/><path d="M20 6v5"/></svg><span data-i18n="s_digital"></span></button>
       <button class="snd" type="button" data-sound="bat" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 33 27 14" stroke-width="5"/><path d="M6 35l3-3" stroke-width="3.500"/><circle cx="31" cy="29" r="4.200"/><path d="M29 27l4 4M33 27l-4 4" stroke-width="1.400"/></svg><span data-i18n="s_bat"></span></button>
       <button class="snd" type="button" data-sound="deskbell" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 27a12 12 0 0 1 24 0z"/><path d="M5 31h30"/><path d="M20 12v3M17 11h6"/></svg><span data-i18n="s_deskbell"></span></button>
       <button class="snd" type="button" data-sound="glock" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 8v24M16 11v18M23 14v12M30 17v6" stroke-width="4"/></svg><span data-i18n="s_glock"></span></button>
@@ -403,8 +436,6 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       <button class="snd" type="button" data-sound="kalimba" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="9" width="24" height="26" rx="4"/><path d="M14 9v14M18 9v18M22 9v18M26 9v14" stroke-width="2"/><circle cx="20" cy="30" r="2" fill="currentColor" stroke="none"/></svg><span data-i18n="s_kalimba"></span></button>
       <button class="snd" type="button" data-sound="retro" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14h22a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5h-3l-3-4h-8l-3 4h-3a5 5 0 0 1-5-5v-8a5 5 0 0 1 5-5z"/><path d="M12 20v6M9 23h6"/><circle cx="26" cy="21" r="1.500" fill="currentColor" stroke="none"/><circle cx="30" cy="25" r="1.500" fill="currentColor" stroke="none"/></svg><span data-i18n="s_retro"></span></button>
       <button class="snd" type="button" data-sound="drip" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5c6 8 9 12 9 17a9 9 0 0 1-18 0c0-5 3-9 9-17z"/><path d="M14 35c3 1.500 9 1.500 12 0" opacity="0.5"/></svg><span data-i18n="s_drip"></span></button>
-      <button class="snd" type="button" data-sound="pingpong" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17" cy="17" r="10"/><path d="M24 24l9 9" stroke-width="4"/><circle cx="31" cy="9" r="3.200" fill="currentColor" stroke="none"/></svg><span data-i18n="s_pingpong"></span></button>
-      <button class="snd" type="button" data-sound="keyboard" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="10" width="28" height="20" rx="4"/><path d="M12 16h3M18 16h3M24 16h4M12 22h16" stroke-width="2.200"/></svg><span data-i18n="s_keyboard"></span></button>
       <button class="snd" type="button" data-sound="wood" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="19" width="26" height="14" rx="5"/><path d="M12 25h5M21 25h5M12 29h8"/><path d="M33 5 22 16"/><circle cx="34" cy="4.500" r="2.600" fill="currentColor"/></svg><span data-i18n="s_wood"></span></button>
       <button class="snd" type="button" data-sound="comic" aria-pressed="false"><svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 31a6 6 0 0 1-1.500-11.800 8.500 8.500 0 0 1 16-1.500A6.200 6.200 0 0 1 28 31z"/><circle cx="16.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><circle cx="23.500" cy="24" r="1.500" fill="currentColor" stroke="none"/><path d="M17.500 27.500c1.500 1.200 3.500 1.200 5 0"/><path d="M4 12c2-2 3 2 5 0M5 7c2-2 3 2 5 0"/></svg><span data-i18n="s_comic"></span></button>
     </div>
@@ -457,6 +488,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     </div>
       </div></div></div>
     </section>
+    <button id="manualRow" class="acc-link" type="button"><span data-i18n="manual_row">설명서</span><span class="acc-v"></span><svg class="chev" style="transform:rotate(-90deg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <button id="howtoRow" class="acc-link" type="button"><span data-i18n="howto_row">사용법</span><span class="acc-v"></span><svg class="chev" style="transform:rotate(-90deg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <a id="buyLink" class="rs-banner" href="https://www.amazon.com/dp/B0FZK2LQ7P" target="_blank" rel="noopener">
       <p class="kicker">Redstick</p>
@@ -490,6 +522,13 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       <div class="stepval"><strong id="draftTotal"></strong><span id="draftType"></span></div>
       <button id="stepUp" class="icon-btn" type="button" aria-label="+0.01">+</button>
     </div>
+    <div class="savebox">
+      <input id="saveName" class="saveinput" type="text" maxlength="20" autocomplete="off" placeholder="이름 (선택)">
+      <button id="saveAdd" class="ghost" type="button" data-i18n="saveTempo">저장</button>
+    </div>
+    <p id="saveMsg" class="msg" aria-live="polite"></p>
+    <p class="label"><span data-i18n="savedTitle">저장한 템포</span> <span id="savedCount"></span></p>
+    <ul id="savedList" class="savedlist"></ul>
     <button id="mineSave" class="go" type="button" data-i18n="save">이 템포로 연습</button>
   </div>
 </main>
@@ -512,7 +551,13 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     <li><i>3</i><span data-i18n="howto_3"></span></li>
     <li><i>4</i><span data-i18n="howto_4"></span></li>
   </ol>
-  <div class="sheet-actions"><button id="howtoGo" class="go sm" type="button" data-i18n="howto_ok">알겠어요</button></div>
+  <div class="sheet-actions"><button id="howtoMore" class="ghost sm" type="button" data-i18n="manual_more">설명서 보기</button><button id="howtoGo" class="go sm" type="button" data-i18n="howto_ok">알겠어요</button></div>
+</div>
+
+<div id="manual" class="sheet manual" role="dialog" aria-modal="true" aria-labelledby="manualTitle" hidden>
+  <strong id="manualTitle" class="howto-title" data-i18n="manual_title">설명서</strong>
+  <div id="manualBody" class="man-body"></div>
+  <div class="sheet-actions"><button id="manualClose" class="go sm" type="button" data-i18n="manual_close">닫기</button></div>
 </div>
 
 <div id="install" class="sheet" role="dialog" aria-live="polite" hidden>
@@ -533,43 +578,49 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   // ---- i18n: Korean, English, Japanese (default follows the phone language) ----
   var I18N = {
     ko: {
-      title: 'PuttSnap', appName: 'PuttSnap', settings: '설정', modeGroup: '템포 종류', tour: '투어 평균', mine: '나의 템포',
+      title: 'PuttSnap', appName: 'PuttSnap', settings: '설정', modeGroup: '템포 종류', tour: '기본 템포', mine: '나의 템포',
       factsAria: '현재 템포', total: function (n) { return '총 ' + n + '초'; }, sec: function (n) { return n + '초'; },
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', stopAuto: '폰을 들면 멈춰요', tip1Auto: '바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
-      sound: '소리', s_metronome: '메트로놈', s_bat: '야구', s_deskbell: '데스크벨', s_glock: '글로켄슈필', s_bike: '자전거', s_cowbell: '카우벨', s_bowl: '싱잉볼', s_snap: '스냅', s_marimba: '마림바', s_kalimba: '칼림바', s_retro: '레트로', s_drip: '물방울', s_pingpong: '탁구', s_keyboard: '키보드', s_wood: '나무', s_comic: '코믹',
-      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1과 1:1 사이의 중간 비율이에요.', ratio_1: '오가는 시간이 같은 비율이에요. 일부 선수가 쓰지만 측정 자료는 적어요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '폰을 바닥에 평평하게 놓으면 시작돼요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
-      type_fast: '빠른 템포', type_tour: '투어 템포', type_slow: '느린 템포',
+      sound: '소리', s_metronome: '메트로놈', s_bat: '야구', s_deskbell: '데스크벨', s_glock: '글로켄슈필', s_bike: '자전거', s_cowbell: '카우벨', s_bowl: '싱잉볼', s_snap: '스냅', s_marimba: '마림바', s_kalimba: '칼림바', s_retro: '레트로', s_drip: '물방울', s_digital: '출발음', s_wood: '나무', s_comic: '코믹',
+      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1과 1:1 사이의 중간 비율이에요.', ratio_1: '오가는 시간이 같은 비율이에요. 일부 선수가 쓰지만 측정 자료는 적어요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      type_fast: '빠른 템포', type_tour: '기본 템포', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       bn_title: '템포는 잡았어요. 이제 방향이에요.', bn_body: '템포 연습은 폰 하나면 충분해요. 클럽에 자석으로 붙이는 정렬 기준, 레드스틱도 있어요.', bn_cta: '레드스틱 보러가기',
       tempoLabel: '템포',
-      quick: '바로 고르기', fine: '미세 조정', save: '이 템포로 연습'
+      quick: '바로 고르기', fine: '미세 조정', save: '이 템포로 연습',
+      savedTitle: '저장한 템포', saveTempo: '저장', namePh: '이름 (선택)', defName: function (n) { return '내 템포 ' + n; }, noSaved: '아직 저장한 템포가 없어요.', fullMsg: '5개가 가득 찼어요. 하나를 지우고 저장하세요.', savedMsg: '저장했어요.', del: '삭제',
+      manual_row: '설명서', manual_title: '설명서', manual_close: '닫기', manual_more: '설명서 보기'
     },
     en: {
-      title: 'PuttSnap', appName: 'PuttSnap', settings: 'Settings', modeGroup: 'Tempo type', tour: 'Tour average', mine: 'My tempo',
+      title: 'PuttSnap', appName: 'PuttSnap', settings: 'Settings', modeGroup: 'Tempo type', tour: 'Standard', mine: 'My tempo',
       factsAria: 'Current tempo', total: function (n) { return 'Total ' + n + ' s'; }, sec: function (n) { return n + ' s'; },
       tip1: 'Lay your phone flat and tap anywhere.<br>The bar goes down for the backstroke<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', stopAuto: 'Lift the phone to stop', tip1Auto: 'The bar goes down for the backstroke<br>and reaches the top at impact.', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
-      sound: 'Sound', s_metronome: 'Metronome', s_bat: 'Baseball', s_deskbell: 'Desk bell', s_glock: 'Glocken', s_bike: 'Bike bell', s_cowbell: 'Cowbell', s_bowl: 'Bowl', s_snap: 'Snap', s_marimba: 'Marimba', s_kalimba: 'Kalimba', s_retro: 'Retro', s_drip: 'Drip', s_pingpong: 'Ping-pong', s_keyboard: 'Keyboard', s_wood: 'Wood', s_comic: 'Comic',
-      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'A middle ratio between 2:1 and 1:1.', ratio_1: 'Backstroke and forward take the same time. Some players use it, but there is little measured data.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay the phone flat to start', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
-      type_fast: 'Fast tempo', type_tour: 'Tour tempo', type_slow: 'Slow tempo',
+      sound: 'Sound', s_metronome: 'Metronome', s_bat: 'Baseball', s_deskbell: 'Desk bell', s_glock: 'Glocken', s_bike: 'Bike bell', s_cowbell: 'Cowbell', s_bowl: 'Bowl', s_snap: 'Snap', s_marimba: 'Marimba', s_kalimba: 'Kalimba', s_retro: 'Retro', s_drip: 'Drip', s_digital: 'Start tone', s_wood: 'Wood', s_comic: 'Comic',
+      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'A middle ratio between 2:1 and 1:1.', ratio_1: 'Backstroke and forward take the same time. Some players use it, but there is little measured data.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      type_fast: 'Fast tempo', type_tour: 'Standard tempo', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       bn_title: 'Tempo set. Next, your line.', bn_body: 'This app needs no extra gear. If you\'d like an easy alignment reference on your putter, Redstick snaps on magnetically.', bn_cta: 'See on Amazon',
       tempoLabel: 'Tempo',
-      quick: 'Quick pick', fine: 'Fine-tune', save: 'Use this tempo'
+      quick: 'Quick pick', fine: 'Fine-tune', save: 'Use this tempo',
+      savedTitle: 'Saved tempos', saveTempo: 'Save', namePh: 'Name (optional)', defName: function (n) { return 'My tempo ' + n; }, noSaved: 'No saved tempos yet.', fullMsg: 'All 5 slots are full. Delete one to save.', savedMsg: 'Saved.', del: 'Delete',
+      manual_row: 'Manual', manual_title: 'Manual', manual_close: 'Close', manual_more: 'Open manual'
     },
     ja: {
-      title: 'PuttSnap', appName: 'PuttSnap', settings: '設定', modeGroup: 'テンポの種類', tour: 'ツアー平均', mine: '自分のテンポ',
+      title: 'PuttSnap', appName: 'PuttSnap', settings: '設定', modeGroup: 'テンポの種類', tour: '標準', mine: '自分のテンポ',
       factsAria: '現在のテンポ', total: function (n) { return '合計 ' + n + '秒'; }, sec: function (n) { return n + '秒'; },
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', stopAuto: 'スマホを持ち上げると停止', tip1Auto: 'バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
-      sound: 'サウンド', s_metronome: 'メトロノーム', s_bat: '野球', s_deskbell: 'ベル', s_glock: 'グロッケン', s_bike: '自転車', s_cowbell: 'カウベル', s_bowl: 'ボウル', s_snap: 'スナップ', s_marimba: 'マリンバ', s_kalimba: 'カリンバ', s_retro: 'レトロ', s_drip: '水滴', s_pingpong: '卓球', s_keyboard: 'キーボード', s_wood: '木', s_comic: 'コミック',
-      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: '2:1と1:1の中間の比率です。', ratio_1: '行きと戻りが同じ時間の比率です。使う選手もいますが、計測データは少ないです。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
-      type_fast: '速いテンポ', type_tour: 'ツアーテンポ', type_slow: 'ゆったりテンポ',
+      sound: 'サウンド', s_metronome: 'メトロノーム', s_bat: '野球', s_deskbell: 'ベル', s_glock: 'グロッケン', s_bike: '自転車', s_cowbell: 'カウベル', s_bowl: 'ボウル', s_snap: 'スナップ', s_marimba: 'マリンバ', s_kalimba: 'カリンバ', s_retro: 'レトロ', s_drip: '水滴', s_digital: 'スタート音', s_wood: '木', s_comic: 'コミック',
+      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: '2:1と1:1の中間の比率です。', ratio_1: '行きと戻りが同じ時間の比率です。使う選手もいますが、計測データは少ないです。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      type_fast: '速いテンポ', type_tour: '標準テンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       bn_title: 'テンポは整いました。次は方向。', bn_body: 'テンポ練習はスマホ1つでOK。クラブに磁石で付けられる、方向合わせの目安のRedstickもあります。', bn_cta: 'Amazonで見る',
       tempoLabel: 'テンポ',
-      quick: 'すぐに選ぶ', fine: '微調整', save: 'このテンポで練習'
+      quick: 'すぐに選ぶ', fine: '微調整', save: 'このテンポで練習',
+      savedTitle: '保存したテンポ', saveTempo: '保存', namePh: '名前(任意)', defName: function (n) { return '自分のテンポ ' + n; }, noSaved: '保存したテンポはまだありません。', fullMsg: '5件すべて使用中です。1つ削除してから保存してください。', savedMsg: '保存しました。', del: '削除',
+      manual_row: '説明書', manual_title: '説明書', manual_close: '閉じる', manual_more: '説明書を見る'
     }
   };
   var lang = 'en';
@@ -597,12 +648,12 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   var msgEl = document.getElementById('msg');
   var soundBtns = Array.prototype.slice.call(document.querySelectorAll('[data-sound]'));
 
-  // Tour average = 75 bpm: one click at the start of the stroke, one at impact, 60/75 = 0.8 s apart (the usual putting-metronome setting;
-  // Golf Digest: strong putters 72-80 bpm). Split 2:1 -> backstroke 0.53 s, forward 0.27 s. (Blast Motion measures .86-.94 s from first movement.)
-  var TOUR = { back: 0.8 * 2 / 3, fwd: 0.8 / 3 };
+  // Standard tempo = 67 bpm: one click at the start of the stroke, one at impact, 60/67 = 0.9 s apart, split 2:1 -> backstroke 0.6 s, forward 0.3 s.
+  // Measured start-to-impact times: about 0.86-0.90 s (Couceiro 2022), about 0.99 s (Marquardt 2007).
+  var TOUR = { back: 0.6, fwd: 0.3 };
   var BACK = TOUR.back;
   var FWD = TOUR.fwd;
-  var STROKE = BACK + FWD;   // 0.8 s (75 bpm)
+  var STROKE = BACK + FWD;   // 0.9 s (67 bpm)
   var CYCLE = STROKE + 1;    // one stroke, then one second of rest at the top
 
   var sound = 'metronome';
@@ -786,7 +837,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 
 
   goBtn.addEventListener('click', function () {
-    if (running) stop(); else start();
+    if (running) stop(); else { liftOK = false; okSince = 0; start(); }
   });
 
   soundBtns.forEach(function (b) {
@@ -804,7 +855,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   document.addEventListener('click', function (e) {
     if (e.target.closest('button, a, #settings, #measure')) return;
     if (!settingsEl.hidden || !document.getElementById('measure').hidden) return;
-    if (running) stop(); else start();
+    if (running) stop(); else { liftOK = false; okSince = 0; start(); }
   });
 
   // ---- my tempo: picked by feel (presets + fine-tune), not measured ----
@@ -836,7 +887,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     document.getElementById('factTotal').textContent = t('total')(+STROKE.toFixed(2));
     var tipEl = document.getElementById('homeTip');
     tipEl.hidden = runs >= 3;
-    tipEl.innerHTML = t(autoActive() ? 'tip1Auto' : 'tip1');
+    tipEl.innerHTML = t(autoShown() ? 'tip1Auto' : 'tip1');
     var sig = BACK + '|' + FWD;
     if (sig !== lastFacts) {
       if (lastFacts !== null) { pulse(document.getElementById('factBpm')); }
@@ -846,7 +897,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     ht.hidden = !(mode === 'mine' && mine);
     if (!ht.hidden) ht.textContent = t('type_' + typeOf(mine));
     var ah = document.getElementById('autoHint');
-    if (ah) { ah.hidden = !(autoOn && motionSeen); if (!ah.hidden) ah.textContent = t('autoHint'); }
+    if (ah) { ah.hidden = !autoShown(); if (!ah.hidden) ah.textContent = t('autoHint'); }
   }
 
   function setMode(next) {
@@ -858,7 +909,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     renderHome();
   }
 
-  var draft = { back: 0.53, fwd: 0.27 };
+  var draft = { back: 0.6, fwd: 0.3 };
   var MIN_TOTAL = 0.6;
   var MAX_TOTAL = 1.5;
 
@@ -890,6 +941,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       var P = PRESETS[b.getAttribute('data-preset')];
       b.setAttribute('aria-pressed', String(Math.abs(P.back + P.fwd - total) < 0.005));
     });
+    renderSaved();
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-ratio]'), function (b) {
@@ -939,6 +991,82 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     applyTempo();
     showMeasure(false);
   });
+  // ---- saved tempos: up to 5, kept on this device only ----
+  var MAX_SAVED = 5;
+  var saved = [];
+  try {
+    var sv = JSON.parse(localStorage.getItem('putting-tempo-saved') || '[]');
+    if (Array.isArray(sv)) saved = sv.filter(function (x) { return x && x.back > 0.2 && x.fwd > 0.1 && typeof x.name === 'string'; }).slice(0, MAX_SAVED);
+  } catch (e) {}
+
+  function persistSaved() { try { localStorage.setItem('putting-tempo-saved', JSON.stringify(saved)); } catch (e) {} }
+
+  function renderSaved() {
+    if (!saved) return;
+    var list = document.getElementById('savedList');
+    list.textContent = '';
+    document.getElementById('savedCount').textContent = saved.length + ' / ' + MAX_SAVED;
+    if (!saved.length) {
+      var li0 = document.createElement('li');
+      var p0 = document.createElement('p');
+      p0.className = 'sv-empty';
+      p0.textContent = t('noSaved');
+      li0.appendChild(p0);
+      list.appendChild(li0);
+    }
+    saved.forEach(function (it, idx) {
+      var total = it.back + it.fwd;
+      var li = document.createElement('li');
+      var use = document.createElement('button');
+      use.type = 'button';
+      use.className = 'sv-use';
+      use.setAttribute('aria-pressed', String(Math.abs(draft.back - it.back) < 0.002 && Math.abs(draft.fwd - it.fwd) < 0.002));
+      var nm = document.createElement('b');
+      nm.textContent = it.name;
+      var sub = document.createElement('span');
+      sub.textContent = t('sec')(+total.toFixed(2)) + ' \u00b7 ' + Math.round(60 / total) + ' bpm \u00b7 ' + (it.back / it.fwd).toFixed(1) + ' : 1';
+      use.appendChild(nm);
+      use.appendChild(sub);
+      use.addEventListener('click', function () {
+        draft = { back: it.back, fwd: it.fwd };
+        draftRatio = nearestRatio(it.back / it.fwd);
+        mine = { back: it.back, fwd: it.fwd };
+        try { localStorage.setItem('putting-tempo-mine', JSON.stringify(mine)); localStorage.setItem('putting-tempo-mode', 'mine'); } catch (e) {}
+        mode = 'mine';
+        applyTempo();
+        showMeasure(false);
+      });
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'sv-del';
+      del.textContent = t('del');
+      del.setAttribute('aria-label', t('del') + ': ' + it.name);
+      del.addEventListener('click', function () {
+        saved.splice(idx, 1);
+        persistSaved();
+        document.getElementById('saveMsg').textContent = '';
+        renderSaved();
+      });
+      li.appendChild(use);
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+    document.getElementById('saveAdd').style.opacity = saved.length >= MAX_SAVED ? '0.5' : '';
+  }
+
+  document.getElementById('saveAdd').addEventListener('click', function () {
+    var msg = document.getElementById('saveMsg');
+    if (saved.length >= MAX_SAVED) { msg.textContent = t('fullMsg'); return; }
+    var input = document.getElementById('saveName');
+    var name = input.value.trim() || t('defName')(saved.length + 1);
+    saved.push({ name: name, back: draft.back, fwd: draft.fwd });
+    persistSaved();
+    input.value = '';
+    msg.textContent = t('savedMsg');
+    renderSaved();
+  });
+  renderSaved();
+
   document.getElementById('modeTour').addEventListener('click', function () { setMode('tour'); });
   document.getElementById('modeMine').addEventListener('click', function () { setMode('mine'); });
 
@@ -1068,12 +1196,12 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     });
   });
 
-  var PRESETS = { slow: { back: 0.61, fwd: 0.31 }, tour: { back: 0.53, fwd: 0.27 }, fast: { back: 0.47, fwd: 0.24 } };  // 65 / 75 / 85 bpm
+  var PRESETS = { slow: { back: 0.67, fwd: 0.33 }, tour: { back: 0.6, fwd: 0.3 }, fast: { back: 0.53, fwd: 0.27 } };  // 60 / 67 / 75 bpm
 
-  // Type by total stroke time vs. the 0.8 s (75 bpm) tour average; tour band 0.75-0.85 s (about 70-80 bpm).
+  // Type by total stroke time vs. the 0.9 s (67 bpm) standard; standard band 0.85-0.95 s (about 63-70 bpm).
   function typeOf(T) {
     var total = Math.round((T.back + T.fwd) * 100) / 100;
-    return total < 0.75 ? 'fast' : total > 0.85 ? 'slow' : 'tour';
+    return total < 0.85 ? 'fast' : total > 0.95 ? 'slow' : 'tour';
   }
 
   function renderPresets() {
@@ -1178,6 +1306,8 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   var armed = false;
   var flatSince = 0;
   var liftCount = 0;
+  var liftOK = true;      // false after a manual start: lifting only stops the run once the phone has been laid flat
+  var okSince = 0;
   var motionBound = false;
   var motionSeen = false;   // the hint only shows once the phone really reports motion
   autoOn = typeof DeviceMotionEvent !== 'undefined';   // on by default; '0' means the user switched it off
@@ -1185,6 +1315,8 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 
   // auto mode is only 'active' once the phone really reports motion
   function autoActive() { return autoOn && motionSeen; }
+  // the start hint and the home tip talk about auto start as soon as it can work (iOS asks for motion permission on the first touch)
+  function autoShown() { return autoOn && (motionSeen || needsMotionPermission()); }
   function stopLabel() { return t(autoActive() ? 'stopAuto' : 'stop'); }
 
   function needsMotionPermission() {
@@ -1209,6 +1341,13 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     var tilt = Math.acos(Math.min(1, Math.abs(z) / mag)) * 180 / Math.PI;   // 0 = lying flat (either face), sign-agnostic for iOS/Android
     var dev = Math.abs(mag - 9.81);
     if (running) {
+      if (!liftOK) {
+        if (tilt < 8 && dev < 0.9) {
+          var nowOk = performance.now();
+          if (!okSince) okSince = nowOk; else if (nowOk - okSince > 800) { liftOK = true; okSince = 0; }
+        } else okSince = 0;
+        return;
+      }
       if (tilt > 20 || dev > 4) {
         liftCount += 1;
         if (liftCount >= 3) { liftCount = 0; stop(); }
@@ -1220,7 +1359,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     if (tilt < 8 && dev < 0.9) {
       var now = performance.now();
       if (!flatSince) flatSince = now;
-      else if (now - flatSince > 1000) { flatSince = 0; armed = false; start(); }
+      else if (now - flatSince > 1000) { flatSince = 0; armed = false; liftOK = true; start(); }
     } else flatSince = 0;
   }
 
@@ -1235,7 +1374,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       b.setAttribute('aria-pressed', String((b.getAttribute('data-auto') === '1') === autoOn));
     });
     var hint = document.getElementById('autoHint');
-    hint.hidden = !(autoOn && motionSeen);
+    hint.hidden = !autoShown();
     if (autoOn) hint.textContent = t('autoHint');
   }
 
@@ -1401,6 +1540,180 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     try { return localStorage.getItem('putting-tempo-howto') === '1'; } catch (e) { return false; }
   }
 
+  // ---- manual: folded sections, one language at a time ----
+  var MAN = {
+    ko: [
+      ['시작하기', `<p>폰을 퍼팅 매트나 바닥에 <b>평평하게</b> 놓으세요. 1초쯤 가만히 있으면 자동으로 시작해요. 폰을 <b>들면 멈춰요</b>. 설정에서 자동 시작을 끌 수 있어요.</p>
+<p>손에 든 채로 시작하고 싶으면 <b>시작 버튼</b>이나 화면 아무 곳이나 누르세요. 이때는 폰을 바닥에 한 번 놓은 뒤부터 들어 올리면 멈춰요. 연습 중에 화면을 누르면 멈춰요.</p>
+<ul><li><b>바가 내려가는 동안</b>이 백스트로크예요.</li><li><b>맨 아래</b>에서 포워드로 바뀌어요(전환).</li><li><b>바가 올라와 맨 위에 닿는 순간</b>이 임팩트예요.</li></ul>
+<p>소리는 <b>백스트로크가 시작될 때 한 번, 임팩트에서 한 번</b> 나요. 스트로크가 끝나면 1초 쉬고 다시 시작해요.</p>
+<p class="note">이 앱은 스트로크를 재지 않아요. 센서나 장비 없이 박자를 보여 주는 연습용 가이드예요. 연습 중에는 화면이 꺼지지 않아요.</p>`],
+      ['템포 고르기', `<p>홈 화면의 큰 숫자는 <b>bpm</b>이에요. bpm은 1분 동안 같은 스트로크(백스트로크 시작에서 임팩트까지)를 몇 번 할 수 있는 속도인지를 뜻해요. <b>60 ÷ 초 = bpm</b>이에요.</p>
+<p><b>bpm이 클수록 빠르고, 초가 클수록 느려요.</b> 그래서 화면에는 둘을 같이 보여 줘요.</p>
+<table><tr><th>이름</th><th>총 시간</th><th>bpm</th><th>백스트로크 / 포워드</th></tr>
+<tr><td>빠른 템포</td><td>0.8초</td><td>75</td><td>0.53 / 0.27초</td></tr>
+<tr><td><b>기본 템포</b></td><td><b>0.9초</b></td><td><b>67</b></td><td>0.60 / 0.30초</td></tr>
+<tr><td>느린 템포</td><td>1.0초</td><td>60</td><td>0.67 / 0.33초</td></tr></table>
+<p><b>템포</b> 탭에서 바로 고르거나, 0.01초씩 미세하게 맞출 수 있어요. 리듬 비율(2:1, 1.5:1, 1:1)도 고를 수 있어요. 기본은 2:1이에요.</p>
+<p class="note">bpm은 소수 첫째 자리에서 반올림한 값이에요. 정확한 시간은 초를 기준으로 보세요.</p>`],
+      ['내 템포 저장하기', `<p><b>템포</b> 탭에서 마음에 드는 템포를 만든 뒤 이름을 적고 <b>저장</b>을 누르세요. 이름을 비우면 "내 템포 1"처럼 자동으로 붙어요.</p>
+<ul><li>최대 <b>5개</b>까지 저장돼요.</li><li>목록에서 항목을 누르면 바로 적용돼요.</li><li><b>삭제</b>를 누르면 지워져요. 가득 찼을 때는 하나를 지우고 저장하세요.</li></ul>
+<p class="note">저장한 템포는 <b>이 폰 안에만</b> 있어요. 앱을 지우거나 앱 데이터를 지우면 사라지고, 다른 폰이나 웹과 앱 사이에는 옮겨지지 않아요.</p>`],
+      ['소리와 표시 설정', `<p><b>설정</b> 탭에서 바꿀 수 있어요.</p>
+<ul><li><b>소리</b>: 15가지 중에 골라요. 누르면 시작 소리와 임팩트 소리를 차례로 들려줘요.</li>
+<li><b>전환 표시</b>: 백스트로크가 끝나고 포워드로 바뀌는 순간을 알려 줘요. 없음, 화면 번쩍(기본), 아랫부분, 바 번쩍, 파동 중에 고를 수 있어요.</li>
+<li><b>자동 시작</b>: 바닥에 놓으면 시작하고 들면 멈춰요.</li>
+<li><b>바 굵기</b>, <b>언어</b>(한국어·English·日本語)도 바꿀 수 있어요.</li></ul>
+<p class="note">폰의 무음 모드나 볼륨이 꺼져 있으면 소리가 나지 않아요. 아이폰은 처음에 모션 사용 허용을 물어볼 수 있어요.</p>`],
+      ['연습 방법', `<p>연구 결과와 앱 구조를 바탕으로 한 <b>권장 사용법</b>이에요. 검증된 처방이 아니에요.</p>
+<ul><li><b>처음에는 기본 템포(0.9초)</b>로 시작해요.</li>
+<li>바꿀 때는 <b>한 번에 한 단계(0.1초)</b>씩만 바꿔요. 크게 바꾸면 비교가 어려워요.</li>
+<li><b>편안하다고 느끼는 템포</b>를 우선해요. 빠르거나 느린 것이 옳은 게 아니라 매번 같은 박자로 칠 수 있는 게 목표예요.</li>
+<li>퍼트 거리가 달라도 <b>시간은 같게</b>, 거리는 <b>스트로크의 크기</b>로 조절해 보세요.</li>
+<li>10번씩 3세트처럼 <b>짧게 나눠서</b> 하고, 사이에 1~2분 쉬어요.</li>
+<li>라운드 전 워밍업에 써 보고, 필드에서는 앱 없이 그 느낌으로 치세요.</li>
+<li>템포만으로 퍼팅이 좋아지지는 않아요. <b>공이 가는 방향과 거리</b>도 함께 보세요.</li></ul>`],
+      ['템포 기준이란?', `<p>기본값 0.9초는 숙련된 골퍼를 측정한 연구에서 시작부터 임팩트까지 시간이 대략 <b>0.86~0.99초</b>, 백스트로크와 포워드의 비율이 <b>약 2:1</b>로 관찰된 것을 바탕으로 정했어요.</p>
+<table><tr><th>연구</th><th>대상</th><th>시작→임팩트</th></tr>
+<tr><td>Marquardt (2007)</td><td>투어 선수 99명</td><td>평균 약 0.99초, 비율 약 2.1</td></tr>
+<tr><td>Couceiro 외 (2022)</td><td>숙련 남성 10명</td><td>약 0.86~0.90초</td></tr></table>
+<p><b>알아 두세요.</b></p>
+<ul><li><b>정답 템포는 하나가 아니에요.</b> 같은 연구에서도 선수마다 속도가 달랐고, 공통점은 자기 템포를 일정하게 유지하는 것이었어요.</li>
+<li>이 템포로 치면 성공률이 올라간다는 실험 결과는 없어요. 이 앱은 <b>일정한 템포로 연습하는 도구</b>예요.</li>
+<li>책이나 영상에서 말하는 bpm과 숫자가 다를 수 있어요. 재는 구간(예: 백스트로크 정점에서 피니시까지)이 다르면 같은 숫자도 다른 템포예요.</li></ul>`],
+      ['자주 묻는 질문', `<p><b>시작 버튼을 눌러도 안 시작해요.</b><br>누르면 잠시 뒤 시작해요. 폰을 바닥에 놓아도 자동으로 시작해요. 소리가 안 나면 무음 모드와 볼륨을 확인하세요.</p>
+<p><b>내 스트로크 시간을 재 주나요?</b><br>아니요. 박자를 보여 주는 앱이에요.</p>
+<p><b>bpm이 커지면 빨라지나요?</b><br>네. bpm은 1분에 몇 번인지이고 초는 한 번에 걸리는 시간이라 반대로 움직여요.</p>
+<p><b>저장하면 다른 폰에서도 보이나요?</b><br>아니요. 이 폰에만 저장돼요.</p>`]
+    ],
+    en: [
+      ['Getting started', `<p>Lay the phone <b>flat</b> on a putting mat or the floor and keep it still for about a second. It starts by itself. <b>Lift the phone to stop.</b> You can turn auto start off in Settings.</p>
+<p>To start with the phone in your hand, tap the <b>Start button</b> or anywhere on the screen. After that, lifting the phone stops it only once you have laid it flat. Tap the screen to stop while you practice.</p>
+<ul><li>While the <b>bar goes down</b> is the backstroke.</li><li>At the <b>bottom</b> it turns into the forward stroke.</li><li>The moment the bar <b>reaches the top</b> is impact.</li></ul>
+<p>You hear a sound <b>once when the backstroke starts and once at impact</b>. After each stroke there is a one-second rest.</p>
+<p class="note">The app does not measure your stroke. It shows a rhythm to practice with, no sensors or gear needed. The screen stays on while you practice.</p>`],
+      ['Choosing a tempo', `<p>The big number on the home screen is <b>bpm</b>: how many times per minute you could repeat the same stroke, from the start of the backstroke to impact. <b>60 ÷ seconds = bpm</b>.</p>
+<p><b>A bigger bpm is faster, and more seconds is slower.</b> That is why the app always shows both.</p>
+<table><tr><th>Name</th><th>Total</th><th>bpm</th><th>Back / Forward</th></tr>
+<tr><td>Fast tempo</td><td>0.8 s</td><td>75</td><td>0.53 / 0.27 s</td></tr>
+<tr><td><b>Standard tempo</b></td><td><b>0.9 s</b></td><td><b>67</b></td><td>0.60 / 0.30 s</td></tr>
+<tr><td>Slow tempo</td><td>1.0 s</td><td>60</td><td>0.67 / 0.33 s</td></tr></table>
+<p>Pick one on the <b>Tempo</b> tab or fine-tune it in 0.01 s steps. You can also choose the rhythm ratio (2:1, 1.5:1, 1:1). The default is 2:1.</p>
+<p class="note">bpm is rounded to a whole number. Use the seconds for the exact time.</p>`],
+      ['Saving your tempos', `<p>On the <b>Tempo</b> tab, set a tempo you like, type a name and tap <b>Save</b>. If you leave the name empty it is called "My tempo 1" and so on.</p>
+<ul><li>You can save up to <b>5</b> tempos.</li><li>Tap an item in the list to use it right away.</li><li>Tap <b>Delete</b> to remove one. When all 5 are used, delete one to save a new one.</li></ul>
+<p class="note">Saved tempos stay <b>on this phone only</b>. They are lost if you delete the app or its data, and they do not move to another phone or between the web version and the app.</p>`],
+      ['Sound and cue settings', `<p>Change these in the <b>Settings</b> tab.</p>
+<ul><li><b>Sound</b>: choose from 15. Tap one to hear the start sound and the impact sound.</li>
+<li><b>Transition cue</b>: marks the moment the backstroke ends and the forward stroke begins. Choose Off, Screen flash (default), Bottom glow, Bar flash or Ripple.</li>
+<li><b>Auto start</b>: starts when you lay the phone down and stops when you lift it.</li>
+<li>You can also change the <b>bar thickness</b> and the <b>language</b> (한국어, English, 日本語).</li></ul>
+<p class="note">No sound? Check the silent mode and the volume. On iPhone you may be asked to allow motion access the first time.</p>`],
+      ['How to practice', `<p>These are <b>suggestions</b> based on research and how the app works. They are not a proven prescription.</p>
+<ul><li><b>Start with the standard tempo (0.9 s).</b></li>
+<li>Change it <b>one step (0.1 s) at a time</b>. Big jumps are hard to compare.</li>
+<li>Put <b>comfort first</b>. A faster or slower tempo is not better by itself. The goal is a beat you can repeat every time.</li>
+<li>Keep the <b>time the same</b> for different distances and change the <b>size of the stroke</b> instead.</li>
+<li>Practice in <b>short sets</b>, for example 3 sets of 10 with 1 to 2 minutes of rest.</li>
+<li>Use it to warm up before a round, then putt on the course without the app.</li>
+<li>Tempo alone will not fix your putting. Watch <b>where the ball goes</b> and how far.</li></ul>`],
+      ['What is the tempo based on?', `<p>The default of 0.9 s comes from studies that measured skilled golfers: the time from the start of the backstroke to impact was roughly <b>0.86 to 0.99 s</b>, and backstroke to forward stroke was about <b>2:1</b>.</p>
+<table><tr><th>Study</th><th>Players</th><th>Start to impact</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 tour players</td><td>about 0.99 s on average, ratio about 2.1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 skilled men</td><td>about 0.86 to 0.90 s</td></tr></table>
+<p><b>Good to know</b></p>
+<ul><li><b>There is no single right tempo.</b> Even in the same study, players differed in speed. What they shared was keeping their own tempo steady.</li>
+<li>No experiment shows that this tempo raises your success rate. This app is <b>a tool for practicing a steady tempo</b>.</li>
+<li>Numbers in books or videos may differ from this app. If the measured part of the stroke is different, the same number means a different tempo.</li></ul>`],
+      ['FAQ', `<p><b>I tapped Start but nothing started.</b><br>It starts after a moment. It also starts by itself when you lay the phone down. If you hear nothing, check silent mode and volume.</p>
+<p><b>Does it measure my stroke time?</b><br>No. It only shows a rhythm.</p>
+<p><b>Does a bigger bpm mean faster?</b><br>Yes. bpm is how many per minute and seconds is how long one takes, so they move in opposite directions.</p>
+<p><b>Do my saved tempos show on another phone?</b><br>No. They are stored on this phone only.</p>`]
+    ],
+    ja: [
+      ['はじめに', `<p>パッティングマットや床にスマホを<b>平らに</b>置き、1秒ほど動かさないでください。自動で始まります。スマホを<b>持ち上げると止まります</b>。自動スタートは設定でオフにできます。</p>
+<p>手に持ったまま始めるときは<b>スタートボタン</b>か画面のどこかをタップします。その場合は、一度スマホを平らに置いたあとで持ち上げると止まります。練習中に画面をタップしても止まります。</p>
+<ul><li><b>バーが下がる間</b>がバックスイングです。</li><li><b>一番下</b>でダウンに切り替わります。</li><li><b>バーが上に戻って頂点に着く瞬間</b>がインパクトです。</li></ul>
+<p>音は<b>バックスイングの始まりに1回、インパクトに1回</b>鳴ります。1ストロークが終わると1秒休んでまた始まります。</p>
+<p class="note">このアプリはストロークを測りません。センサーや道具なしで、リズムを見せる練習用ガイドです。練習中は画面が消えません。</p>`],
+      ['テンポの選び方', `<p>ホーム画面の大きな数字は<b>bpm</b>です。バックスイング開始からインパクトまでの同じストロークを1分間に何回できる速さか、という意味です。<b>60 ÷ 秒 = bpm</b>です。</p>
+<p><b>bpmが大きいほど速く、秒が大きいほど遅い</b>です。そのため画面には両方を表示します。</p>
+<table><tr><th>名前</th><th>合計</th><th>bpm</th><th>バック / ダウン</th></tr>
+<tr><td>速いテンポ</td><td>0.8秒</td><td>75</td><td>0.53 / 0.27秒</td></tr>
+<tr><td><b>標準テンポ</b></td><td><b>0.9秒</b></td><td><b>67</b></td><td>0.60 / 0.30秒</td></tr>
+<tr><td>ゆったりテンポ</td><td>1.0秒</td><td>60</td><td>0.67 / 0.33秒</td></tr></table>
+<p><b>テンポ</b>タブで選ぶか、0.01秒ずつ微調整できます。リズム比(2:1、1.5:1、1:1)も選べます。初期値は2:1です。</p>
+<p class="note">bpmは四捨五入した値です。正確な時間は秒で確認してください。</p>`],
+      ['自分のテンポを保存', `<p><b>テンポ</b>タブで好みのテンポを作り、名前を入れて<b>保存</b>を押します。名前が空のときは「自分のテンポ 1」のように自動で付きます。</p>
+<ul><li>最大<b>5件</b>まで保存できます。</li><li>リストの項目をタップするとすぐに使えます。</li><li><b>削除</b>で消せます。5件使っているときは1つ削除してから保存してください。</li></ul>
+<p class="note">保存したテンポは<b>このスマホの中だけ</b>にあります。アプリやデータを消すとなくなり、別のスマホやWeb版とアプリの間では移りません。</p>`],
+      ['音と表示の設定', `<p><b>設定</b>タブで変更できます。</p>
+<ul><li><b>サウンド</b>: 15種類から選びます。タップすると開始音とインパクト音を続けて聞けます。</li>
+<li><b>切り替え表示</b>: バックスイングが終わってダウンに切り替わる瞬間を知らせます。なし、画面点滅(初期値)、下部、バー点滅、波紋から選べます。</li>
+<li><b>自動スタート</b>: 置くと始まり、持ち上げると止まります。</li>
+<li><b>バーの太さ</b>と<b>言語</b>(한국어・English・日本語)も変えられます。</li></ul>
+<p class="note">音が出ないときはマナーモードと音量を確認してください。iPhoneでは初回にモーションの許可を求められることがあります。</p>`],
+      ['練習のしかた', `<p>研究結果とアプリの仕組みに基づく<b>おすすめの使い方</b>です。効果が証明された処方ではありません。</p>
+<ul><li><b>最初は標準テンポ(0.9秒)</b>から始めます。</li>
+<li>変えるときは<b>1段階(0.1秒)ずつ</b>にします。大きく変えると比べにくくなります。</li>
+<li><b>心地よいテンポ</b>を優先します。速い・遅いに正解はなく、毎回同じ拍で打てることが目標です。</li>
+<li>距離が違っても<b>時間は同じ</b>にして、距離は<b>ストロークの大きさ</b>で調整してみましょう。</li>
+<li>10回×3セットなど<b>短く区切り</b>、間に1〜2分休みます。</li>
+<li>ラウンド前のウォームアップに使い、コースではアプリなしでその感覚で打ちます。</li>
+<li>テンポだけでパッティングは良くなりません。<b>ボールの方向と距離</b>も見てください。</li></ul>`],
+      ['テンポの根拠', `<p>初期値の0.9秒は、上級ゴルファーを計測した研究で、開始からインパクトまでがおよそ<b>0.86〜0.99秒</b>、バックスイングとダウンの比が<b>約2:1</b>だったことを基にしています。</p>
+<table><tr><th>研究</th><th>対象</th><th>開始→インパクト</th></tr>
+<tr><td>Marquardt (2007)</td><td>ツアー選手99人</td><td>平均 約0.99秒、比 約2.1</td></tr>
+<tr><td>Couceiro ほか (2022)</td><td>上級男性10人</td><td>約0.86〜0.90秒</td></tr></table>
+<p><b>知っておいてください</b></p>
+<ul><li><b>正解のテンポは1つではありません。</b>同じ研究でも選手ごとに速さが違い、共通点は自分のテンポを一定に保つことでした。</li>
+<li>このテンポで打てば成功率が上がる、という実験結果はありません。このアプリは<b>一定のテンポで練習するための道具</b>です。</li>
+<li>本や動画のbpmと数字が違うことがあります。測る区間が違うと、同じ数字でも別のテンポです。</li></ul>`],
+      ['よくある質問', `<p><b>スタートを押しても始まりません。</b><br>押して少しすると始まります。スマホを置いても自動で始まります。音が出ないときはマナーモードと音量を確認してください。</p>
+<p><b>ストロークの時間を測ってくれますか?</b><br>いいえ。リズムを見せるアプリです。</p>
+<p><b>bpmが大きいと速くなりますか?</b><br>はい。bpmは1分間の回数、秒は1回にかかる時間なので、反対に動きます。</p>
+<p><b>保存したテンポは別のスマホでも見えますか?</b><br>いいえ。このスマホにだけ保存されます。</p>`]
+    ]
+  };
+
+  var manualEl = document.getElementById('manual');
+  var manualBody = document.getElementById('manualBody');
+
+  function renderManual() {
+    manualBody.textContent = '';
+    MAN[lang].forEach(function (sec, i) {
+      var d = document.createElement('details');
+      if (i === 0) d.open = true;
+      var sm = document.createElement('summary');
+      sm.textContent = sec[0];
+      var c = document.createElement('div');
+      c.className = 'man-c';
+      c.innerHTML = sec[1];
+      d.appendChild(sm);
+      d.appendChild(c);
+      manualBody.appendChild(d);
+    });
+    manualBody.scrollTop = 0;
+  }
+
+  function showManual() {
+    renderManual();
+    scrimEl.hidden = false;
+    manualEl.hidden = false;
+    if (scrimEl.animate) scrimEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease-out' });
+    if (manualEl.animate) manualEl.animate([{ opacity: 0, transform: 'translateY(28px) scale(0.98)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(0.34, 1.3, 0.64, 1)' });
+  }
+
+  function hideManual() {
+    var done = function () { manualEl.hidden = true; if (howtoEl.hidden) scrimEl.hidden = true; };
+    if (!manualEl.animate) { done(); return; }
+    manualEl.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(20px)' }], { duration: 200, easing: 'ease-in' }).onfinish = done;
+  }
+
+  document.getElementById('manualRow').addEventListener('click', showManual);
+  document.getElementById('manualClose').addEventListener('click', hideManual);
+  document.getElementById('howtoMore').addEventListener('click', showManual);
+
   function showHowto() {
     scrimEl.hidden = false;
     howtoEl.hidden = false;
@@ -1417,7 +1730,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   }
 
   document.getElementById('howtoGo').addEventListener('click', hideHowto);
-  scrimEl.addEventListener('click', hideHowto);
+  scrimEl.addEventListener('click', function () { if (!manualEl.hidden) hideManual(); else hideHowto(); });
   document.getElementById('howtoRow').addEventListener('click', showHowto);
   setTimeout(function () { if (!howtoSeen() && !forceInstall) showHowto(); }, 1100);
 
@@ -1499,6 +1812,9 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     renderHome();
     renderSummaries();
     syncSegs();
+    document.getElementById('saveName').placeholder = t('namePh');
+    if (typeof renderManual === 'function' && manualEl && !manualEl.hidden) renderManual();
+    renderSaved();
     if (!measureEl.hidden) renderMeasure();
   }
 
