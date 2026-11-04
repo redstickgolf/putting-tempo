@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="PuttSnap">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
 <style>
 /* Redstick brand (ink #0A0504, red #C8151D as an accent only, warm white #F4F1EC, Sora + Noto Sans KR).
    Look: quiet and instrument-like - hairline borders, glass panel, big numerals with small units, red kept for the start button, the bar and the selected state.
@@ -250,6 +250,11 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 .brand { align-self: center; font: 600 12px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.1em; padding: 6px 10px; }
 
 /* ---- segmented controls ---- */
+html:lang(zh-CN) { --font: "Noto Sans SC", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; --font-display: "Sora", "Noto Sans SC", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; }
+.langs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.lang-opt { min-height: 48px; padding-inline: 6px; border-radius: 12px; border: 1px solid var(--hair-2); background: transparent; color: var(--muted); font: 600 14px var(--font); white-space: nowrap; cursor: pointer; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, color 0.2s; }
+.lang-opt:active { transform: scale(0.95); transition-duration: 0.08s; }
+.lang-opt[aria-pressed="true"] { background: var(--warm); color: #0A0504; border-color: transparent; }
 .mode, .pills { position: relative; display: flex; gap: 4px; padding: 4px; border: 1px solid var(--hair); border-radius: 16px; background: rgba(255, 255, 255, 0.025); }
 .pill {
   white-space: nowrap;
@@ -481,10 +486,16 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     <section class="acc">
       <button class="acc-h" type="button" aria-expanded="false" aria-controls="acc-lang"><span class="acc-t" data-i18n="language"></span><span class="acc-v" id="accv-lang"></span><svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="acc-w" id="acc-lang"><div class="acc-b"><div class="acc-i">
-      <div class="pills" role="group" aria-label="언어">
-      <button class="pill" type="button" data-lang="ko" aria-pressed="false">한국어</button>
-      <button class="pill" type="button" data-lang="en" aria-pressed="false">English</button>
-      <button class="pill" type="button" data-lang="ja" aria-pressed="false">日本語</button>
+      <div class="langs" role="group" aria-label="언어" data-i18n-aria="language">
+      <button class="lang-opt" type="button" data-lang="ko" lang="ko" aria-pressed="false">한국어</button>
+      <button class="lang-opt" type="button" data-lang="ja" lang="ja" aria-pressed="false">日本語</button>
+      <button class="lang-opt" type="button" data-lang="zh" lang="zh-CN" aria-pressed="false">简体中文</button>
+      <button class="lang-opt" type="button" data-lang="en" lang="en" aria-pressed="false">English</button>
+      <button class="lang-opt" type="button" data-lang="es" lang="es" aria-pressed="false">Español</button>
+      <button class="lang-opt" type="button" data-lang="de" lang="de" aria-pressed="false">Deutsch</button>
+      <button class="lang-opt" type="button" data-lang="fr" lang="fr" aria-pressed="false">Français</button>
+      <button class="lang-opt" type="button" data-lang="sv" lang="sv" aria-pressed="false">Svenska</button>
+      <button class="lang-opt" type="button" data-lang="it" lang="it" aria-pressed="false">Italiano</button>
     </div>
       </div></div></div>
     </section>
@@ -513,7 +524,6 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     <div class="pills" role="group" aria-label="리듬 비율" data-i18n-aria="ratioLabel">
       <button class="pill" type="button" data-ratio="2" aria-pressed="true">2 : 1</button>
       <button class="pill" type="button" data-ratio="1.5" aria-pressed="false">1.5 : 1</button>
-      <button class="pill" type="button" data-ratio="1" aria-pressed="false">1 : 1</button>
     </div>
     <p id="ratioNote" class="tip"></p>
     <p class="label" data-i18n="fine">미세 조정</p>
@@ -583,7 +593,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', stopAuto: '폰을 들면 멈춰요', tip1Auto: '바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
       sound: '소리', s_metronome: '메트로놈', s_bat: '야구', s_deskbell: '데스크벨', s_glock: '글로켄슈필', s_bike: '자전거', s_cowbell: '카우벨', s_bowl: '싱잉볼', s_snap: '스냅', s_marimba: '마림바', s_kalimba: '칼림바', s_retro: '레트로', s_drip: '물방울', s_digital: '출발음', s_wood: '나무', s_comic: '코믹',
-      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1과 1:1 사이의 중간 비율이에요.', ratio_1: '오가는 시간이 같은 비율이에요. 일부 선수가 쓰지만 측정 자료는 적어요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1보다 포워드가 조금 더 긴 비율이에요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       type_fast: '빠른 템포', type_tour: '기본 템포', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       bn_title: '템포는 잡았어요. 이제 방향이에요.', bn_body: '템포 연습은 폰 하나면 충분해요. 클럽에 자석으로 붙이는 정렬 기준, 레드스틱도 있어요.', bn_cta: '레드스틱 보러가기',
@@ -598,7 +608,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       tip1: 'Lay your phone flat and tap anywhere.<br>The bar goes down for the backstroke<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', stopAuto: 'Lift the phone to stop', tip1Auto: 'The bar goes down for the backstroke<br>and reaches the top at impact.', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_metronome: 'Metronome', s_bat: 'Baseball', s_deskbell: 'Desk bell', s_glock: 'Glocken', s_bike: 'Bike bell', s_cowbell: 'Cowbell', s_bowl: 'Bowl', s_snap: 'Snap', s_marimba: 'Marimba', s_kalimba: 'Kalimba', s_retro: 'Retro', s_drip: 'Drip', s_digital: 'Start tone', s_wood: 'Wood', s_comic: 'Comic',
-      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'A middle ratio between 2:1 and 1:1.', ratio_1: 'Backstroke and forward take the same time. Some players use it, but there is little measured data.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'The forward stroke is a little longer than in 2:1.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       type_fast: 'Fast tempo', type_tour: 'Standard tempo', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       bn_title: 'Tempo set. Next, your line.', bn_body: 'This app needs no extra gear. If you\'d like an easy alignment reference on your putter, Redstick snaps on magnetically.', bn_cta: 'See on Amazon',
@@ -613,7 +623,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', stopAuto: 'スマホを持ち上げると停止', tip1Auto: 'バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
       sound: 'サウンド', s_metronome: 'メトロノーム', s_bat: '野球', s_deskbell: 'ベル', s_glock: 'グロッケン', s_bike: '自転車', s_cowbell: 'カウベル', s_bowl: 'ボウル', s_snap: 'スナップ', s_marimba: 'マリンバ', s_kalimba: 'カリンバ', s_retro: 'レトロ', s_drip: '水滴', s_digital: 'スタート音', s_wood: '木', s_comic: 'コミック',
-      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: '2:1と1:1の中間の比率です。', ratio_1: '行きと戻りが同じ時間の比率です。使う選手もいますが、計測データは少ないです。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: 'フォワードが2:1より少し長い比率です。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       type_fast: '速いテンポ', type_tour: '標準テンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       bn_title: 'テンポは整いました。次は方向。', bn_body: 'テンポ練習はスマホ1つでOK。クラブに磁石で付けられる、方向合わせの目安のRedstickもあります。', bn_cta: 'Amazonで見る',
@@ -621,6 +631,624 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       quick: 'すぐに選ぶ', fine: '微調整', save: 'このテンポで練習',
       savedTitle: '保存したテンポ', saveTempo: '保存', namePh: '名前(任意)', defName: function (n) { return '自分のテンポ ' + n; }, noSaved: '保存したテンポはまだありません。', fullMsg: '5件すべて使用中です。1つ削除してから保存してください。', savedMsg: '保存しました。', del: '削除',
       manual_row: '説明書', manual_title: '説明書', manual_close: '閉じる', manual_more: '説明書を見る'
+    },
+    zh: {
+      title: "PuttSnap",
+      appName: "PuttSnap",
+      settings: "设置",
+      modeGroup: "节奏类型",
+      tour: "标准",
+      mine: "我的节奏",
+      factsAria: "当前节奏",
+      total: function (n) { return "共 " + n + " 秒"; },
+      sec: function (n) { return "" + n + " 秒"; },
+      tip1: "手机平放，点击屏幕任意位置。<br>光条下移代表上杆，<br>到顶端即为击球。",
+      start: "开始",
+      stop: "点击任意位置停止",
+      stopAuto: "拿起手机即可停止",
+      tip1Auto: "光条下移代表上杆，<br>到顶端即为击球。",
+      remeasure: "更改我的节奏",
+      back: "返回",
+      settingsTitle: "设置",
+      sound: "声音",
+      s_metronome: "节拍器",
+      s_bat: "棒球",
+      s_deskbell: "前台铃",
+      s_glock: "钟琴",
+      s_bike: "自行车铃",
+      s_cowbell: "牛铃",
+      s_bowl: "颂钵",
+      s_snap: "响指",
+      s_marimba: "马林巴",
+      s_kalimba: "卡林巴",
+      s_retro: "复古游戏",
+      s_drip: "水滴",
+      s_digital: "开始音",
+      s_wood: "木块",
+      s_comic: "卡通",
+      language: "语言",
+      ratioLabel: "节奏比例",
+      ratio_2: "职业球手测量数据中最常见的比例。",
+      ratio_15: "推杆比 2:1 稍长一点。",
+      buy: "购买",
+      shop: "Amazon",
+      buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
+      howto_title: "使用方法",
+      howto_1: "手机平放即可。放下时自动开始，拿起时自动停止。可在设置中关闭。",
+      howto_2: "光条下移时是上杆。到底部后转为推杆，到达球的位置就是击球。",
+      howto_3: "跟着声音和灯光挥杆。可在设置中更改提示方式。",
+      howto_4: "在“节奏”页选择顺手的速度。",
+      howto_ok: "知道了",
+      howto_row: "使用方法",
+      tab_home: "练习",
+      tab_measure: "节奏",
+      tab_settings: "设置",
+      about: "Redstick 官网",
+      install_title: "添加到主屏幕，像应用一样使用",
+      install_ios: "点击分享按钮，然后选择“添加到主屏幕”",
+      install_android: "安装后可像应用一样全屏打开",
+      install_btn: "安装",
+      install_later: "以后再说",
+      auto: "自动开始",
+      auto_0: "关",
+      auto_1: "开",
+      autoHint: "平放手机即自动开始",
+      autoDenied: "未允许访问动作传感器。",
+      backLabel: "上杆",
+      fwdLabel: "送杆",
+      turn: "转换提示",
+      turn_off: "关",
+      turn_flash: "光条闪烁",
+      turn_ring: "涟漪",
+      turn_screen: "屏幕闪烁",
+      turn_bottom: "底部光晕",
+      lead: "提示时机",
+      lead_0: "准时",
+      lead_1: "提前 0.1 秒",
+      lead_2: "提前 0.2 秒",
+      barSize: "光条粗细",
+      bar_s: "细",
+      bar_m: "中",
+      bar_l: "粗",
+      type_fast: "快节奏",
+      type_tour: "标准节奏",
+      type_slow: "慢节奏",
+      measureTitle: "选择我的节奏",
+      tipPick: "选一个试试看。<br>感觉不合适的话，回来再调整。",
+      bn_title: "节奏设好了，接下来是瞄准线。",
+      bn_body: "这款应用无需任何额外装备。如果想在推杆上加一个简单的瞄准参考，Redstick 可磁吸安装。",
+      bn_cta: "在亚马逊查看",
+      tempoLabel: "节奏",
+      quick: "快速选择",
+      fine: "微调",
+      save: "使用此节奏",
+      savedTitle: "已保存的节奏",
+      saveTempo: "保存",
+      namePh: "名称（可选）",
+      defName: function (n) { return "我的节奏 " + n + ""; },
+      noSaved: "还没有保存的节奏。",
+      fullMsg: "5 个位置已满。请先删除一个再保存。",
+      savedMsg: "已保存。",
+      del: "删除",
+      manual_row: "说明书",
+      manual_title: "说明书",
+      manual_close: "关闭",
+      manual_more: "打开说明书"
+    },
+    es: {
+      title: "PuttSnap",
+      appName: "PuttSnap",
+      settings: "Ajustes",
+      modeGroup: "Tipo de tempo",
+      tour: "Estándar",
+      mine: "Mi tempo",
+      factsAria: "Tempo actual",
+      total: function (n) { return "Total " + String(n).replace('.', ',') + " s"; },
+      sec: function (n) { return "" + String(n).replace('.', ',') + " s"; },
+      tip1: "Coloca el móvil plano y toca en cualquier parte.<br>La barra baja para el backswing<br>y llega arriba en el impacto.",
+      start: "Iniciar",
+      stop: "Toca en cualquier parte para parar",
+      stopAuto: "Levanta el móvil para parar",
+      tip1Auto: "La barra baja para el backswing<br>y llega arriba en el impacto.",
+      remeasure: "Cambiar mi tempo",
+      back: "Atrás",
+      settingsTitle: "Ajustes",
+      sound: "Sonido",
+      s_metronome: "Metrónomo",
+      s_bat: "Béisbol",
+      s_deskbell: "Timbre mesa",
+      s_glock: "Metalófono",
+      s_bike: "Timbre bici",
+      s_cowbell: "Cencerro",
+      s_bowl: "Cuenco",
+      s_snap: "Chasquido",
+      s_marimba: "Marimba",
+      s_kalimba: "Kalimba",
+      s_retro: "Juego retro",
+      s_drip: "Gota",
+      s_digital: "Pitido",
+      s_wood: "Caja china",
+      s_comic: "Cómico",
+      language: "Idioma",
+      ratioLabel: "Proporción del ritmo",
+      ratio_2: "La proporción más habitual en las mediciones de jugadores de tour.",
+      ratio_15: "El swing hacia adelante es un poco más largo que en 2:1.",
+      buy: "Comprar",
+      shop: "Amazon",
+      buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
+      howto_title: "Cómo funciona",
+      howto_1: "Coloca el móvil plano. Empieza solo al dejarlo y se detiene al levantarlo. Puedes desactivarlo en Ajustes.",
+      howto_2: "Mientras la barra baja, estás en el backswing. Abajo pasa al swing hacia adelante, y el impacto es cuando llega a la bola.",
+      howto_3: "Haz el golpe siguiendo el sonido y la luz. Puedes cambiar la señal en Ajustes.",
+      howto_4: "Elige en la pestaña Tempo la velocidad que te resulte natural.",
+      howto_ok: "Entendido",
+      howto_row: "Cómo se usa",
+      tab_home: "Práctica",
+      tab_measure: "Tempo",
+      tab_settings: "Ajustes",
+      about: "Web de Redstick",
+      install_title: "Añádela a tu pantalla de inicio para usarla como una app",
+      install_ios: "Toca el botón Compartir y luego \"Añadir a pantalla de inicio\"",
+      install_android: "Instálala para abrirla a pantalla completa, como una app",
+      install_btn: "Instalar",
+      install_later: "Ahora no",
+      auto: "Inicio automático",
+      auto_0: "No",
+      auto_1: "Sí",
+      autoHint: "Déjalo plano y empieza solo",
+      autoDenied: "No se permitió el acceso al movimiento.",
+      backLabel: "Backswing",
+      fwdLabel: "Adelante",
+      turn: "Señal de cambio",
+      turn_off: "No",
+      turn_flash: "Destello barra",
+      turn_ring: "Onda",
+      turn_screen: "Destello pantalla",
+      turn_bottom: "Brillo inferior",
+      lead: "Momento de la señal",
+      lead_0: "A tiempo",
+      lead_1: "0,1 s antes",
+      lead_2: "0,2 s antes",
+      barSize: "Grosor de la barra",
+      bar_s: "Fina",
+      bar_m: "Media",
+      bar_l: "Gruesa",
+      type_fast: "Tempo rápido",
+      type_tour: "Tempo estándar",
+      type_slow: "Tempo lento",
+      measureTitle: "Elige mi tempo",
+      tipPick: "Elige uno y pruébalo.<br>Si no te convence, vuelve y ajústalo.",
+      bn_title: "Tempo listo. Ahora, tu línea.",
+      bn_body: "Esta app no necesita nada más. Si quieres una referencia de alineación fácil en tu putter, Redstick se acopla con un imán.",
+      bn_cta: "Ver en Amazon",
+      tempoLabel: "Tempo",
+      quick: "Selección rápida",
+      fine: "Ajuste fino",
+      save: "Usar este tempo",
+      savedTitle: "Tempos guardados",
+      saveTempo: "Guardar",
+      namePh: "Nombre (opcional)",
+      defName: function (n) { return "Mi tempo " + n + ""; },
+      noSaved: "Aún no hay tempos guardados.",
+      fullMsg: "Los 5 espacios están llenos. Borra uno para guardar.",
+      savedMsg: "Guardado.",
+      del: "Borrar",
+      manual_row: "Manual",
+      manual_title: "Manual",
+      manual_close: "Cerrar",
+      manual_more: "Abrir manual"
+    },
+    de: {
+      title: "PuttSnap",
+      appName: "PuttSnap",
+      settings: "Einstellungen",
+      modeGroup: "Tempo-Typ",
+      tour: "Standard",
+      mine: "Mein Tempo",
+      factsAria: "Aktuelles Tempo",
+      total: function (n) { return "Gesamt " + String(n).replace('.', ',') + " s"; },
+      sec: function (n) { return "" + String(n).replace('.', ',') + " s"; },
+      tip1: "Leg dein Handy flach hin und tippe irgendwo.<br>Der Balken geht für den Rückschwung nach unten<br>und erreicht beim Treffmoment die Spitze.",
+      start: "Start",
+      stop: "Zum Stoppen irgendwo tippen",
+      stopAuto: "Handy anheben zum Stoppen",
+      tip1Auto: "Der Balken geht für den Rückschwung nach unten<br>und erreicht beim Treffmoment die Spitze.",
+      remeasure: "Tempo ändern",
+      back: "Zurück",
+      settingsTitle: "Einstellungen",
+      sound: "Sound",
+      s_metronome: "Metronom",
+      s_bat: "Baseball",
+      s_deskbell: "Tischglocke",
+      s_glock: "Glockenspiel",
+      s_bike: "Radklingel",
+      s_cowbell: "Kuhglocke",
+      s_bowl: "Klangschale",
+      s_snap: "Schnipsen",
+      s_marimba: "Marimba",
+      s_kalimba: "Kalimba",
+      s_retro: "Retro",
+      s_drip: "Tropfen",
+      s_digital: "Startton",
+      s_wood: "Holzblock",
+      s_comic: "Comic",
+      language: "Sprache",
+      ratioLabel: "Rhythmusverhältnis",
+      ratio_2: "Das häufigste Verhältnis in Messungen an Tourspielern.",
+      ratio_15: "Der Durchschwung ist etwas länger als bei 2:1.",
+      buy: "Kaufen",
+      shop: "Amazon",
+      buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
+      howto_title: "So funktioniert's",
+      howto_1: "Leg dein Handy flach hin. Es startet von selbst, wenn du es ablegst, und stoppt, wenn du es aufnimmst. In den Einstellungen kannst du das ausschalten.",
+      howto_2: "Solange der Balken nach unten geht, bist du im Rückschwung. Unten wechselt er in den Durchschwung, und der Treffmoment ist, wenn er den Ball erreicht.",
+      howto_3: "Putte im Takt von Ton und Licht. Den Hinweis kannst du in den Einstellungen ändern.",
+      howto_4: "Wähle im Tab Tempo die Geschwindigkeit, die sich natürlich anfühlt.",
+      howto_ok: "Verstanden",
+      howto_row: "Anleitung",
+      tab_home: "Üben",
+      tab_measure: "Tempo",
+      tab_settings: "Einstellungen",
+      about: "Redstick-Website",
+      install_title: "Zum Home-Bildschirm hinzufügen und wie eine App nutzen",
+      install_ios: "Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“",
+      install_android: "Installiere sie, um sie wie eine App im Vollbild zu öffnen",
+      install_btn: "Installieren",
+      install_later: "Nicht jetzt",
+      auto: "Autostart",
+      auto_0: "Aus",
+      auto_1: "An",
+      autoHint: "Flach hinlegen, und es startet von selbst",
+      autoDenied: "Der Zugriff auf Bewegungssensoren wurde nicht erlaubt.",
+      backLabel: "Rückschwung",
+      fwdLabel: "Durchschwung",
+      turn: "Wechsel-Signal",
+      turn_off: "Aus",
+      turn_flash: "Balken-Blitz",
+      turn_ring: "Welle",
+      turn_screen: "Bildschirm-Blitz",
+      turn_bottom: "Unten leuchten",
+      lead: "Signal-Timing",
+      lead_0: "Pünktlich",
+      lead_1: "0,1 s früher",
+      lead_2: "0,2 s früher",
+      barSize: "Balkendicke",
+      bar_s: "Dünn",
+      bar_m: "Mittel",
+      bar_l: "Dick",
+      type_fast: "Schnelles Tempo",
+      type_tour: "Standard-Tempo",
+      type_slow: "Langsames Tempo",
+      measureTitle: "Mein Tempo wählen",
+      tipPick: "Such eins aus und probier es aus.<br>Wenn es sich nicht richtig anfühlt, komm zurück und passe es an.",
+      bn_title: "Tempo steht. Als Nächstes: deine Linie.",
+      bn_body: "Diese App braucht kein Zubehör. Wenn du dir eine einfache Ausrichtungshilfe für deinen Putter wünschst: Redstick haftet magnetisch.",
+      bn_cta: "Bei Amazon ansehen",
+      tempoLabel: "Tempo",
+      quick: "Schnellwahl",
+      fine: "Feinabstimmung",
+      save: "Dieses Tempo nutzen",
+      savedTitle: "Gespeicherte Tempos",
+      saveTempo: "Speichern",
+      namePh: "Name (optional)",
+      defName: function (n) { return "Mein Tempo " + n + ""; },
+      noSaved: "Noch keine gespeicherten Tempos.",
+      fullMsg: "Alle 5 Plätze sind belegt. Lösche eins, um zu speichern.",
+      savedMsg: "Gespeichert.",
+      del: "Löschen",
+      manual_row: "Handbuch",
+      manual_title: "Handbuch",
+      manual_close: "Schließen",
+      manual_more: "Handbuch öffnen"
+    },
+    fr: {
+      title: "PuttSnap",
+      appName: "PuttSnap",
+      settings: "Réglages",
+      modeGroup: "Type de tempo",
+      tour: "Standard",
+      mine: "Mon tempo",
+      factsAria: "Tempo actuel",
+      total: function (n) { return "Total " + String(n).replace('.', ',') + " s"; },
+      sec: function (n) { return "" + String(n).replace('.', ',') + " s"; },
+      tip1: "Pose ton téléphone à plat et touche l'écran.<br>La barre descend pour le mouvement arrière<br>et arrive en haut à l'impact.",
+      start: "Démarrer",
+      stop: "Touche l'écran pour arrêter",
+      stopAuto: "Soulève le téléphone pour arrêter",
+      tip1Auto: "La barre descend pour le mouvement arrière<br>et arrive en haut à l'impact.",
+      remeasure: "Changer mon tempo",
+      back: "Retour",
+      settingsTitle: "Réglages",
+      sound: "Son",
+      s_metronome: "Métronome",
+      s_bat: "Baseball",
+      s_deskbell: "Sonnette",
+      s_glock: "Carillon",
+      s_bike: "Timbre vélo",
+      s_cowbell: "Cloche",
+      s_bowl: "Bol chantant",
+      s_snap: "Claquement",
+      s_marimba: "Marimba",
+      s_kalimba: "Kalimba",
+      s_retro: "Jeu rétro",
+      s_drip: "Goutte",
+      s_digital: "Bip",
+      s_wood: "Woodblock",
+      s_comic: "Cartoon",
+      language: "Langue",
+      ratioLabel: "Ratio du rythme",
+      ratio_2: "Le ratio le plus courant dans les mesures de joueurs du circuit.",
+      ratio_15: "Le mouvement avant est un peu plus long qu'en 2:1.",
+      buy: "Acheter",
+      shop: "Amazon",
+      buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
+      howto_title: "Comment ça marche",
+      howto_1: "Pose ton téléphone à plat. Il démarre tout seul quand tu le poses et s'arrête quand tu le soulèves. Tu peux désactiver cela dans les réglages.",
+      howto_2: "Quand la barre descend, tu es dans le mouvement arrière. En bas, elle passe au mouvement avant, et l'impact a lieu quand elle atteint la balle.",
+      howto_3: "Putte en suivant le son et la lumière. Tu peux changer le signal dans les réglages.",
+      howto_4: "Choisis la vitesse qui te semble naturelle dans l'onglet Tempo.",
+      howto_ok: "Compris",
+      howto_row: "Mode d'emploi",
+      tab_home: "Entraînement",
+      tab_measure: "Tempo",
+      tab_settings: "Réglages",
+      about: "Site Redstick",
+      install_title: "Ajoute à l'écran d'accueil pour l'utiliser comme une appli",
+      install_ios: "Touche le bouton Partager, puis « Sur l'écran d'accueil »",
+      install_android: "Installe-la pour l'ouvrir en plein écran, comme une appli",
+      install_btn: "Installer",
+      install_later: "Plus tard",
+      auto: "Démarrage auto",
+      auto_0: "Non",
+      auto_1: "Oui",
+      autoHint: "Pose-le à plat et il démarre tout seul",
+      autoDenied: "L'accès au mouvement n'a pas été autorisé.",
+      backLabel: "Arrière",
+      fwdLabel: "Avant",
+      turn: "Signal de transition",
+      turn_off: "Aucun",
+      turn_flash: "Éclair barre",
+      turn_ring: "Onde",
+      turn_screen: "Éclair écran",
+      turn_bottom: "Lueur bas",
+      lead: "Moment du signal",
+      lead_0: "Pile",
+      lead_1: "0,1 s avant",
+      lead_2: "0,2 s avant",
+      barSize: "Épaisseur de la barre",
+      bar_s: "Fine",
+      bar_m: "Moyenne",
+      bar_l: "Épaisse",
+      type_fast: "Tempo rapide",
+      type_tour: "Tempo standard",
+      type_slow: "Tempo lent",
+      measureTitle: "Choisir mon tempo",
+      tipPick: "Choisis-en un et essaie.<br>Si ça ne te convient pas, reviens l'ajuster.",
+      bn_title: "Tempo réglé. Maintenant, ta ligne.",
+      bn_body: "Cette appli n'a besoin d'aucun accessoire. Si tu veux un repère d'alignement simple sur ton putter, Redstick se fixe par aimant.",
+      bn_cta: "Voir sur Amazon",
+      tempoLabel: "Tempo",
+      quick: "Choix rapide",
+      fine: "Réglage fin",
+      save: "Utiliser ce tempo",
+      savedTitle: "Tempos enregistrés",
+      saveTempo: "Enregistrer",
+      namePh: "Nom (facultatif)",
+      defName: function (n) { return "Mon tempo " + n + ""; },
+      noSaved: "Aucun tempo enregistré pour l'instant.",
+      fullMsg: "Les 5 emplacements sont pleins. Supprime-en un pour enregistrer.",
+      savedMsg: "Enregistré.",
+      del: "Supprimer",
+      manual_row: "Manuel",
+      manual_title: "Manuel",
+      manual_close: "Fermer",
+      manual_more: "Ouvrir le manuel"
+    },
+    sv: {
+      title: "PuttSnap",
+      appName: "PuttSnap",
+      settings: "Inställningar",
+      modeGroup: "Tempotyp",
+      tour: "Standard",
+      mine: "Mitt tempo",
+      factsAria: "Aktuellt tempo",
+      total: function (n) { return "Totalt " + String(n).replace('.', ',') + " s"; },
+      sec: function (n) { return "" + String(n).replace('.', ',') + " s"; },
+      tip1: "Lägg telefonen platt och tryck var som helst.<br>Staven går ner för baksvinget<br>och når toppen vid träffen.",
+      start: "Start",
+      stop: "Tryck var som helst för att stoppa",
+      stopAuto: "Lyft telefonen för att stoppa",
+      tip1Auto: "Staven går ner för baksvinget<br>och når toppen vid träffen.",
+      remeasure: "Ändra mitt tempo",
+      back: "Tillbaka",
+      settingsTitle: "Inställningar",
+      sound: "Ljud",
+      s_metronome: "Metronom",
+      s_bat: "Baseboll",
+      s_deskbell: "Bordsklocka",
+      s_glock: "Klockspel",
+      s_bike: "Cykelklocka",
+      s_cowbell: "Koklocka",
+      s_bowl: "Klangskål",
+      s_snap: "Fingersnäpp",
+      s_marimba: "Marimba",
+      s_kalimba: "Kalimba",
+      s_retro: "Retrospel",
+      s_drip: "Droppe",
+      s_digital: "Startpip",
+      s_wood: "Träblock",
+      s_comic: "Komisk",
+      language: "Språk",
+      ratioLabel: "Rytmförhållande",
+      ratio_2: "Det vanligaste förhållandet i mätningar av tourspelare.",
+      ratio_15: "Framsvinget är lite längre än i 2:1.",
+      buy: "Köp",
+      shop: "Amazon",
+      buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
+      howto_title: "Så fungerar det",
+      howto_1: "Lägg telefonen platt. Den startar av sig själv när du lägger ner den och stoppar när du lyfter den. Du kan stänga av det i Inställningar.",
+      howto_2: "När staven går ner är du i baksvinget. Längst ner går det över i framsvinget, och träffen är när den når bollen.",
+      howto_3: "Slå i takt med ljudet och ljuset. Du kan ändra signalen i Inställningar.",
+      howto_4: "Välj det tempo som känns naturligt på fliken Tempo.",
+      howto_ok: "Uppfattat",
+      howto_row: "Så använder du den",
+      tab_home: "Träning",
+      tab_measure: "Tempo",
+      tab_settings: "Inställningar",
+      about: "Redsticks webbplats",
+      install_title: "Lägg till på hemskärmen för att använda den som en app",
+      install_ios: "Tryck på Dela-knappen och sedan \"Lägg till på hemskärmen\"",
+      install_android: "Installera för att öppna i helskärm, som en app",
+      install_btn: "Installera",
+      install_later: "Inte nu",
+      auto: "Autostart",
+      auto_0: "Av",
+      auto_1: "På",
+      autoHint: "Lägg den platt så startar den av sig själv",
+      autoDenied: "Åtkomst till rörelsesensorer tilläts inte.",
+      backLabel: "Baksving",
+      fwdLabel: "Framsving",
+      turn: "Vändningssignal",
+      turn_off: "Av",
+      turn_flash: "Stavblink",
+      turn_ring: "Ringar",
+      turn_screen: "Skärmblink",
+      turn_bottom: "Glöd nedtill",
+      lead: "Signalens timing",
+      lead_0: "I tid",
+      lead_1: "0,1 s tidigt",
+      lead_2: "0,2 s tidigt",
+      barSize: "Stavens tjocklek",
+      bar_s: "Tunn",
+      bar_m: "Medel",
+      bar_l: "Tjock",
+      type_fast: "Snabbt tempo",
+      type_tour: "Standardtempo",
+      type_slow: "Långsamt tempo",
+      measureTitle: "Välj mitt tempo",
+      tipPick: "Välj ett och prova.<br>Känns det inte rätt, kom tillbaka och justera.",
+      bn_title: "Tempot är klart. Nu din linje.",
+      bn_body: "Appen behöver ingen extra utrustning. Vill du ha en enkel sikthjälp på puttern fäster Redstick magnetiskt.",
+      bn_cta: "Se på Amazon",
+      tempoLabel: "Tempo",
+      quick: "Snabbval",
+      fine: "Finjustering",
+      save: "Använd det här tempot",
+      savedTitle: "Sparade tempon",
+      saveTempo: "Spara",
+      namePh: "Namn (valfritt)",
+      defName: function (n) { return "Mitt tempo " + n + ""; },
+      noSaved: "Inga sparade tempon än.",
+      fullMsg: "Alla 5 platser är fulla. Ta bort ett för att spara.",
+      savedMsg: "Sparat.",
+      del: "Ta bort",
+      manual_row: "Manual",
+      manual_title: "Manual",
+      manual_close: "Stäng",
+      manual_more: "Öppna manualen"
+    },
+    it: {
+      title: "PuttSnap",
+      appName: "PuttSnap",
+      settings: "Impostazioni",
+      modeGroup: "Tipo di tempo",
+      tour: "Standard",
+      mine: "Il mio tempo",
+      factsAria: "Tempo attuale",
+      total: function (n) { return "Totale " + String(n).replace('.', ',') + " s"; },
+      sec: function (n) { return "" + String(n).replace('.', ',') + " s"; },
+      tip1: "Appoggia il telefono in piano e tocca ovunque.<br>La barra scende per il backswing<br>e arriva in alto all'impatto.",
+      start: "Avvia",
+      stop: "Tocca ovunque per fermare",
+      stopAuto: "Solleva il telefono per fermare",
+      tip1Auto: "La barra scende per il backswing<br>e arriva in alto all'impatto.",
+      remeasure: "Cambia il mio tempo",
+      back: "Indietro",
+      settingsTitle: "Impostazioni",
+      sound: "Suono",
+      s_metronome: "Metronomo",
+      s_bat: "Baseball",
+      s_deskbell: "Campanello",
+      s_glock: "Glockenspiel",
+      s_bike: "Campana bici",
+      s_cowbell: "Campanaccio",
+      s_bowl: "Campana",
+      s_snap: "Schiocco",
+      s_marimba: "Marimba",
+      s_kalimba: "Kalimba",
+      s_retro: "Gioco retro",
+      s_drip: "Goccia",
+      s_digital: "Bip",
+      s_wood: "Blocco legno",
+      s_comic: "Comico",
+      language: "Lingua",
+      ratioLabel: "Rapporto ritmico",
+      ratio_2: "Il rapporto più comune nelle misurazioni sui giocatori del tour.",
+      ratio_15: "Il movimento in avanti è un po' più lungo che nel 2:1.",
+      buy: "Acquista",
+      shop: "Amazon",
+      buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
+      howto_title: "Come funziona",
+      howto_1: "Appoggia il telefono in piano. Parte da solo quando lo posi e si ferma quando lo sollevi. Puoi disattivarlo nelle Impostazioni.",
+      howto_2: "Mentre la barra scende sei nel backswing. In basso diventa il movimento in avanti, e l'impatto è quando arriva alla palla.",
+      howto_3: "Colpisci a tempo con il suono e la luce. Puoi cambiare il segnale nelle Impostazioni.",
+      howto_4: "Scegli la velocità che ti sembra naturale nella scheda Tempo.",
+      howto_ok: "Ho capito",
+      howto_row: "Come si usa",
+      tab_home: "Allenamento",
+      tab_measure: "Tempo",
+      tab_settings: "Impostazioni",
+      about: "Sito Redstick",
+      install_title: "Aggiungi alla schermata Home per usarla come un'app",
+      install_ios: "Tocca il pulsante Condividi, poi «Aggiungi alla schermata Home»",
+      install_android: "Installala per aprirla a schermo intero, come un'app",
+      install_btn: "Installa",
+      install_later: "Non ora",
+      auto: "Avvio automatico",
+      auto_0: "No",
+      auto_1: "Sì",
+      autoHint: "Appoggialo in piano e parte da solo",
+      autoDenied: "L'accesso al movimento non è stato consentito.",
+      backLabel: "Backswing",
+      fwdLabel: "Avanti",
+      turn: "Segnale di cambio",
+      turn_off: "No",
+      turn_flash: "Lampo barra",
+      turn_ring: "Onda",
+      turn_screen: "Lampo schermo",
+      turn_bottom: "Luce in basso",
+      lead: "Anticipo segnale",
+      lead_0: "Puntuale",
+      lead_1: "0,1 s prima",
+      lead_2: "0,2 s prima",
+      barSize: "Spessore barra",
+      bar_s: "Sottile",
+      bar_m: "Medio",
+      bar_l: "Spesso",
+      type_fast: "Tempo veloce",
+      type_tour: "Tempo standard",
+      type_slow: "Tempo lento",
+      measureTitle: "Scegli il mio tempo",
+      tipPick: "Scegline uno e provalo.<br>Se non ti convince, torna qui e regola.",
+      bn_title: "Tempo impostato. Ora, la tua linea.",
+      bn_body: "Questa app non richiede altro. Se vuoi un riferimento semplice per l'allineamento sul putter, Redstick si aggancia con un magnete.",
+      bn_cta: "Vedi su Amazon",
+      tempoLabel: "Tempo",
+      quick: "Scelta rapida",
+      fine: "Regolazione fine",
+      save: "Usa questo tempo",
+      savedTitle: "Tempi salvati",
+      saveTempo: "Salva",
+      namePh: "Nome (facoltativo)",
+      defName: function (n) { return "Il mio tempo " + n + ""; },
+      noSaved: "Nessun tempo salvato.",
+      fullMsg: "Tutti i 5 posti sono pieni. Eliminane uno per salvare.",
+      savedMsg: "Salvato.",
+      del: "Elimina",
+      manual_row: "Manuale",
+      manual_title: "Manuale",
+      manual_close: "Chiudi",
+      manual_more: "Apri il manuale"
     }
   };
   var lang = 'en';
@@ -632,9 +1260,12 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     lang = I18N[nav] ? nav : 'en';
   })();
   function t(key) { return I18N[lang][key]; }
+  // decimal comma in Spanish, German, French, Swedish and Italian
+  var COMMA_LANGS = { es: 1, de: 1, fr: 1, sv: 1, it: 1 };
+  function dec(str) { return COMMA_LANGS[lang] ? String(str).replace(/\./g, ',') : String(str); }
   // '0.60초' -> big number + small unit
   function numUnit(str) {
-    var m = /^([\d.]+)\s*(.*)$/.exec(str);
+    var m = /^([\d.,]+)\s*(.*)$/.exec(str);
     return m ? m[1] + '<span class="u">' + m[2] + '</span>' : str;
   }
 
@@ -883,7 +1514,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
     document.getElementById('modeMine').setAttribute('aria-pressed', String(mode === 'mine'));
     document.getElementById('factBpm').innerHTML = numUnit(Math.round(60 / STROKE) + ' bpm');
     document.getElementById('factSecs').textContent = t('backLabel') + ' ' + t('sec')(BACK.toFixed(2)) + ' \u00b7 ' + t('fwdLabel') + ' ' + t('sec')(FWD.toFixed(2));
-    document.getElementById('factRatio').textContent = (BACK / FWD).toFixed(1) + ' : 1';
+    document.getElementById('factRatio').textContent = dec((BACK / FWD).toFixed(1)) + ' : 1';
     document.getElementById('factTotal').textContent = t('total')(+STROKE.toFixed(2));
     var tipEl = document.getElementById('homeTip');
     tipEl.hidden = runs >= 3;
@@ -914,7 +1545,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   var MAX_TOTAL = 1.5;
 
   // "Find my tempo" is by feel: pick a preset or nudge the total time; the 2:1 ratio is kept.
-  var RATIOS = [2, 1.5, 1];
+  var RATIOS = [2, 1.5];
   var draftRatio = 2;
 
   function nearestRatio(r) {
@@ -1024,7 +1655,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
       var nm = document.createElement('b');
       nm.textContent = it.name;
       var sub = document.createElement('span');
-      sub.textContent = t('sec')(+total.toFixed(2)) + ' \u00b7 ' + Math.round(60 / total) + ' bpm \u00b7 ' + (it.back / it.fwd).toFixed(1) + ' : 1';
+      sub.textContent = t('sec')(+total.toFixed(2)) + ' \u00b7 ' + Math.round(60 / total) + ' bpm \u00b7 ' + dec((it.back / it.fwd).toFixed(1)) + ' : 1';
       use.appendChild(nm);
       use.appendChild(sub);
       use.addEventListener('click', function () {
@@ -1554,7 +2185,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <tr><td>빠른 템포</td><td>0.8초</td><td>75</td><td>0.53 / 0.27초</td></tr>
 <tr><td><b>기본 템포</b></td><td><b>0.9초</b></td><td><b>67</b></td><td>0.60 / 0.30초</td></tr>
 <tr><td>느린 템포</td><td>1.0초</td><td>60</td><td>0.67 / 0.33초</td></tr></table>
-<p><b>템포</b> 탭에서 바로 고르거나, 0.01초씩 미세하게 맞출 수 있어요. 리듬 비율(2:1, 1.5:1, 1:1)도 고를 수 있어요. 기본은 2:1이에요.</p>
+<p><b>템포</b> 탭에서 바로 고르거나, 0.01초씩 미세하게 맞출 수 있어요. 리듬 비율(2:1, 1.5:1)도 고를 수 있어요. 기본은 2:1이에요.</p>
 <p class="note">bpm은 소수 첫째 자리에서 반올림한 값이에요. 정확한 시간은 초를 기준으로 보세요.</p>`],
       ['내 템포 저장하기', `<p><b>템포</b> 탭에서 마음에 드는 템포를 만든 뒤 이름을 적고 <b>저장</b>을 누르세요. 이름을 비우면 "내 템포 1"처럼 자동으로 붙어요.</p>
 <ul><li>최대 <b>5개</b>까지 저장돼요.</li><li>목록에서 항목을 누르면 바로 적용돼요.</li><li><b>삭제</b>를 누르면 지워져요. 가득 찼을 때는 하나를 지우고 저장하세요.</li></ul>
@@ -1563,7 +2194,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <ul><li><b>소리</b>: 15가지 중에 골라요. 누르면 시작 소리와 임팩트 소리를 차례로 들려줘요.</li>
 <li><b>전환 표시</b>: 백스트로크가 끝나고 포워드로 바뀌는 순간을 알려 줘요. 없음, 화면 번쩍(기본), 아랫부분, 바 번쩍, 파동 중에 고를 수 있어요.</li>
 <li><b>자동 시작</b>: 바닥에 놓으면 시작하고 들면 멈춰요.</li>
-<li><b>바 굵기</b>, <b>언어</b>(한국어·English·日本語)도 바꿀 수 있어요.</li></ul>
+<li><b>바 굵기</b>, <b>언어</b>(한국어·日本語·简体中文·English·Español·Deutsch·Français·Svenska·Italiano)도 바꿀 수 있어요.</li></ul>
 <p class="note">폰의 무음 모드나 볼륨이 꺼져 있으면 소리가 나지 않아요. 아이폰은 처음에 모션 사용 허용을 물어볼 수 있어요.</p>`],
       ['연습 방법', `<p>연구 결과와 앱 구조를 바탕으로 한 <b>권장 사용법</b>이에요. 검증된 처방이 아니에요.</p>
 <ul><li><b>처음에는 기본 템포(0.9초)</b>로 시작해요.</li>
@@ -1598,7 +2229,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <tr><td>Fast tempo</td><td>0.8 s</td><td>75</td><td>0.53 / 0.27 s</td></tr>
 <tr><td><b>Standard tempo</b></td><td><b>0.9 s</b></td><td><b>67</b></td><td>0.60 / 0.30 s</td></tr>
 <tr><td>Slow tempo</td><td>1.0 s</td><td>60</td><td>0.67 / 0.33 s</td></tr></table>
-<p>Pick one on the <b>Tempo</b> tab or fine-tune it in 0.01 s steps. You can also choose the rhythm ratio (2:1, 1.5:1, 1:1). The default is 2:1.</p>
+<p>Pick one on the <b>Tempo</b> tab or fine-tune it in 0.01 s steps. You can also choose the rhythm ratio (2:1 or 1.5:1). The default is 2:1.</p>
 <p class="note">bpm is rounded to a whole number. Use the seconds for the exact time.</p>`],
       ['Saving your tempos', `<p>On the <b>Tempo</b> tab, set a tempo you like, type a name and tap <b>Save</b>. If you leave the name empty it is called "My tempo 1" and so on.</p>
 <ul><li>You can save up to <b>5</b> tempos.</li><li>Tap an item in the list to use it right away.</li><li>Tap <b>Delete</b> to remove one. When all 5 are used, delete one to save a new one.</li></ul>
@@ -1607,7 +2238,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <ul><li><b>Sound</b>: choose from 15. Tap one to hear the start sound and the impact sound.</li>
 <li><b>Transition cue</b>: marks the moment the backstroke ends and the forward stroke begins. Choose Off, Screen flash (default), Bottom glow, Bar flash or Ripple.</li>
 <li><b>Auto start</b>: starts when you lay the phone down and stops when you lift it.</li>
-<li>You can also change the <b>bar thickness</b> and the <b>language</b> (한국어, English, 日本語).</li></ul>
+<li>You can also change the <b>bar thickness</b> and the <b>language</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">No sound? Check the silent mode and the volume. On iPhone you may be asked to allow motion access the first time.</p>`],
       ['How to practice', `<p>These are <b>suggestions</b> based on research and how the app works. They are not a proven prescription.</p>
 <ul><li><b>Start with the standard tempo (0.9 s).</b></li>
@@ -1642,7 +2273,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <tr><td>速いテンポ</td><td>0.8秒</td><td>75</td><td>0.53 / 0.27秒</td></tr>
 <tr><td><b>標準テンポ</b></td><td><b>0.9秒</b></td><td><b>67</b></td><td>0.60 / 0.30秒</td></tr>
 <tr><td>ゆったりテンポ</td><td>1.0秒</td><td>60</td><td>0.67 / 0.33秒</td></tr></table>
-<p><b>テンポ</b>タブで選ぶか、0.01秒ずつ微調整できます。リズム比(2:1、1.5:1、1:1)も選べます。初期値は2:1です。</p>
+<p><b>テンポ</b>タブで選ぶか、0.01秒ずつ微調整できます。リズム比(2:1か1.5:1)も選べます。初期値は2:1です。</p>
 <p class="note">bpmは四捨五入した値です。正確な時間は秒で確認してください。</p>`],
       ['自分のテンポを保存', `<p><b>テンポ</b>タブで好みのテンポを作り、名前を入れて<b>保存</b>を押します。名前が空のときは「自分のテンポ 1」のように自動で付きます。</p>
 <ul><li>最大<b>5件</b>まで保存できます。</li><li>リストの項目をタップするとすぐに使えます。</li><li><b>削除</b>で消せます。5件使っているときは1つ削除してから保存してください。</li></ul>
@@ -1651,7 +2282,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <ul><li><b>サウンド</b>: 15種類から選びます。タップすると開始音とインパクト音を続けて聞けます。</li>
 <li><b>切り替え表示</b>: バックスイングが終わってダウンに切り替わる瞬間を知らせます。なし、画面点滅(初期値)、下部、バー点滅、波紋から選べます。</li>
 <li><b>自動スタート</b>: 置くと始まり、持ち上げると止まります。</li>
-<li><b>バーの太さ</b>と<b>言語</b>(한국어・English・日本語)も変えられます。</li></ul>
+<li><b>バーの太さ</b>と<b>言語</b>(한국어・日本語・简体中文・English・Español・Deutsch・Français・Svenska・Italiano)も変えられます。</li></ul>
 <p class="note">音が出ないときはマナーモードと音量を確認してください。iPhoneでは初回にモーションの許可を求められることがあります。</p>`],
       ['練習のしかた', `<p>研究結果とアプリの仕組みに基づく<b>おすすめの使い方</b>です。効果が証明された処方ではありません。</p>
 <ul><li><b>最初は標準テンポ(0.9秒)</b>から始めます。</li>
@@ -1673,6 +2304,270 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 <p><b>ストロークの時間を測ってくれますか?</b><br>いいえ。リズムを見せるアプリです。</p>
 <p><b>bpmが大きいと速くなりますか?</b><br>はい。bpmは1分間の回数、秒は1回にかかる時間なので、反対に動きます。</p>
 <p><b>保存したテンポは別のスマホでも見えますか?</b><br>いいえ。このスマホにだけ保存されます。</p>`]
+    ],
+    zh: [
+      ["开始使用", `<p>将手机<b>平放</b>在推杆垫或地面上，保持不动约一秒，就会自动开始。<b>拿起手机即可停止。</b>可在设置中关闭自动开始。</p>
+<p>如果想拿在手里开始，请点击<b>开始按钮</b>或屏幕任意位置。之后，只有把手机平放过，拿起手机才会停止。练习时也可以点击屏幕停止。</p>
+<ul><li><b>光条下移</b>的过程是上杆。</li><li>到<b>底部</b>时转为推杆。</li><li>光条<b>到达顶端</b>的瞬间就是击球。</li></ul>
+<p>你会听到声音：<b>上杆开始时一次，击球时一次</b>。每次挥杆后有一秒的休息。</p>
+<p class="note">应用不会测量你的挥杆，只是提供一个可以跟着练习的节奏，无需传感器或其他装备。练习时屏幕会保持常亮。</p>`],
+      ["选择节奏", `<p>主屏幕上的大数字是 <b>bpm</b>：同一个挥杆（从上杆开始到击球）每分钟可以重复多少次。<b>60 ÷ 秒数 = bpm</b>。</p>
+<p><b>bpm 越大越快，秒数越多越慢。</b>所以应用会同时显示两者。</p>
+<table><tr><th>名称</th><th>总时长</th><th>bpm</th><th>上杆 / 推杆</th></tr>
+<tr><td>快节奏</td><td>0.8 秒</td><td>75</td><td>0.53 / 0.27 秒</td></tr>
+<tr><td><b>标准节奏</b></td><td><b>0.9 秒</b></td><td><b>67</b></td><td>0.60 / 0.30 秒</td></tr>
+<tr><td>慢节奏</td><td>1.0 秒</td><td>60</td><td>0.67 / 0.33 秒</td></tr></table>
+<p>可在<b>节奏</b>页选择，或以 0.01 秒为单位微调。也可以选择节奏比例（2:1 或 1.5:1），默认是 2:1。</p>
+<p class="note">bpm 已四舍五入为整数。需要精确时间请看秒数。</p>`],
+      ["保存你的节奏", `<p>在<b>节奏</b>页设置好喜欢的节奏，输入名称并点击<b>保存</b>。名称留空的话，会依次叫作“我的节奏 1”等。</p>
+<ul><li>最多可保存 <b>5</b> 个节奏。</li><li>点击列表中的项目即可立即使用。</li><li>点击<b>删除</b>可移除。5 个都用完后，请先删除一个再保存新的。</li></ul>
+<p class="note">已保存的节奏<b>只存在这部手机里</b>。删除应用或其数据后会丢失，也不会同步到其他手机，网页版和应用之间也不互通。</p>`],
+      ["声音与提示设置", `<p>在<b>设置</b>页中更改。</p>
+<ul><li><b>声音</b>：共 15 种可选。点击一种即可听到开始音和击球音。</li>
+<li><b>转换提示</b>：标记上杆结束、推杆开始的瞬间。可选关、屏幕闪烁（默认）、底部光晕、光条闪烁或涟漪。</li>
+<li><b>自动开始</b>：放下手机时开始，拿起时停止。</li>
+<li>还可以更改<b>光条粗细</b>和<b>语言</b>（한국어、日本語、简体中文、English、Español、Deutsch、Français、Svenska、Italiano）。</li></ul>
+<p class="note">没有声音？请检查静音模式和音量。在 iPhone 上，首次使用时可能会请求允许访问动作传感器。</p>`],
+      ["练习建议", `<p>以下只是根据研究和应用特点给出的<b>建议</b>，并非经过验证的处方。</p>
+<ul><li><b>先从标准节奏（0.9 秒）开始。</b></li>
+<li>每次只调<b>一档（0.1 秒）</b>。幅度太大不好比较。</li>
+<li><b>舒适优先</b>。更快或更慢本身并不更好，目标是每次都能重复的节拍。</li>
+<li>不同距离保持<b>时间不变</b>，改变<b>挥杆幅度</b>。</li>
+<li>分<b>小组</b>练习，例如 3 组、每组 10 次，组间休息 1 到 2 分钟。</li>
+<li>可在上场前热身时使用，到球场上就不用应用了。</li>
+<li>只靠节奏并不能解决推杆问题。还要留意<b>球去了哪里</b>以及滚了多远。</li></ul>`],
+      ["节奏的依据是什么？", `<p>默认的 0.9 秒来自对熟练球手的测量研究：从上杆开始到击球大约是 <b>0.86 到 0.99 秒</b>，上杆与推杆之比约为 <b>2:1</b>。</p>
+<table><tr><th>研究</th><th>球手</th><th>从开始到击球</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 名巡回赛球手</td><td>平均约 0.99 秒，比例约 2.1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 名熟练男性球手</td><td>约 0.86 到 0.90 秒</td></tr></table>
+<p><b>须知</b></p>
+<ul><li><b>没有唯一正确的节奏。</b>即使在同一项研究中，球手的速度也各不相同。他们的共同点是保持自己的节奏稳定。</li>
+<li>没有任何实验表明这个节奏能提高成功率。这款应用只是<b>练习稳定节奏的工具</b>。</li>
+<li>书籍或视频中的数字可能与本应用不同。如果测量的挥杆区间不一样，同样的数字代表的节奏也不同。</li></ul>`],
+      ["常见问题", `<p><b>我点了开始，但没有反应。</b><br>稍等片刻就会开始。把手机平放时也会自动开始。如果没有声音，请检查静音模式和音量。</p>
+<p><b>它会测量我的挥杆时间吗？</b><br>不会，它只是显示一个节奏。</p>
+<p><b>bpm 越大就越快吗？</b><br>是的。bpm 是每分钟的次数，秒数是一次所需的时间，所以两者方向相反。</p>
+<p><b>我保存的节奏会在另一部手机上显示吗？</b><br>不会，它们只保存在这部手机上。</p>`]
+    ],
+    es: [
+      ["Primeros pasos", `<p>Coloca el móvil <b>plano</b> sobre una alfombrilla de putt o en el suelo y mantenlo quieto aproximadamente un segundo. Empieza solo. <b>Levanta el móvil para parar.</b> Puedes desactivar el inicio automático en Ajustes.</p>
+<p>Para empezar con el móvil en la mano, toca el <b>botón Iniciar</b> o cualquier parte de la pantalla. Después, levantar el móvil solo lo detiene una vez que lo hayas dejado plano. Toca la pantalla para parar mientras practicas.</p>
+<ul><li>Mientras la <b>barra baja</b> es el backswing.</li><li>Abajo <b>cambia</b> al swing hacia adelante.</li><li>El momento en que la barra <b>llega arriba</b> es el impacto.</li></ul>
+<p>Oyes un sonido <b>una vez al empezar el backswing y otra en el impacto</b>. Después de cada golpe hay un descanso de un segundo.</p>
+<p class="note">La app no mide tu golpe. Muestra un ritmo para practicar, sin sensores ni accesorios. La pantalla se mantiene encendida mientras practicas.</p>`],
+      ["Elegir un tempo", `<p>El número grande de la pantalla de inicio son los <b>bpm</b>: cuántas veces por minuto podrías repetir el mismo golpe, desde el inicio del backswing hasta el impacto. <b>60 ÷ segundos = bpm</b>.</p>
+<p><b>Más bpm es más rápido, y más segundos es más lento.</b> Por eso la app siempre muestra ambos.</p>
+<table><tr><th>Nombre</th><th>Total</th><th>bpm</th><th>Atrás / Avance</th></tr>
+<tr><td>Tempo rápido</td><td>0.8 s</td><td>75</td><td>0.53 / 0.27 s</td></tr>
+<tr><td><b>Tempo estándar</b></td><td><b>0.9 s</b></td><td><b>67</b></td><td>0.60 / 0.30 s</td></tr>
+<tr><td>Tempo lento</td><td>1.0 s</td><td>60</td><td>0.67 / 0.33 s</td></tr></table>
+<p>Elige uno en la pestaña <b>Tempo</b> o ajústalo de 0,01 s en 0,01 s. También puedes elegir la proporción del ritmo (2:1 o 1.5:1). Por defecto es 2:1.</p>
+<p class="note">Los bpm se redondean a un número entero. Usa los segundos para el tiempo exacto.</p>`],
+      ["Guardar tus tempos", `<p>En la pestaña <b>Tempo</b>, ajusta un tempo que te guste, escribe un nombre y toca <b>Guardar</b>. Si dejas el nombre vacío se llamará "Mi tempo 1" y así sucesivamente.</p>
+<ul><li>Puedes guardar hasta <b>5</b> tempos.</li><li>Toca un elemento de la lista para usarlo al instante.</li><li>Toca <b>Borrar</b> para eliminar uno. Cuando los 5 estén ocupados, borra uno para guardar uno nuevo.</li></ul>
+<p class="note">Los tempos guardados se quedan <b>solo en este móvil</b>. Se pierden si borras la app o sus datos, y no pasan a otro móvil ni entre la versión web y la app.</p>`],
+      ["Ajustes de sonido y señales", `<p>Cámbialos en la pestaña <b>Ajustes</b>.</p>
+<ul><li><b>Sonido</b>: elige entre 15. Toca uno para oír el sonido de inicio y el de impacto.</li>
+<li><b>Señal de cambio</b>: marca el momento en que termina el backswing y empieza el swing hacia adelante. Elige No, Destello pantalla (por defecto), Brillo inferior, Destello barra u Onda.</li>
+<li><b>Inicio automático</b>: empieza al dejar el móvil plano y se detiene al levantarlo.</li>
+<li>También puedes cambiar el <b>grosor de la barra</b> y el <b>idioma</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
+<p class="note">¿No hay sonido? Revisa el modo silencio y el volumen. En iPhone, la primera vez puede pedirte permiso de acceso al movimiento.</p>`],
+      ["Cómo practicar", `<p>Son <b>sugerencias</b> basadas en estudios y en cómo funciona la app. No son una receta probada.</p>
+<ul><li><b>Empieza con el tempo estándar (0.9 s).</b></li>
+<li>Cámbialo <b>un paso (0,1 s) cada vez</b>. Los saltos grandes son difíciles de comparar.</li>
+<li>Pon la <b>comodidad primero</b>. Un tempo más rápido o más lento no es mejor por sí mismo. El objetivo es un ritmo que puedas repetir siempre.</li>
+<li>Mantén el <b>mismo tiempo</b> para distintas distancias y cambia el <b>tamaño del golpe</b>.</li>
+<li>Practica en <b>series cortas</b>, por ejemplo 3 series de 10 con 1 o 2 minutos de descanso.</li>
+<li>Úsala para calentar antes de la ronda y luego puttea en el campo sin la app.</li>
+<li>El tempo por sí solo no arregla tu putt. Fíjate en <b>hacia dónde va la bola</b> y a qué distancia.</li></ul>`],
+      ["¿En qué se basa el tempo?", `<p>El valor por defecto de 0.9 s viene de estudios que midieron a golfistas con buen nivel: el tiempo desde el inicio del backswing hasta el impacto fue de aproximadamente <b>0.86 a 0.99 s</b>, y la relación entre backswing y swing hacia adelante fue de cerca de <b>2:1</b>.</p>
+<table><tr><th>Estudio</th><th>Jugadores</th><th>Del inicio al impacto</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 jugadores de tour</td><td>unos 0.99 s de media, proporción de unos 2.1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 hombres con buen nivel</td><td>unos 0.86 a 0.90 s</td></tr></table>
+<p><b>Conviene saber</b></p>
+<ul><li><b>No hay un único tempo correcto.</b> Incluso en el mismo estudio, los jugadores diferían en velocidad. Lo que compartían era mantener estable su propio tempo.</li>
+<li>Ningún experimento demuestra que este tempo aumente tu porcentaje de éxito. Esta app es <b>una herramienta para practicar un tempo constante</b>.</li>
+<li>Los números de libros o vídeos pueden diferir de los de esta app. Si la parte medida del golpe es distinta, el mismo número significa un tempo diferente.</li></ul>`],
+      ["Preguntas frecuentes", `<p><b>Toqué Iniciar pero no empezó nada.</b><br>Empieza tras un momento. También empieza solo al dejar el móvil plano. Si no oyes nada, revisa el modo silencio y el volumen.</p>
+<p><b>¿Mide el tiempo de mi golpe?</b><br>No. Solo muestra un ritmo.</p>
+<p><b>¿Más bpm significa más rápido?</b><br>Sí. Los bpm son cuántos por minuto y los segundos son lo que dura uno, así que van en sentido contrario.</p>
+<p><b>¿Mis tempos guardados aparecen en otro móvil?</b><br>No. Se guardan solo en este móvil.</p>`]
+    ],
+    de: [
+      ["Erste Schritte", `<p>Leg das Handy <b>flach</b> auf eine Puttingmatte oder den Boden und halte es etwa eine Sekunde ruhig. Es startet von selbst. <b>Heb das Handy an, um zu stoppen.</b> Den Autostart kannst du in den Einstellungen ausschalten.</p>
+<p>Wenn du mit dem Handy in der Hand starten willst, tippe auf den <b>Start-Button</b> oder irgendwo auf den Bildschirm. Danach stoppt das Anheben das Handy erst, nachdem du es flach hingelegt hast. Tippe beim Üben auf den Bildschirm, um zu stoppen.</p>
+<ul><li>Solange der <b>Balken nach unten geht</b>, ist es der Rückschwung.</li><li><b>Unten</b> wechselt er in den Durchschwung.</li><li>Der Moment, in dem der Balken <b>oben ankommt</b>, ist der Treffmoment.</li></ul>
+<p>Du hörst einen Ton <b>einmal beim Start des Rückschwungs und einmal beim Treffmoment</b>. Nach jedem Schlag gibt es eine Sekunde Pause.</p>
+<p class="note">Die App misst deinen Schlag nicht. Sie zeigt dir einen Rhythmus zum Üben, ganz ohne Sensoren oder Zubehör. Der Bildschirm bleibt beim Üben an.</p>`],
+      ["Ein Tempo wählen", `<p>Die große Zahl auf dem Startbildschirm ist <b>bpm</b>: wie oft pro Minute du denselben Schlag wiederholen könntest, vom Start des Rückschwungs bis zum Treffmoment. <b>60 ÷ Sekunden = bpm</b>.</p>
+<p><b>Mehr bpm heißt schneller, mehr Sekunden heißt langsamer.</b> Deshalb zeigt die App immer beides an.</p>
+<table><tr><th>Name</th><th>Gesamt</th><th>bpm</th><th>Rück / Durch</th></tr>
+<tr><td>Schnelles Tempo</td><td>0,8 s</td><td>75</td><td>0,53 / 0,27 s</td></tr>
+<tr><td><b>Standard-Tempo</b></td><td><b>0,9 s</b></td><td><b>67</b></td><td>0,60 / 0,30 s</td></tr>
+<tr><td>Langsames Tempo</td><td>1,0 s</td><td>60</td><td>0,67 / 0,33 s</td></tr></table>
+<p>Wähle eines im Tab <b>Tempo</b> oder stimme es in 0,01-s-Schritten fein ab. Du kannst auch das Rhythmusverhältnis wählen (2:1 oder 1,5:1). Voreingestellt ist 2:1.</p>
+<p class="note">bpm wird auf eine ganze Zahl gerundet. Die genaue Zeit steht in den Sekunden.</p>`],
+      ["Tempos speichern", `<p>Stelle im Tab <b>Tempo</b> ein Tempo ein, das dir gefällt, gib einen Namen ein und tippe auf <b>Speichern</b>. Ohne Namen heißt es „Mein Tempo 1“ und so weiter.</p>
+<ul><li>Du kannst bis zu <b>5</b> Tempos speichern.</li><li>Tippe auf einen Eintrag in der Liste, um ihn sofort zu nutzen.</li><li>Tippe auf <b>Löschen</b>, um einen zu entfernen. Sind alle 5 belegt, lösche eins, um ein neues zu speichern.</li></ul>
+<p class="note">Gespeicherte Tempos bleiben <b>nur auf diesem Handy</b>. Sie gehen verloren, wenn du die App oder ihre Daten löschst, und sie wechseln weder auf ein anderes Handy noch zwischen Webversion und App.</p>`],
+      ["Sound- und Signal-Einstellungen", `<p>Ändere sie im Tab <b>Einstellungen</b>.</p>
+<ul><li><b>Sound</b>: Wähle aus 15. Tippe auf einen, um den Startton und den Treffton zu hören.</li>
+<li><b>Wechsel-Signal</b>: markiert den Moment, in dem der Rückschwung endet und der Durchschwung beginnt. Wähle Aus, Bildschirm-Blitz (Standard), Unten leuchten, Balken-Blitz oder Welle.</li>
+<li><b>Autostart</b>: startet, wenn du das Handy hinlegst, und stoppt, wenn du es anhebst.</li>
+<li>Du kannst auch die <b>Balkendicke</b> und die <b>Sprache</b> ändern (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
+<p class="note">Kein Ton? Prüfe den Stummmodus und die Lautstärke. Auf dem iPhone wirst du beim ersten Mal eventuell gebeten, den Zugriff auf Bewegungssensoren zu erlauben.</p>`],
+      ["So übst du", `<p>Das sind <b>Vorschläge</b>, die auf Forschung und der Funktionsweise der App beruhen. Sie sind kein bewährtes Rezept.</p>
+<ul><li><b>Beginne mit dem Standard-Tempo (0,9 s).</b></li>
+<li>Ändere es <b>immer nur einen Schritt (0,1 s)</b>. Große Sprünge lassen sich schwer vergleichen.</li>
+<li>Stelle <b>Wohlbefinden an erste Stelle</b>. Ein schnelleres oder langsameres Tempo ist nicht von sich aus besser. Das Ziel ist ein Takt, den du jedes Mal wiederholen kannst.</li>
+<li>Behalte die <b>Zeit gleich</b> bei verschiedenen Distanzen und ändere stattdessen die <b>Länge des Schwungs</b>.</li>
+<li>Übe in <b>kurzen Serien</b>, zum Beispiel 3 Serien à 10 mit 1 bis 2 Minuten Pause.</li>
+<li>Nutze es zum Aufwärmen vor der Runde und putte dann auf dem Platz ohne die App.</li>
+<li>Das Tempo allein löst dein Putting nicht. Achte darauf, <b>wohin der Ball rollt</b> und wie weit.</li></ul>`],
+      ["Worauf basiert das Tempo?", `<p>Die Voreinstellung von 0,9 s stammt aus Studien, in denen geübte Golfer gemessen wurden: Die Zeit vom Start des Rückschwungs bis zum Treffmoment lag bei etwa <b>0,86 bis 0,99 s</b>, und Rückschwung zu Durchschwung verhielt sich etwa wie <b>2:1</b>.</p>
+<table><tr><th>Studie</th><th>Spieler</th><th>Start bis Treffmoment</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 Tourspieler</td><td>im Schnitt etwa 0,99 s, Verhältnis etwa 2,1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 geübte Männer</td><td>etwa 0,86 bis 0,90 s</td></tr></table>
+<p><b>Gut zu wissen</b></p>
+<ul><li><b>Es gibt kein einzig richtiges Tempo.</b> Selbst innerhalb einer Studie unterschieden sich die Spieler in der Geschwindigkeit. Gemeinsam war ihnen, ihr eigenes Tempo gleichmäßig zu halten.</li>
+<li>Kein Experiment zeigt, dass dieses Tempo deine Erfolgsquote erhöht. Diese App ist <b>ein Werkzeug, um ein gleichmäßiges Tempo zu üben</b>.</li>
+<li>Zahlen in Büchern oder Videos können von dieser App abweichen. Wird ein anderer Teil des Schlags gemessen, bedeutet dieselbe Zahl ein anderes Tempo.</li></ul>`],
+      ["FAQ", `<p><b>Ich habe auf Start getippt, aber nichts passiert.</b><br>Es startet nach einem Moment. Es startet auch von selbst, wenn du das Handy hinlegst. Hörst du nichts, prüfe Stummmodus und Lautstärke.</p>
+<p><b>Misst die App meine Schlagzeit?</b><br>Nein. Sie zeigt nur einen Rhythmus.</p>
+<p><b>Heißt mehr bpm schneller?</b><br>Ja. bpm ist die Anzahl pro Minute und die Sekunden sind die Dauer eines Schlags, also gehen sie in entgegengesetzte Richtungen.</p>
+<p><b>Erscheinen meine gespeicherten Tempos auf einem anderen Handy?</b><br>Nein. Sie sind nur auf diesem Handy gespeichert.</p>`]
+    ],
+    fr: [
+      ["Pour commencer", `<p>Pose le téléphone <b>à plat</b> sur un tapis de putting ou par terre et ne bouge plus pendant environ une seconde. Il démarre tout seul. <b>Soulève le téléphone pour arrêter.</b> Tu peux désactiver le démarrage auto dans les réglages.</p>
+<p>Pour démarrer avec le téléphone en main, touche le <b>bouton Démarrer</b> ou n'importe où sur l'écran. Ensuite, soulever le téléphone ne l'arrête qu'après l'avoir posé à plat. Touche l'écran pour arrêter pendant ton entraînement.</p>
+<ul><li>Quand la <b>barre descend</b>, c'est le mouvement arrière.</li><li>En <b>bas</b>, elle passe au mouvement avant.</li><li>Le moment où la barre <b>arrive en haut</b> est l'impact.</li></ul>
+<p>Tu entends un son <b>une fois au début du mouvement arrière et une fois à l'impact</b>. Après chaque coup, il y a une pause d'une seconde.</p>
+<p class="note">L'appli ne mesure pas ton coup. Elle te donne un rythme pour t'entraîner, sans capteur ni accessoire. L'écran reste allumé pendant l'entraînement.</p>`],
+      ["Choisir un tempo", `<p>Le grand nombre de l'écran d'accueil est le <b>bpm</b> : combien de fois par minute tu pourrais répéter le même coup, du début du mouvement arrière à l'impact. <b>60 ÷ secondes = bpm</b>.</p>
+<p><b>Un bpm plus élevé est plus rapide, et plus de secondes est plus lent.</b> C'est pourquoi l'appli affiche toujours les deux.</p>
+<table><tr><th>Nom</th><th>Total</th><th>bpm</th><th>Arrière / Avant</th></tr>
+<tr><td>Tempo rapide</td><td>0,8 s</td><td>75</td><td>0,53 / 0,27 s</td></tr>
+<tr><td><b>Tempo standard</b></td><td><b>0,9 s</b></td><td><b>67</b></td><td>0,60 / 0,30 s</td></tr>
+<tr><td>Tempo lent</td><td>1,0 s</td><td>60</td><td>0,67 / 0,33 s</td></tr></table>
+<p>Choisis-en un dans l'onglet <b>Tempo</b> ou ajuste-le par pas de 0,01 s. Tu peux aussi choisir le ratio du rythme (2:1 ou 1,5:1). Par défaut, c'est 2:1.</p>
+<p class="note">Le bpm est arrondi à l'entier. Utilise les secondes pour le temps exact.</p>`],
+      ["Enregistrer tes tempos", `<p>Dans l'onglet <b>Tempo</b>, règle un tempo qui te plaît, saisis un nom et touche <b>Enregistrer</b>. Si tu laisses le nom vide, il s'appellera « Mon tempo 1 », etc.</p>
+<ul><li>Tu peux enregistrer jusqu'à <b>5</b> tempos.</li><li>Touche un élément de la liste pour l'utiliser tout de suite.</li><li>Touche <b>Supprimer</b> pour en retirer un. Quand les 5 sont utilisés, supprime-en un pour en enregistrer un nouveau.</li></ul>
+<p class="note">Les tempos enregistrés restent <b>sur ce téléphone uniquement</b>. Ils sont perdus si tu supprimes l'appli ou ses données, et ils ne passent pas sur un autre téléphone ni entre la version web et l'appli.</p>`],
+      ["Réglages du son et du signal", `<p>Modifie-les dans l'onglet <b>Réglages</b>.</p>
+<ul><li><b>Son</b> : choisis parmi 15. Touche-en un pour entendre le son de départ et celui de l'impact.</li>
+<li><b>Signal de transition</b> : marque le moment où le mouvement arrière se termine et où le mouvement avant commence. Choisis Aucun, Éclair écran (par défaut), Lueur bas, Éclair barre ou Onde.</li>
+<li><b>Démarrage auto</b> : démarre quand tu poses le téléphone et s'arrête quand tu le soulèves.</li>
+<li>Tu peux aussi changer l'<b>épaisseur de la barre</b> et la <b>langue</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
+<p class="note">Pas de son ? Vérifie le mode silencieux et le volume. Sur iPhone, l'accès au mouvement peut t'être demandé la première fois.</p>`],
+      ["Comment s'entraîner", `<p>Ce sont des <b>suggestions</b> fondées sur des études et sur le fonctionnement de l'appli. Ce n'est pas une méthode prouvée.</p>
+<ul><li><b>Commence avec le tempo standard (0,9 s).</b></li>
+<li>Change-le <b>d'un cran (0,1 s) à la fois</b>. Les grands écarts sont difficiles à comparer.</li>
+<li>Mets le <b>confort en premier</b>. Un tempo plus rapide ou plus lent n'est pas meilleur en soi. Le but est un rythme que tu peux reproduire à chaque fois.</li>
+<li>Garde le <b>même temps</b> pour différentes distances et change plutôt l'<b>amplitude du mouvement</b>.</li>
+<li>Entraîne-toi par <b>petites séries</b>, par exemple 3 séries de 10 avec 1 à 2 minutes de repos.</li>
+<li>Utilise-la pour t'échauffer avant une partie, puis putte sur le parcours sans l'appli.</li>
+<li>Le tempo seul ne règlera pas ton putting. Regarde <b>où va la balle</b> et jusqu'où.</li></ul>`],
+      ["Sur quoi repose le tempo ?", `<p>Le tempo par défaut de 0,9 s vient d'études qui ont mesuré des golfeurs expérimentés : le temps entre le début du mouvement arrière et l'impact était d'environ <b>0,86 à 0,99 s</b>, et le rapport mouvement arrière / mouvement avant d'environ <b>2:1</b>.</p>
+<table><tr><th>Étude</th><th>Joueurs</th><th>Du départ à l'impact</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 joueurs du circuit</td><td>environ 0,99 s en moyenne, ratio d'environ 2,1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 hommes expérimentés</td><td>environ 0,86 à 0,90 s</td></tr></table>
+<p><b>Bon à savoir</b></p>
+<ul><li><b>Il n'existe pas un seul bon tempo.</b> Même dans une même étude, la vitesse variait selon les joueurs. Ce qu'ils avaient en commun, c'était de garder leur propre tempo régulier.</li>
+<li>Aucune expérience ne montre que ce tempo augmente ton taux de réussite. Cette appli est <b>un outil pour s'entraîner à un tempo régulier</b>.</li>
+<li>Les chiffres vus dans des livres ou des vidéos peuvent différer de ceux de cette appli. Si la partie mesurée du mouvement n'est pas la même, un même chiffre correspond à un tempo différent.</li></ul>`],
+      ["FAQ", `<p><b>J'ai touché Démarrer mais rien ne se passe.</b><br>Il démarre après un court instant. Il démarre aussi tout seul quand tu poses le téléphone. Si tu n'entends rien, vérifie le mode silencieux et le volume.</p>
+<p><b>Est-ce que ça mesure la durée de mon coup ?</b><br>Non. L'appli ne fait que montrer un rythme.</p>
+<p><b>Un bpm plus élevé veut-il dire plus rapide ?</b><br>Oui. Le bpm est le nombre de répétitions par minute et les secondes sont la durée d'un coup : les deux vont en sens opposés.</p>
+<p><b>Mes tempos enregistrés s'affichent-ils sur un autre téléphone ?</b><br>Non. Ils sont stockés uniquement sur ce téléphone.</p>`]
+    ],
+    sv: [
+      ["Kom igång", `<p>Lägg telefonen <b>platt</b> på en puttingmatta eller golvet och håll den stilla i ungefär en sekund. Den startar av sig själv. <b>Lyft telefonen för att stoppa.</b> Du kan stänga av autostart i Inställningar.</p>
+<p>Vill du starta med telefonen i handen trycker du på <b>Start-knappen</b> eller var som helst på skärmen. Därefter stoppar den när du lyfter telefonen först efter att du har lagt den platt. Tryck på skärmen för att stoppa medan du tränar.</p>
+<ul><li>När <b>staven går ner</b> är det baksvinget.</li><li>Längst <b>ner</b> går det över i framsvinget.</li><li>I ögonblicket då staven <b>når toppen</b> är det träff.</li></ul>
+<p>Du hör ett ljud <b>en gång när baksvinget startar och en gång vid träffen</b>. Efter varje slag är det en sekunds paus.</p>
+<p class="note">Appen mäter inte ditt slag. Den visar en rytm att öva med, utan sensorer eller extra utrustning. Skärmen förblir på medan du tränar.</p>`],
+      ["Välj tempo", `<p>Det stora talet på startskärmen är <b>bpm</b>: hur många gånger per minut du skulle kunna upprepa samma slag, från start på baksvinget till träff. <b>60 ÷ sekunder = bpm</b>.</p>
+<p><b>Högre bpm är snabbare, och fler sekunder är långsammare.</b> Därför visar appen alltid båda.</p>
+<table><tr><th>Namn</th><th>Totalt</th><th>bpm</th><th>Bak / Fram</th></tr>
+<tr><td>Snabbt tempo</td><td>0,8 s</td><td>75</td><td>0,53 / 0,27 s</td></tr>
+<tr><td><b>Standardtempo</b></td><td><b>0,9 s</b></td><td><b>67</b></td><td>0,60 / 0,30 s</td></tr>
+<tr><td>Långsamt tempo</td><td>1,0 s</td><td>60</td><td>0,67 / 0,33 s</td></tr></table>
+<p>Välj ett på fliken <b>Tempo</b> eller finjustera i steg om 0,01 s. Du kan också välja rytmförhållande (2:1 eller 1,5:1). Standard är 2:1.</p>
+<p class="note">bpm avrundas till ett heltal. Använd sekunderna för den exakta tiden.</p>`],
+      ["Spara dina tempon", `<p>På fliken <b>Tempo</b> ställer du in ett tempo du gillar, skriver ett namn och trycker på <b>Spara</b>. Lämnar du namnet tomt heter det "Mitt tempo 1" och så vidare.</p>
+<ul><li>Du kan spara upp till <b>5</b> tempon.</li><li>Tryck på en post i listan för att använda den direkt.</li><li>Tryck på <b>Ta bort</b> för att radera ett. När alla 5 är använda tar du bort ett för att spara ett nytt.</li></ul>
+<p class="note">Sparade tempon finns <b>bara på den här telefonen</b>. De försvinner om du tar bort appen eller dess data, och de följer inte med till en annan telefon eller mellan webbversionen och appen.</p>`],
+      ["Ljud- och signalinställningar", `<p>Ändra dessa på fliken <b>Inställningar</b>.</p>
+<ul><li><b>Ljud</b>: välj bland 15. Tryck på ett för att höra startljudet och träffljudet.</li>
+<li><b>Vändningssignal</b>: markerar ögonblicket då baksvinget slutar och framsvinget börjar. Välj Av, Skärmblink (standard), Glöd nedtill, Stavblink eller Ringar.</li>
+<li><b>Autostart</b>: startar när du lägger ner telefonen och stoppar när du lyfter den.</li>
+<li>Du kan också ändra <b>stavens tjocklek</b> och <b>språket</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
+<p class="note">Inget ljud? Kontrollera ljudlöst läge och volymen. På iPhone kan du bli ombedd att tillåta åtkomst till rörelsesensorer första gången.</p>`],
+      ["Så tränar du", `<p>Det här är <b>förslag</b> baserade på forskning och på hur appen fungerar. De är inte beprövade recept.</p>
+<ul><li><b>Börja med standardtempot (0,9 s).</b></li>
+<li>Ändra <b>ett steg (0,1 s) i taget</b>. Stora hopp är svåra att jämföra.</li>
+<li>Sätt <b>komforten först</b>. Ett snabbare eller långsammare tempo är inte bättre i sig. Målet är en takt du kan upprepa varje gång.</li>
+<li>Behåll <b>samma tid</b> för olika avstånd och ändra <b>slagets storlek</b> istället.</li>
+<li>Träna i <b>korta set</b>, till exempel 3 set om 10 med 1 till 2 minuters vila.</li>
+<li>Använd den för att värma upp före en runda, och putta sedan på banan utan appen.</li>
+<li>Enbart tempo löser inte din putting. Titta på <b>vart bollen tar vägen</b> och hur långt.</li></ul>`],
+      ["Vad bygger tempot på?", `<p>Standardvärdet 0,9 s kommer från studier där skickliga golfare mättes: tiden från start på baksvinget till träff var ungefär <b>0,86 till 0,99 s</b>, och förhållandet mellan baksving och framsving var cirka <b>2:1</b>.</p>
+<table><tr><th>Studie</th><th>Spelare</th><th>Start till träff</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 tourspelare</td><td>cirka 0,99 s i snitt, förhållande cirka 2,1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 skickliga män</td><td>cirka 0,86 till 0,90 s</td></tr></table>
+<p><b>Bra att veta</b></p>
+<ul><li><b>Det finns inget enda rätt tempo.</b> Även i samma studie skilde sig spelarna åt i hastighet. Det de hade gemensamt var att de höll sitt eget tempo jämnt.</li>
+<li>Inget experiment visar att det här tempot höjer din träffprocent. Appen är <b>ett verktyg för att öva ett jämnt tempo</b>.</li>
+<li>Siffror i böcker eller videor kan skilja sig från de i appen. Om den uppmätta delen av slaget är en annan betyder samma siffra ett annat tempo.</li></ul>`],
+      ["Vanliga frågor", `<p><b>Jag tryckte på Start men inget hände.</b><br>Det startar efter en stund. Det startar också av sig själv när du lägger ner telefonen. Hör du inget, kontrollera ljudlöst läge och volym.</p>
+<p><b>Mäter den min slagtid?</b><br>Nej. Den visar bara en rytm.</p>
+<p><b>Betyder högre bpm snabbare?</b><br>Ja. bpm är hur många per minut och sekunder är hur lång tid ett tar, så de går åt motsatta håll.</p>
+<p><b>Syns mina sparade tempon på en annan telefon?</b><br>Nej. De sparas bara på den här telefonen.</p>`]
+    ],
+    it: [
+      ["Per iniziare", `<p>Appoggia il telefono <b>in piano</b> su un tappeto da putt o sul pavimento e tienilo fermo per circa un secondo. Parte da solo. <b>Solleva il telefono per fermare.</b> Puoi disattivare l'avvio automatico nelle Impostazioni.</p>
+<p>Per iniziare con il telefono in mano, tocca il <b>pulsante Avvia</b> o un punto qualsiasi dello schermo. Dopo, sollevare il telefono lo ferma solo dopo che l'hai appoggiato in piano. Mentre ti alleni, tocca lo schermo per fermare.</p>
+<ul><li>Mentre la <b>barra scende</b> sei nel backswing.</li><li>In <b>basso</b> diventa il movimento in avanti.</li><li>Il momento in cui la barra <b>arriva in alto</b> è l'impatto.</li></ul>
+<p>Senti un suono <b>una volta all'inizio del backswing e una volta all'impatto</b>. Dopo ogni colpo c'è una pausa di un secondo.</p>
+<p class="note">L'app non misura il tuo colpo. Mostra un ritmo con cui allenarti, senza sensori né attrezzatura. Lo schermo resta acceso mentre ti alleni.</p>`],
+      ["Scegliere il tempo", `<p>Il grande numero nella schermata principale è in <b>bpm</b>: quante volte al minuto potresti ripetere lo stesso colpo, dall'inizio del backswing all'impatto. <b>60 ÷ secondi = bpm</b>.</p>
+<p><b>Più bpm significa più veloce, più secondi significa più lento.</b> Per questo l'app mostra sempre entrambi.</p>
+<table><tr><th>Nome</th><th>Totale</th><th>bpm</th><th>Indietro / Avanti</th></tr>
+<tr><td>Tempo veloce</td><td>0,8 s</td><td>75</td><td>0,53 / 0,27 s</td></tr>
+<tr><td><b>Tempo standard</b></td><td><b>0,9 s</b></td><td><b>67</b></td><td>0,60 / 0,30 s</td></tr>
+<tr><td>Tempo lento</td><td>1,0 s</td><td>60</td><td>0,67 / 0,33 s</td></tr></table>
+<p>Scegline uno nella scheda <b>Tempo</b> o regolalo a passi di 0,01 s. Puoi anche scegliere il rapporto ritmico (2:1 o 1,5:1). Quello predefinito è 2:1.</p>
+<p class="note">I bpm sono arrotondati a un numero intero. Per il tempo esatto guarda i secondi.</p>`],
+      ["Salvare i tuoi tempi", `<p>Nella scheda <b>Tempo</b>, imposta un tempo che ti piace, scrivi un nome e tocca <b>Salva</b>. Se lasci il nome vuoto si chiama «Il mio tempo 1» e così via.</p>
+<ul><li>Puoi salvare fino a <b>5</b> tempi.</li><li>Tocca un elemento della lista per usarlo subito.</li><li>Tocca <b>Elimina</b> per rimuoverne uno. Quando tutti e 5 sono usati, eliminane uno per salvarne un altro.</li></ul>
+<p class="note">I tempi salvati restano <b>solo su questo telefono</b>. Si perdono se elimini l'app o i suoi dati e non passano a un altro telefono né tra la versione web e l'app.</p>`],
+      ["Impostazioni di suono e segnale", `<p>Le modifichi nella scheda <b>Impostazioni</b>.</p>
+<ul><li><b>Suono</b>: scegli tra 15. Toccane uno per sentire il suono di inizio e quello dell'impatto.</li>
+<li><b>Segnale di cambio</b>: indica il momento in cui finisce il backswing e inizia il movimento in avanti. Scegli tra No, Lampo schermo (predefinito), Luce in basso, Lampo barra od Onda.</li>
+<li><b>Avvio automatico</b>: parte quando appoggi il telefono e si ferma quando lo sollevi.</li>
+<li>Puoi cambiare anche lo <b>spessore della barra</b> e la <b>lingua</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
+<p class="note">Non senti nulla? Controlla la modalità silenziosa e il volume. Su iPhone la prima volta potrebbe essere richiesto di consentire l'accesso al movimento.</p>`],
+      ["Come allenarti", `<p>Sono <b>suggerimenti</b> basati su ricerche e sul funzionamento dell'app. Non sono una prescrizione provata.</p>
+<ul><li><b>Inizia con il tempo standard (0,9 s).</b></li>
+<li>Cambialo <b>un passo (0,1 s) alla volta</b>. I salti grandi sono difficili da confrontare.</li>
+<li>Metti al primo posto la <b>comodità</b>. Un tempo più veloce o più lento non è migliore di per sé. L'obiettivo è un ritmo che puoi ripetere ogni volta.</li>
+<li>Mantieni lo <b>stesso tempo</b> per distanze diverse e cambia invece l'<b>ampiezza del colpo</b>.</li>
+<li>Allenati in <b>serie brevi</b>, per esempio 3 serie da 10 con 1-2 minuti di pausa.</li>
+<li>Usala per scaldarti prima del giro, poi putta in campo senza l'app.</li>
+<li>Il solo tempo non basta a sistemare il tuo putt. Guarda <b>dove va la palla</b> e quanto lontano.</li></ul>`],
+      ["Su cosa si basa il tempo?", `<p>Il valore predefinito di 0,9 s viene da studi su golfisti esperti: il tempo dall'inizio del backswing all'impatto era circa <b>0,86-0,99 s</b>, e il rapporto tra backswing e movimento in avanti circa <b>2:1</b>.</p>
+<table><tr><th>Studio</th><th>Giocatori</th><th>Dall'inizio all'impatto</th></tr>
+<tr><td>Marquardt (2007)</td><td>99 giocatori del tour</td><td>circa 0,99 s in media, rapporto circa 2,1</td></tr>
+<tr><td>Couceiro et al. (2022)</td><td>10 uomini esperti</td><td>circa 0,86-0,90 s</td></tr></table>
+<p><b>Da sapere</b></p>
+<ul><li><b>Non esiste un unico tempo giusto.</b> Anche nello stesso studio i giocatori avevano velocità diverse. Avevano in comune il mantenere stabile il proprio tempo.</li>
+<li>Nessun esperimento dimostra che questo tempo aumenti la percentuale di successo. Questa app è <b>uno strumento per allenare un tempo costante</b>.</li>
+<li>I numeri nei libri o nei video possono differire da quelli dell'app. Se la parte misurata del colpo è diversa, lo stesso numero indica un tempo diverso.</li></ul>`],
+      ["Domande frequenti", `<p><b>Ho toccato Avvia ma non è partito nulla.</b><br>Parte dopo un attimo. Parte anche da solo quando appoggi il telefono. Se non senti nulla, controlla la modalità silenziosa e il volume.</p>
+<p><b>Misura il tempo del mio colpo?</b><br>No. Mostra solo un ritmo.</p>
+<p><b>Più bpm significa più veloce?</b><br>Sì. I bpm sono quante volte al minuto e i secondi sono la durata di una volta, quindi vanno in direzioni opposte.</p>
+<p><b>I miei tempi salvati compaiono su un altro telefono?</b><br>No. Sono memorizzati solo su questo telefono.</p>`]
     ]
   };
 
@@ -1800,7 +2695,7 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
   document.addEventListener('visibilitychange', function () { if (!document.hidden) pvStart(); });
 
   function applyLang() {
-    document.documentElement.lang = lang;
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
     document.getElementById('buyLink').href = t('buyUrl');
     document.getElementById('logoLink').href = t('buyUrl');
     document.title = t('title');
