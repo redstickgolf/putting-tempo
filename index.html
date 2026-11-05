@@ -2083,7 +2083,16 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 
   // audio can only start after a touch: unlock it on the first one
   document.addEventListener('pointerdown', function () { ensureCtx(); }, { once: true });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden && (autoOn || running)) lockScreen(); });
+  // app in the background (home button, another app, screen off): stop the run and silence the audio, so no sound keeps playing
+  function goQuiet() {
+    if (running) stop();
+    try { if (ctx && ctx.state === 'running' && ctx.suspend) ctx.suspend(); } catch (e) {}
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) goQuiet();
+    else if (autoOn || running) lockScreen();
+  });
+  window.addEventListener('pagehide', goQuiet);
 
   // ---- rest between strokes: basic (1 s, no lights) or 3 s with traffic lights ----
   function renderRest() {
