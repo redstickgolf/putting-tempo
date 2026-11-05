@@ -269,6 +269,8 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 
 /* ---- segmented controls ---- */
 html:lang(zh-CN) { --font: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif; --font-display: "Sora", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif; }
+/* Japanese and Chinese have no spaces between words: let lines break between characters (keep-all would force a sideways scroll) */
+html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wrap: anywhere; line-break: strict; }
 .langs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .lang-opt { min-height: 48px; padding-inline: 6px; border-radius: 12px; border: 1px solid var(--hair-2); background: transparent; color: var(--muted); font: 600 14px var(--font); white-space: nowrap; cursor: pointer; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, color 0.2s; }
 .lang-opt:active { transform: scale(0.95); transition-duration: 0.08s; }
