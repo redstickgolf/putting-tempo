@@ -511,12 +511,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       <button class="snd" type="button" data-turn="flash" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="22" width="32" height="6" rx="1.500" fill="currentColor" stroke="none"/><path d="M20 6v10M11 9l4 8M29 9l-4 8"/></svg><span data-i18n="turn_flash"></span></button>
       <button class="snd" type="button" data-turn="ring" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="3.500" fill="currentColor" stroke="none"/><circle cx="20" cy="20" r="9.500"/><circle cx="20" cy="20" r="16" opacity="0.55"/></svg><span data-i18n="turn_ring"></span></button>
     </div>
-      <p class="label sub" data-i18n="lead">신호 시점</p>
-      <div class="pills" role="group" aria-label="신호 시점" data-i18n-aria="lead">
-      <button class="pill" type="button" data-lead="0" aria-pressed="true" data-i18n="lead_0">정각</button>
-      <button class="pill" type="button" data-lead="0.1" aria-pressed="false" data-i18n="lead_1">0.1초 전</button>
-      <button class="pill" type="button" data-lead="0.2" aria-pressed="false" data-i18n="lead_2">0.2초 전</button>
-    </div>
       </div></div></div>
     </section>
     <section class="acc">
@@ -632,7 +626,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', stopAuto: '폰을 들면 멈춰요', tip1Auto: '바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
       sound: '소리', s_metronome: '메트로놈', s_bat: '야구', s_deskbell: '데스크벨', s_glock: '글로켄슈필', s_bike: '자전거', s_cowbell: '카우벨', s_bowl: '싱잉볼', s_snap: '스냅', s_marimba: '마림바', s_kalimba: '칼림바', s_retro: '레트로', s_drip: '물방울', s_digital: '출발음', s_wood: '나무', s_comic: '코믹',
-      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1보다 포워드가 조금 더 긴 비율이에요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_white: "흰 테두리", turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', rest: "쉬는 시간", rest_l1: "신호등 없음", rest_l2: "신호등 2색", rest_l3: "신호등 3색", hand: "손", hand_r: "오른손잡이", hand_l: "왼손잡이", barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1보다 포워드가 조금 더 긴 비율이에요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_white: "흰 테두리", turn_bottom: '아랫부분',rest: "쉬는 시간", rest_l1: "신호등 없음", rest_l2: "신호등 2색", rest_l3: "신호등 3색", hand: "손", hand_r: "오른손잡이", hand_l: "왼손잡이", barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       type_fast: '빠른 템포', type_tour: '투어 평균', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       bn_title: '템포는 잡았어요. 이제 방향이에요.', bn_body: '템포 연습은 폰 하나면 충분해요. 클럽에 자석으로 붙이는 정렬 기준, 레드스틱도 있어요.', bn_cta: '레드스틱 보러가기',
@@ -647,7 +641,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       tip1: 'Lay your phone flat and tap anywhere.<br>The bar goes down for the backstroke<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', stopAuto: 'Lift the phone to stop', tip1Auto: 'The bar goes down for the backstroke<br>and reaches the top at impact.', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_metronome: 'Metronome', s_bat: 'Baseball', s_deskbell: 'Desk bell', s_glock: 'Glocken', s_bike: 'Bike bell', s_cowbell: 'Cowbell', s_bowl: 'Bowl', s_snap: 'Snap', s_marimba: 'Marimba', s_kalimba: 'Kalimba', s_retro: 'Retro', s_drip: 'Drip', s_digital: 'Start tone', s_wood: 'Wood', s_comic: 'Comic',
-      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'The forward stroke is a little longer than in 2:1.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_white: "White glow", turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', rest: "Rest between strokes", rest_l1: "No lights", rest_l2: "2 lights", rest_l3: "3 lights", hand: "Hand", hand_r: "Right-handed", hand_l: "Left-handed", barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'The forward stroke is a little longer than in 2:1.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_white: "White glow", turn_bottom: 'Bottom glow',rest: "Rest between strokes", rest_l1: "No lights", rest_l2: "2 lights", rest_l3: "3 lights", hand: "Hand", hand_r: "Right-handed", hand_l: "Left-handed", barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       type_fast: 'Fast tempo', type_tour: 'Tour Standard', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       bn_title: 'Tempo set. Next, your line.', bn_body: 'This app needs no extra gear. If you\'d like an easy alignment reference on your putter, Redstick snaps on magnetically.', bn_cta: 'See on Amazon',
@@ -662,7 +656,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', stopAuto: 'スマホを持ち上げると停止', tip1Auto: 'バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
       sound: 'サウンド', s_metronome: 'メトロノーム', s_bat: '野球', s_deskbell: 'ベル', s_glock: 'グロッケン', s_bike: '自転車', s_cowbell: 'カウベル', s_bowl: 'ボウル', s_snap: 'スナップ', s_marimba: 'マリンバ', s_kalimba: 'カリンバ', s_retro: 'レトロ', s_drip: '水滴', s_digital: 'スタート音', s_wood: '木', s_comic: 'コミック',
-      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: 'フォワードが2:1より少し長い比率です。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_white: "白いフチ", turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', rest: "休憩時間", rest_l1: "信号なし", rest_l2: "信号2色", rest_l3: "信号3色", hand: "利き手", hand_r: "右利き", hand_l: "左利き", barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: 'フォワードが2:1より少し長い比率です。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_white: "白いフチ", turn_bottom: '下側',rest: "休憩時間", rest_l1: "信号なし", rest_l2: "信号2色", rest_l3: "信号3色", hand: "利き手", hand_r: "右利き", hand_l: "左利き", barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       type_fast: '速いテンポ', type_tour: '標準テンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       bn_title: 'テンポは整いました。次は方向。', bn_body: 'テンポ練習はスマホ1つでOK。クラブに磁石で付けられる、方向合わせの目安のRedstickもあります。', bn_cta: 'Amazonで見る',
@@ -741,10 +735,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       turn_ring: "涟漪",
       turn_screen: "屏幕闪烁",
       turn_white: "白色边框", turn_bottom: "底部光晕",
-      lead: "提示时机",
-      lead_0: "准时",
-      lead_1: "提前 0.1 秒",
-      lead_2: "提前 0.2 秒",
       rest: "间隔时间", rest_l1: "无信号灯", rest_l2: "2色信号灯", rest_l3: "3色信号灯", hand: "惯用手", hand_r: "右手", hand_l: "左手", barSize: "光条粗细",
       bar_s: "细",
       bar_m: "中",
@@ -844,10 +834,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       turn_ring: "Onda",
       turn_screen: "Destello pantalla",
       turn_white: "Borde blanco", turn_bottom: "Brillo inferior",
-      lead: "Momento de la señal",
-      lead_0: "A tiempo",
-      lead_1: "0,1 s antes",
-      lead_2: "0,2 s antes",
       rest: "Pausa entre golpes", rest_l1: "Sin luces", rest_l2: "2 luces", rest_l3: "3 luces", hand: "Mano dominante", hand_r: "Diestro", hand_l: "Zurdo", barSize: "Grosor de la barra",
       bar_s: "Fina",
       bar_m: "Media",
@@ -947,10 +933,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       turn_ring: "Welle",
       turn_screen: "Bildschirm-Blitz",
       turn_white: "Weißer Rand", turn_bottom: "Unten leuchten",
-      lead: "Signal-Timing",
-      lead_0: "Pünktlich",
-      lead_1: "0,1 s früher",
-      lead_2: "0,2 s früher",
       rest: "Pause zwischen Schlägen", rest_l1: "Ohne Ampel", rest_l2: "2 Farben", rest_l3: "3 Farben", hand: "Spielhand", hand_r: "Rechtshänder", hand_l: "Linkshänder", barSize: "Balkendicke",
       bar_s: "Dünn",
       bar_m: "Mittel",
@@ -1050,10 +1032,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       turn_ring: "Onde",
       turn_screen: "Éclair écran",
       turn_white: "Bord blanc", turn_bottom: "Lueur bas",
-      lead: "Moment du signal",
-      lead_0: "Pile",
-      lead_1: "0,1 s avant",
-      lead_2: "0,2 s avant",
       rest: "Pause entre les coups", rest_l1: "Sans feux", rest_l2: "2 feux", rest_l3: "3 feux", hand: "Main", hand_r: "Droitier", hand_l: "Gaucher", barSize: "Épaisseur de la barre",
       bar_s: "Fine",
       bar_m: "Moyenne",
@@ -1153,10 +1131,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       turn_ring: "Ringar",
       turn_screen: "Skärmblink",
       turn_white: "Vit kant", turn_bottom: "Glöd nedtill",
-      lead: "Signalens timing",
-      lead_0: "I tid",
-      lead_1: "0,1 s tidigt",
-      lead_2: "0,2 s tidigt",
       rest: "Paus mellan slag", rest_l1: "Utan ljus", rest_l2: "2 ljus", rest_l3: "3 ljus", hand: "Hand", hand_r: "Högerhänt", hand_l: "Vänsterhänt", barSize: "Stavens tjocklek",
       bar_s: "Tunn",
       bar_m: "Medel",
@@ -1256,10 +1230,6 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       turn_ring: "Onda",
       turn_screen: "Lampo schermo",
       turn_white: "Bordo bianco", turn_bottom: "Luce in basso",
-      lead: "Anticipo segnale",
-      lead_0: "Puntuale",
-      lead_1: "0,1 s prima",
-      lead_2: "0,2 s prima",
       rest: "Pausa tra i colpi", rest_l1: "Senza luci", rest_l2: "2 luci", rest_l3: "3 luci", hand: "Mano", hand_r: "Destrimane", hand_l: "Mancino", barSize: "Spessore barra",
       bar_s: "Sottile",
       bar_m: "Medio",
@@ -1836,13 +1806,8 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
   // Turnaround cue: fires when the bar reaches the bottom (backswing -> forward). Choose it in settings.
   var turnFx = 'screen';
   var TURN_FX = ['off', 'screen', 'white', 'bottom', 'flash', 'ring'];
-  var LEADS = [0, 0.1, 0.2];
-  var lead = 0;
-  try {
-    if (localStorage.getItem('putting-tempo-lead-reset') !== '1') { localStorage.removeItem('putting-tempo-lead'); localStorage.setItem('putting-tempo-lead-reset', '1'); }   // the default is 'on time'
-    var savedLead = parseFloat(localStorage.getItem('putting-tempo-lead'));
-    if (LEADS.indexOf(savedLead) >= 0) lead = savedLead;
-  } catch (e) {}
+  var lead = 0;   // the cue fires exactly at the turn (there are no 'early' options)
+  try { localStorage.removeItem('putting-tempo-lead'); } catch (e) {}
   try {
     var savedFx = localStorage.getItem('putting-tempo-turn');
     if (TURN_FX.indexOf(savedFx) >= 0) turnFx = savedFx;
@@ -1876,21 +1841,9 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
     }
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll('[data-lead]'), function (b) {
-    b.addEventListener('click', function () {
-      lead = parseFloat(b.getAttribute('data-lead'));
-      try { localStorage.setItem('putting-tempo-lead', String(lead)); } catch (e) {}
-      applyTurn();
-      fireTurn(turnFx, true);
-    });
-  });
-
   function applyTurn() {
     Array.prototype.forEach.call(document.querySelectorAll('[data-turn]'), function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-turn') === turnFx));
-    });
-    Array.prototype.forEach.call(document.querySelectorAll('[data-lead]'), function (b) {
-      b.setAttribute('aria-pressed', String(parseFloat(b.getAttribute('data-lead')) === lead));
     });
   }
 
@@ -1975,9 +1928,8 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
 
   function renderSummaries() {
     var turn = pressedText('[data-turn]');
-    var ld = pressedText('[data-lead]');
     document.getElementById('accv-sound').textContent = pressedText('[data-sound]');
-    document.getElementById('accv-turn').textContent = turn + (lead > 0 ? ' · ' + ld : '');
+    document.getElementById('accv-turn').textContent = turn;
     document.getElementById('accv-bar').textContent = pressedText('[data-bar]');
     document.getElementById('accv-hand').textContent = t(hand === 'L' ? 'hand_l' : 'hand_r');
     document.getElementById('accv-rest').textContent = t('sec')(REST) + ' \u00b7 ' + t('rest_l' + REST);
