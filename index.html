@@ -1274,8 +1274,13 @@ html:lang(zh-CN) { --font: "Noto Sans SC", system-ui, "PingFang SC", "Microsoft 
     var saved = null;
     try { saved = localStorage.getItem('putting-tempo-lang'); } catch (e) {}
     if (saved && I18N[saved]) { lang = saved; return; }
-    var nav = ((navigator.languages && navigator.languages[0]) || navigator.language || 'en').slice(0, 2).toLowerCase();
-    lang = I18N[nav] ? nav : 'en';
+    // the phone's language list, most preferred first: use the first one the app has, otherwise English
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+    for (var i = 0; i < prefs.length; i++) {
+      var code = String(prefs[i] || '').slice(0, 2).toLowerCase();
+      if (I18N[code]) { lang = code; return; }
+    }
+    lang = 'en';
   })();
   function t(key) { return I18N[lang][key]; }
   // decimal comma in Spanish, German, French, Swedish and Italian
