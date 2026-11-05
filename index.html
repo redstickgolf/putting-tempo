@@ -227,6 +227,24 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
 .man-c th, .man-c td { padding: 7px 6px; border-bottom: 1px solid var(--hair); text-align: left; }
 .man-c th { color: var(--muted); font-weight: 600; }
 .man-c .note { color: var(--muted); font-size: 12.5px; }
+.man-body summary { justify-content: flex-start; }
+.man-body summary::after { margin-left: auto; }
+.man-ic { flex: none; width: 22px; height: 22px; color: var(--accent); display: inline-flex; }
+.man-ic svg { width: 100%; height: 100%; }
+.man-fig { margin: 4px 0 14px; padding: 10px 8px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hair); }
+.man-fig svg { display: block; width: 100%; max-width: 340px; height: auto; margin: 0 auto; }
+.fg-line { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fg-dim { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 3 4; }
+.fg-floor { stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }
+.fg-acc { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.fg-accf { fill: var(--accent); }
+.fg-accf2 { fill: var(--accent); opacity: 0.45; }
+.fg-white { fill: #fff; }
+.fg-num { fill: #fff; font: 700 11px var(--font); text-anchor: middle; dominant-baseline: central; }
+.fg-txt { fill: currentColor; font: 600 13px var(--font); text-anchor: middle; font-variant-numeric: tabular-nums; }
+ul.man-steps { list-style: none; padding-left: 0; counter-reset: st; }
+ul.man-steps li { counter-increment: st; position: relative; padding-left: 30px; }
+ul.man-steps li::before { content: counter(st); position: absolute; left: 0; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 12px/20px var(--font); text-align: center; }
 .scrim { position: fixed; inset: 0; z-index: 25; background: rgba(0, 0, 0, 0.6); }
 .howto { z-index: 40; gap: 14px; max-height: calc(100dvh - 120px); overflow-y: auto; }
 .howto-title { font: 700 20px/1.2 var(--font-display); }
@@ -603,13 +621,13 @@ html:lang(zh-CN) { --font: "Noto Sans SC", system-ui, "PingFang SC", "Microsoft 
       manual_row: '설명서', manual_title: '설명서', manual_close: '닫기', manual_more: '설명서 보기'
     },
     en: {
-      title: 'PuttSnap', appName: 'PuttSnap', settings: 'Settings', modeGroup: 'Tempo type', tour: 'Standard', mine: 'My tempo',
+      title: 'PuttSnap', appName: 'PuttSnap', settings: 'Settings', modeGroup: 'Tempo type', tour: 'Tour Standard', mine: 'My tempo',
       factsAria: 'Current tempo', total: function (n) { return 'Total ' + n + ' s'; }, sec: function (n) { return n + ' s'; },
       tip1: 'Lay your phone flat and tap anywhere.<br>The bar goes down for the backstroke<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', stopAuto: 'Lift the phone to stop', tip1Auto: 'The bar goes down for the backstroke<br>and reaches the top at impact.', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_metronome: 'Metronome', s_bat: 'Baseball', s_deskbell: 'Desk bell', s_glock: 'Glocken', s_bike: 'Bike bell', s_cowbell: 'Cowbell', s_bowl: 'Bowl', s_snap: 'Snap', s_marimba: 'Marimba', s_kalimba: 'Kalimba', s_retro: 'Retro', s_drip: 'Drip', s_digital: 'Start tone', s_wood: 'Wood', s_comic: 'Comic',
       language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'The forward stroke is a little longer than in 2:1.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
-      type_fast: 'Fast tempo', type_tour: 'Standard tempo', type_slow: 'Slow tempo',
+      type_fast: 'Fast tempo', type_tour: 'Tour Standard', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       bn_title: 'Tempo set. Next, your line.', bn_body: 'This app needs no extra gear. If you\'d like an easy alignment reference on your putter, Redstick snaps on magnetically.', bn_cta: 'See on Amazon',
       tempoLabel: 'Tempo',
@@ -2227,7 +2245,7 @@ html:lang(zh-CN) { --font: "Noto Sans SC", system-ui, "PingFang SC", "Microsoft 
 <p><b>A bigger bpm is faster, and more seconds is slower.</b> That is why the app always shows both.</p>
 <table><tr><th>Name</th><th>Total</th><th>bpm</th><th>Back / Forward</th></tr>
 <tr><td>Fast tempo</td><td>0.8 s</td><td>75</td><td>0.53 / 0.27 s</td></tr>
-<tr><td><b>Standard tempo</b></td><td><b>0.9 s</b></td><td><b>67</b></td><td>0.60 / 0.30 s</td></tr>
+<tr><td><b>Tour Standard</b></td><td><b>0.9 s</b></td><td><b>67</b></td><td>0.60 / 0.30 s</td></tr>
 <tr><td>Slow tempo</td><td>1.0 s</td><td>60</td><td>0.67 / 0.33 s</td></tr></table>
 <p>Pick one on the <b>Tempo</b> tab or fine-tune it in 0.01 s steps. You can also choose the rhythm ratio (2:1 or 1.5:1). The default is 2:1.</p>
 <p class="note">bpm is rounded to a whole number. Use the seconds for the exact time.</p>`],
@@ -2241,7 +2259,7 @@ html:lang(zh-CN) { --font: "Noto Sans SC", system-ui, "PingFang SC", "Microsoft 
 <li>You can also change the <b>bar thickness</b> and the <b>language</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">No sound? Check the silent mode and the volume. On iPhone you may be asked to allow motion access the first time.</p>`],
       ['How to practice', `<p>These are <b>suggestions</b> based on research and how the app works. They are not a proven prescription.</p>
-<ul><li><b>Start with the standard tempo (0.9 s).</b></li>
+<ul><li><b>Start with Tour Standard (0.9 s).</b></li>
 <li>Change it <b>one step (0.1 s) at a time</b>. Big jumps are hard to compare.</li>
 <li>Put <b>comfort first</b>. A faster or slower tempo is not better by itself. The goal is a beat you can repeat every time.</li>
 <li>Keep the <b>time the same</b> for different distances and change the <b>size of the stroke</b> instead.</li>
@@ -2574,16 +2592,72 @@ html:lang(zh-CN) { --font: "Noto Sans SC", system-ui, "PingFang SC", "Microsoft 
   var manualEl = document.getElementById('manual');
   var manualBody = document.getElementById('manualBody');
 
+  // ---- manual figures: no text inside, so one drawing serves every language ----
+  function badge(x, y, n) { return '<circle class="fg-accf" cx="' + x + '" cy="' + y + '" r="9"/><text class="fg-num" x="' + x + '" y="' + y + '">' + n + '</text>'; }
+
+  function figFlat() {
+    return '<figure class="man-fig"><svg viewBox="0 0 320 120" role="img" aria-hidden="true">' +
+      '<path class="fg-floor" d="M10 92H150M170 92H310"/>' +
+      '<path class="fg-dim" d="M160 14V100"/>' +
+      '<rect class="fg-line" x="35" y="82" width="80" height="10" rx="3"/>' +
+      '<path class="fg-line" d="M75 30V62M68 55l7 8 7-8"/>' +
+      '<circle class="fg-accf" cx="75" cy="16" r="10"/><path class="fg-white" d="M72 11l9 5-9 5z"/>' +
+      '<rect class="fg-line" x="205" y="76" width="80" height="10" rx="3" transform="rotate(-28 245 81)"/>' +
+      '<path class="fg-line" d="M295 62V32M288 39l7-8 7 8"/>' +
+      '<circle class="fg-accf" cx="245" cy="16" r="10"/><rect class="fg-white" x="240" y="11" width="10" height="10" rx="1.5"/>' +
+      '</svg></figure>';
+  }
+
+  function figBar() {
+    return '<figure class="man-fig"><svg viewBox="0 0 320 150" role="img" aria-hidden="true">' +
+      '<rect class="fg-line" x="125" y="10" width="70" height="132" rx="12"/>' +
+      '<path class="fg-dim" d="M160 30V116"/>' +
+      '<path class="fg-acc" d="M141 30H179"/><path class="fg-acc" d="M141 116H179" opacity="0.5"/>' +
+      '<circle cx="160" cy="10" r="9" fill="#ece8e1" stroke="#a39a8d" stroke-width="1"/>' +
+      '<path class="fg-line" d="M92 36V108M85 101l7 8 7-8"/>' + badge(92, 22, 1) +
+      badge(160, 132, 2) +
+      '<path class="fg-line" d="M228 108V36M221 43l7-8 7 8"/>' + badge(228, 22, 3) +
+      '</svg></figure>';
+  }
+
+  function figTime() {
+    var a = dec('0.6'), b = dec('0.3');
+    return '<figure class="man-fig"><svg viewBox="0 0 320 84" role="img" aria-hidden="true">' +
+      '<rect class="fg-accf2" x="10" y="32" width="198" height="20" rx="10"/>' +
+      '<rect class="fg-accf" x="212" y="32" width="98" height="20" rx="10"/>' +
+      '<text class="fg-txt" x="109" y="24">' + a + ' s</text><text class="fg-txt" x="261" y="24">' + b + ' s</text>' +
+      '<circle class="fg-accf" cx="10" cy="68" r="5"/><path class="fg-acc" d="M19 62a8 8 0 0 1 0 12M25 58a14 14 0 0 1 0 20" stroke-width="2"/>' +
+      '<circle class="fg-accf" cx="310" cy="68" r="5"/><path class="fg-acc" d="M301 62a8 8 0 0 0 0 12M295 58a14 14 0 0 0 0 20" stroke-width="2"/>' +
+      '</svg></figure>';
+  }
+
+  var MAN_ICONS = [
+    '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor"/>',
+    '<path d="M8.5 21 10.8 4h2.4L15.5 21z"/><path d="M12 16 16 7"/><path d="M6 21h12"/>',
+    '<path d="M6 3h12v18l-6-4-6 4z"/>',
+    '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/>',
+    '<path d="M8 21V4"/><path d="M8 5h10l-3 3.5 3 3.5H8"/><ellipse cx="9" cy="21" rx="5" ry="1.4"/>',
+    '<path d="M3 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H3z"/><path d="M21 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7z"/>',
+    '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7"/><circle cx="12" cy="17" r="0.7" fill="currentColor"/>'
+  ];
+
   function renderManual() {
     manualBody.textContent = '';
     MAN[lang].forEach(function (sec, i) {
       var d = document.createElement('details');
       if (i === 0) d.open = true;
       var sm = document.createElement('summary');
-      sm.textContent = sec[0];
+      var ic = document.createElement('span');
+      ic.className = 'man-ic';
+      ic.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (MAN_ICONS[i] || '') + '</svg>';
+      var ti = document.createElement('span');
+      ti.textContent = sec[0];
+      sm.appendChild(ic);
+      sm.appendChild(ti);
       var c = document.createElement('div');
       c.className = 'man-c';
-      c.innerHTML = sec[1];
+      c.innerHTML = (i === 0 ? figFlat() + figBar() : i === 1 ? figTime() : '') + sec[1];
+      if (i === 0) { var steps = c.querySelector('ul'); if (steps) steps.className = 'man-steps'; }
       d.appendChild(sm);
       d.appendChild(c);
       manualBody.appendChild(d);
