@@ -57,6 +57,14 @@ body {
   cursor: default;
 }
 .track { position: fixed; inset: 0; background: radial-gradient(120% 70% at 50% 28%, #1a100f 0%, #0A0504 62%); overflow: hidden; }
+.lights { position: fixed; z-index: 20; left: 20%; top: 50%; transform: translate(-50%, -50%); display: none; flex-direction: column; align-items: center; gap: 16px; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; }
+.is-running .lights { display: flex; }
+.lights.show { opacity: 1; }
+.lights i { width: 30px; height: 30px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid rgba(244, 241, 236, 0.22); background: transparent; transition: background 0.12s, border-color 0.12s; }
+.lights i[hidden] { display: none; }
+.lights .r.on { background: #E0383E; border-color: #E0383E; }
+.lights .y.on { background: #E9B520; border-color: #E9B520; }
+.lights .g.on { background: #33B868; border-color: #33B868; }
 .bar {
   position: absolute;
   left: 0;
@@ -210,7 +218,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--fg); outline-of
 .splash img { height: 36px; width: auto; animation: splashIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes splashIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
 .manual { background: #1c1615; -webkit-backdrop-filter: none; backdrop-filter: none; z-index: 45; top: calc(env(safe-area-inset-top, 0px) + 64px); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); max-width: 560px; max-height: none; gap: 12px; overflow: hidden; }
-.manual .sm.ghost, #howtoMore { min-height: 44px; padding: 0 16px; font: 600 14px var(--font); }
+.man-quick { display: flex; flex-direction: column; gap: 12px; padding: 2px 2px 14px; margin-bottom: 6px; border-bottom: 1px solid var(--hair); }
+.man-quick .howto-title { font-size: 18px; }
 .man-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; }
 .man-body details { border: 1px solid var(--hair); border-radius: 14px; background: rgba(255, 255, 255, 0.03); }
 .man-body summary { list-style: none; cursor: pointer; padding: 14px 16px; font: 700 15px/1.4 var(--font); display: flex; align-items: center; justify-content: space-between; gap: 12px; word-break: keep-all; }
@@ -412,6 +421,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 
 <div id="splash" class="splash" aria-hidden="true"><img alt=""></div>
 
+<div id="lights" class="lights" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></div>
 <div id="track" class="track" aria-hidden="true">
   <div id="bar" class="bar"></div>
 </div>
@@ -485,11 +495,12 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       </div></div></div>
     </section>
     <section class="acc">
-      <button class="acc-h" type="button" aria-expanded="false" aria-controls="acc-auto"><span class="acc-t" data-i18n="auto"></span><span class="acc-v" id="accv-auto"></span><svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-      <div class="acc-w" id="acc-auto"><div class="acc-b"><div class="acc-i">
-      <div class="sounds two" role="group" aria-label="자동 시작" data-i18n-aria="auto">
-      <button class="snd" type="button" data-auto="0" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="12"/><path d="M12 28 28 12"/></svg><span data-i18n="auto_0"></span></button>
-      <button class="snd" type="button" data-auto="1" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5v12M14 12l6 6 6-6"/><rect x="5" y="24" width="30" height="9" rx="3"/><path d="M5 28.500h30" opacity="0.4"/></svg><span data-i18n="auto_1"></span></button>
+      <button class="acc-h" type="button" aria-expanded="false" aria-controls="acc-rest"><span class="acc-t" data-i18n="rest"></span><span class="acc-v" id="accv-rest"></span><svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="acc-w" id="acc-rest"><div class="acc-b"><div class="acc-i">
+      <div class="sounds" role="group" aria-label="쉬는 시간" data-i18n-aria="rest">
+      <button class="snd" type="button" data-rest="1" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="13"/><path d="M20 12v8l5 3"/></svg><span data-rest-label="1"></span><small data-i18n="rest_l1"></small></button>
+      <button class="snd" type="button" data-rest="2" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="12" y="6" width="16" height="28" rx="8"/><circle cx="20" cy="14" r="3.6" fill="#E3262D" stroke="none"/><circle cx="20" cy="26" r="3.6" fill="#27C25B" stroke="none"/></svg><span data-rest-label="2"></span><small data-i18n="rest_l2"></small></button>
+      <button class="snd" type="button" data-rest="3" aria-pressed="false"><svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="12" y="3" width="16" height="34" rx="8"/><circle cx="20" cy="12" r="3.6" fill="#E3262D" stroke="none"/><circle cx="20" cy="20" r="3.6" fill="#F5B800" stroke="none"/><circle cx="20" cy="28" r="3.6" fill="#27C25B" stroke="none"/></svg><span data-rest-label="3"></span><small data-i18n="rest_l3"></small></button>
       </div>
       </div></div></div>
     </section>
@@ -520,7 +531,6 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       </div></div></div>
     </section>
     <button id="manualRow" class="acc-link" type="button"><span data-i18n="manual_row">설명서</span><span class="acc-v"></span><svg class="chev" style="transform:rotate(-90deg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-    <button id="howtoRow" class="acc-link" type="button"><span data-i18n="howto_row">사용법</span><span class="acc-v"></span><svg class="chev" style="transform:rotate(-90deg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <a id="buyLink" class="rs-banner" href="https://www.amazon.com/dp/B0FZK2LQ7P" target="_blank" rel="noopener">
       <p class="kicker">Redstick</p>
       <h3 data-i18n="bn_title"></h3>
@@ -573,16 +583,6 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 </nav>
 
 <div id="scrim" class="scrim" hidden></div>
-<div id="howto" class="sheet howto" role="dialog" aria-modal="true" aria-labelledby="howtoTitle" hidden>
-  <strong id="howtoTitle" class="howto-title" data-i18n="howto_title">이렇게 써요</strong>
-  <ol class="steps">
-    <li><i>1</i><span data-i18n="howto_1"></span></li>
-    <li><i>2</i><span data-i18n="howto_2"></span></li>
-    <li><i>3</i><span data-i18n="howto_3"></span></li>
-    <li><i>4</i><span data-i18n="howto_4"></span></li>
-  </ol>
-  <div class="sheet-actions"><button id="howtoMore" class="ghost sm" type="button" data-i18n="manual_more">설명서 보기</button><button id="howtoGo" class="go sm" type="button" data-i18n="howto_ok">알겠어요</button></div>
-</div>
 
 <div id="manual" class="sheet manual" role="dialog" aria-modal="true" aria-labelledby="manualTitle" hidden>
   <strong id="manualTitle" class="howto-title" data-i18n="manual_title">설명서</strong>
@@ -613,7 +613,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       tip1: '폰을 바닥에 평평하게 놓고 화면 아무 곳이나 누르세요.<br>바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트',
       start: '시작', stop: '화면을 아무 곳이나 누르면 멈춰요', stopAuto: '폰을 들면 멈춰요', tip1Auto: '바가 내려갈 때 백스트로크,<br>올라와 맨 위에 닿을 때 임팩트', remeasure: '나의 템포 다시 고르기', back: '돌아가기', settingsTitle: '설정',
       sound: '소리', s_metronome: '메트로놈', s_bat: '야구', s_deskbell: '데스크벨', s_glock: '글로켄슈필', s_bike: '자전거', s_cowbell: '카우벨', s_bowl: '싱잉볼', s_snap: '스냅', s_marimba: '마림바', s_kalimba: '칼림바', s_retro: '레트로', s_drip: '물방울', s_digital: '출발음', s_wood: '나무', s_comic: '코믹',
-      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1보다 포워드가 조금 더 긴 비율이에요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요. 설정에서 끌 수 있어요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
+      language: '언어', ratioLabel: '리듬 비율', ratio_2: '투어 선수 측정에서 가장 흔한 비율이에요.', ratio_15: '2:1보다 포워드가 조금 더 긴 비율이에요.', buy: '구매하기', shop: '네이버 스마트스토어', buyUrl: 'https://smartstore.naver.com/redstickgolf', howto_title: '이렇게 써요', howto_1: '폰을 바닥에 평평하게 놓아요. 놓으면 자동으로 시작하고, 들면 멈춰요.', howto_2: '바가 내려가는 동안이 백스트로크예요. 맨 아래에서 포워드로 바뀌고, 올라와 공에 닿는 순간이 임팩트예요.', howto_3: '소리와 불빛에 맞춰 스트로크해요. 신호는 설정에서 바꿀 수 있어요.', howto_4: '템포 탭에서 나에게 편한 속도를 골라요.', howto_ok: '알겠어요', howto_row: '사용법', tab_home: '연습', tab_measure: '템포', tab_settings: '설정', about: '레드스틱 웹사이트', install_title: '홈 화면에 추가해서 앱처럼 써요', install_ios: '아래의 공유 버튼 ▸ "홈 화면에 추가"를 눌러요', install_android: '설치하면 주소창 없이 앱처럼 열려요', install_btn: '설치', install_later: '나중에', auto: '자동 시작', auto_0: '끄기', auto_1: '켜기', autoHint: '바닥에 놓으면 자동으로 시작해요', autoDenied: '모션 센서 사용이 허용되지 않았어요.', backLabel: '백스트로크', fwdLabel: '포워드', turn: '전환 표시', turn_off: '없음', turn_flash: '바 번쩍', turn_ring: '파동', turn_screen: '화면 번쩍', turn_bottom: '아랫부분', lead: '신호 시점', lead_0: '정각', lead_1: '0.1초 전', lead_2: '0.2초 전', rest: "쉬는 시간", rest_l1: "신호등 없음", rest_l2: "신호등 2색", rest_l3: "신호등 3색", barSize: '바 굵기', bar_s: '얇게', bar_m: '보통', bar_l: '굵게',
       type_fast: '빠른 템포', type_tour: '기본 템포', type_slow: '느린 템포',
       measureTitle: '나의 템포 고르기', tipPick: '하나 고르고 연습해 보세요.<br>편하지 않으면 다시 와서 조정하면 돼요.',
       bn_title: '템포는 잡았어요. 이제 방향이에요.', bn_body: '템포 연습은 폰 하나면 충분해요. 클럽에 자석으로 붙이는 정렬 기준, 레드스틱도 있어요.', bn_cta: '레드스틱 보러가기',
@@ -628,7 +628,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       tip1: 'Lay your phone flat and tap anywhere.<br>The bar goes down for the backstroke<br>and reaches the top at impact.',
       start: 'Start', stop: 'Touch anywhere to stop', stopAuto: 'Lift the phone to stop', tip1Auto: 'The bar goes down for the backstroke<br>and reaches the top at impact.', remeasure: 'Change my tempo', back: 'Back', settingsTitle: 'Settings',
       sound: 'Sound', s_metronome: 'Metronome', s_bat: 'Baseball', s_deskbell: 'Desk bell', s_glock: 'Glocken', s_bike: 'Bike bell', s_cowbell: 'Cowbell', s_bowl: 'Bowl', s_snap: 'Snap', s_marimba: 'Marimba', s_kalimba: 'Kalimba', s_retro: 'Retro', s_drip: 'Drip', s_digital: 'Start tone', s_wood: 'Wood', s_comic: 'Comic',
-      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'The forward stroke is a little longer than in 2:1.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up. You can turn this off in Settings.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
+      language: 'Language', ratioLabel: 'Rhythm ratio', ratio_2: 'The most common ratio in tour player measurements.', ratio_15: 'The forward stroke is a little longer than in 2:1.', buy: 'Buy', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: 'How it works', howto_1: 'Lay your phone flat. It starts by itself when you put it down and stops when you pick it up.', howto_2: 'While the bar moves down you are in the backstroke. At the bottom it turns into the forward stroke, and impact is when it reaches the ball.', howto_3: 'Stroke to the sound and light. You can change the cue in Settings.', howto_4: 'Pick the speed that feels natural in the Tempo tab.', howto_ok: 'Got it', howto_row: 'How to use', tab_home: 'Practice', tab_measure: 'Tempo', tab_settings: 'Settings', about: 'Redstick website', install_title: 'Add to your Home Screen to use it like an app', install_ios: 'Tap the Share button, then "Add to Home Screen"', install_android: 'Install it to open full screen, like an app', install_btn: 'Install', install_later: 'Not now', auto: 'Auto start', auto_0: 'Off', auto_1: 'On', autoHint: 'Lay it flat and it starts by itself', autoDenied: 'Motion access was not allowed.', backLabel: 'Backstroke', fwdLabel: 'Forward', turn: 'Transition cue', turn_off: 'Off', turn_flash: 'Bar flash', turn_ring: 'Ripple', turn_screen: 'Screen flash', turn_bottom: 'Bottom glow', lead: 'Cue timing', lead_0: 'On time', lead_1: '0.1 s early', lead_2: '0.2 s early', rest: "Rest between strokes", rest_l1: "No lights", rest_l2: "2 lights", rest_l3: "3 lights", barSize: 'Bar thickness', bar_s: 'Thin', bar_m: 'Medium', bar_l: 'Thick',
       type_fast: 'Fast tempo', type_tour: 'Tour Standard', type_slow: 'Slow tempo',
       measureTitle: 'Pick my tempo', tipPick: 'Pick one and try it out.<br>If it does not feel right, come back and adjust.',
       bn_title: 'Tempo set. Next, your line.', bn_body: 'This app needs no extra gear. If you\'d like an easy alignment reference on your putter, Redstick snaps on magnetically.', bn_cta: 'See on Amazon',
@@ -643,7 +643,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       tip1: 'スマホを平らに置いて、画面のどこかをタップ。<br>バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。',
       start: 'スタート', stop: '画面のどこかをタップで停止', stopAuto: 'スマホを持ち上げると停止', tip1Auto: 'バーが下がる間がバックスイング、<br>上に戻って頂点に触れた瞬間がインパクト。', remeasure: '自分のテンポを選び直す', back: '戻る', settingsTitle: '設定',
       sound: 'サウンド', s_metronome: 'メトロノーム', s_bat: '野球', s_deskbell: 'ベル', s_glock: 'グロッケン', s_bike: '自転車', s_cowbell: 'カウベル', s_bowl: 'ボウル', s_snap: 'スナップ', s_marimba: 'マリンバ', s_kalimba: 'カリンバ', s_retro: 'レトロ', s_drip: '水滴', s_digital: 'スタート音', s_wood: '木', s_comic: 'コミック',
-      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: 'フォワードが2:1より少し長い比率です。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。設定でオフにできます。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
+      language: '言語', ratioLabel: 'リズム比', ratio_2: 'ツアー選手の計測で最も多い比率です。', ratio_15: 'フォワードが2:1より少し長い比率です。', buy: '購入する', shop: 'Amazon', buyUrl: 'https://www.amazon.com/dp/B0FZK2LQ7P', howto_title: '使い方', howto_1: 'スマホを平らに置きます。置くと自動で始まり、持ち上げると止まります。', howto_2: 'バーが下がる間がバックスイング。一番下でダウンに切り替わり、ボールに触れる瞬間がインパクトです。', howto_3: '音と光に合わせてストロークします。合図は設定で変更できます。', howto_4: 'テンポタブで自分に合った速さを選びます。', howto_ok: 'わかりました', howto_row: '使い方', tab_home: '練習', tab_measure: 'テンポ', tab_settings: '設定', about: 'Redstick 公式サイト', install_title: 'ホーム画面に追加してアプリのように使おう', install_ios: '共有ボタン ▸「ホーム画面に追加」をタップ', install_android: 'インストールすると全画面でアプリのように開きます', install_btn: 'インストール', install_later: 'あとで', auto: '自動スタート', auto_0: 'オフ', auto_1: 'オン', autoHint: 'スマホを平らに置くと自動で始まります', autoDenied: 'モーションセンサーが許可されていません。', backLabel: 'バックスイング', fwdLabel: 'ダウン', turn: '切り返しの合図', turn_off: 'なし', turn_flash: 'バー点滅', turn_ring: '波紋', turn_screen: '画面点滅', turn_bottom: '下側', lead: '合図のタイミング', lead_0: 'ちょうど', lead_1: '0.1秒前', lead_2: '0.2秒前', rest: "休憩時間", rest_l1: "信号なし", rest_l2: "信号2色", rest_l3: "信号3色", barSize: 'バーの太さ', bar_s: '細め', bar_m: '標準', bar_l: '太め',
       type_fast: '速いテンポ', type_tour: '標準テンポ', type_slow: 'ゆったりテンポ',
       measureTitle: '自分のテンポを選ぶ', tipPick: '選んで練習してみましょう。<br>しっくりこなければ、戻って調整できます。',
       bn_title: 'テンポは整いました。次は方向。', bn_body: 'テンポ練習はスマホ1つでOK。クラブに磁石で付けられる、方向合わせの目安のRedstickもあります。', bn_cta: 'Amazonで見る',
@@ -694,7 +694,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       shop: "Amazon",
       buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
       howto_title: "使用方法",
-      howto_1: "手机平放即可。放下时自动开始，拿起时自动停止。可在设置中关闭。",
+      howto_1: "手机平放即可。放下时自动开始，拿起时自动停止。",
       howto_2: "光条下移时是上杆。到底部后转为推杆，到达球的位置就是击球。",
       howto_3: "跟着声音和灯光挥杆。可在设置中更改提示方式。",
       howto_4: "在“节奏”页选择顺手的速度。",
@@ -726,7 +726,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       lead_0: "准时",
       lead_1: "提前 0.1 秒",
       lead_2: "提前 0.2 秒",
-      barSize: "光条粗细",
+      rest: "间隔时间", rest_l1: "无信号灯", rest_l2: "2色信号灯", rest_l3: "3色信号灯", barSize: "光条粗细",
       bar_s: "细",
       bar_m: "中",
       bar_l: "粗",
@@ -797,7 +797,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       shop: "Amazon",
       buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
       howto_title: "Cómo funciona",
-      howto_1: "Coloca el móvil plano. Empieza solo al dejarlo y se detiene al levantarlo. Puedes desactivarlo en Ajustes.",
+      howto_1: "Coloca el móvil plano. Empieza solo al dejarlo y se detiene al levantarlo.",
       howto_2: "Mientras la barra baja, estás en el backswing. Abajo pasa al swing hacia adelante, y el impacto es cuando llega a la bola.",
       howto_3: "Haz el golpe siguiendo el sonido y la luz. Puedes cambiar la señal en Ajustes.",
       howto_4: "Elige en la pestaña Tempo la velocidad que te resulte natural.",
@@ -829,7 +829,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       lead_0: "A tiempo",
       lead_1: "0,1 s antes",
       lead_2: "0,2 s antes",
-      barSize: "Grosor de la barra",
+      rest: "Pausa entre golpes", rest_l1: "Sin luces", rest_l2: "2 luces", rest_l3: "3 luces", barSize: "Grosor de la barra",
       bar_s: "Fina",
       bar_m: "Media",
       bar_l: "Gruesa",
@@ -900,7 +900,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       shop: "Amazon",
       buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
       howto_title: "So funktioniert's",
-      howto_1: "Leg dein Handy flach hin. Es startet von selbst, wenn du es ablegst, und stoppt, wenn du es aufnimmst. In den Einstellungen kannst du das ausschalten.",
+      howto_1: "Leg dein Handy flach hin. Es startet von selbst, wenn du es ablegst, und stoppt, wenn du es aufnimmst.",
       howto_2: "Solange der Balken nach unten geht, bist du im Rückschwung. Unten wechselt er in den Durchschwung, und der Treffmoment ist, wenn er den Ball erreicht.",
       howto_3: "Putte im Takt von Ton und Licht. Den Hinweis kannst du in den Einstellungen ändern.",
       howto_4: "Wähle im Tab Tempo die Geschwindigkeit, die sich natürlich anfühlt.",
@@ -932,7 +932,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       lead_0: "Pünktlich",
       lead_1: "0,1 s früher",
       lead_2: "0,2 s früher",
-      barSize: "Balkendicke",
+      rest: "Pause zwischen Schlägen", rest_l1: "Ohne Ampel", rest_l2: "2 Farben", rest_l3: "3 Farben", barSize: "Balkendicke",
       bar_s: "Dünn",
       bar_m: "Mittel",
       bar_l: "Dick",
@@ -1003,7 +1003,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       shop: "Amazon",
       buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
       howto_title: "Comment ça marche",
-      howto_1: "Pose ton téléphone à plat. Il démarre tout seul quand tu le poses et s'arrête quand tu le soulèves. Tu peux désactiver cela dans les réglages.",
+      howto_1: "Pose ton téléphone à plat. Il démarre tout seul quand tu le poses et s'arrête quand tu le soulèves.",
       howto_2: "Quand la barre descend, tu es dans le mouvement arrière. En bas, elle passe au mouvement avant, et l'impact a lieu quand elle atteint la balle.",
       howto_3: "Putte en suivant le son et la lumière. Tu peux changer le signal dans les réglages.",
       howto_4: "Choisis la vitesse qui te semble naturelle dans l'onglet Tempo.",
@@ -1035,7 +1035,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       lead_0: "Pile",
       lead_1: "0,1 s avant",
       lead_2: "0,2 s avant",
-      barSize: "Épaisseur de la barre",
+      rest: "Pause entre les coups", rest_l1: "Sans feux", rest_l2: "2 feux", rest_l3: "3 feux", barSize: "Épaisseur de la barre",
       bar_s: "Fine",
       bar_m: "Moyenne",
       bar_l: "Épaisse",
@@ -1106,7 +1106,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       shop: "Amazon",
       buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
       howto_title: "Så fungerar det",
-      howto_1: "Lägg telefonen platt. Den startar av sig själv när du lägger ner den och stoppar när du lyfter den. Du kan stänga av det i Inställningar.",
+      howto_1: "Lägg telefonen platt. Den startar av sig själv när du lägger ner den och stoppar när du lyfter den.",
       howto_2: "När staven går ner är du i baksvinget. Längst ner går det över i framsvinget, och träffen är när den når bollen.",
       howto_3: "Slå i takt med ljudet och ljuset. Du kan ändra signalen i Inställningar.",
       howto_4: "Välj det tempo som känns naturligt på fliken Tempo.",
@@ -1138,7 +1138,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       lead_0: "I tid",
       lead_1: "0,1 s tidigt",
       lead_2: "0,2 s tidigt",
-      barSize: "Stavens tjocklek",
+      rest: "Paus mellan slag", rest_l1: "Utan ljus", rest_l2: "2 ljus", rest_l3: "3 ljus", barSize: "Stavens tjocklek",
       bar_s: "Tunn",
       bar_m: "Medel",
       bar_l: "Tjock",
@@ -1209,7 +1209,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       shop: "Amazon",
       buyUrl: "https://www.amazon.com/dp/B0FZK2LQ7P",
       howto_title: "Come funziona",
-      howto_1: "Appoggia il telefono in piano. Parte da solo quando lo posi e si ferma quando lo sollevi. Puoi disattivarlo nelle Impostazioni.",
+      howto_1: "Appoggia il telefono in piano. Parte da solo quando lo posi e si ferma quando lo sollevi.",
       howto_2: "Mentre la barra scende sei nel backswing. In basso diventa il movimento in avanti, e l'impatto è quando arriva alla palla.",
       howto_3: "Colpisci a tempo con il suono e la luce. Puoi cambiare il segnale nelle Impostazioni.",
       howto_4: "Scegli la velocità che ti sembra naturale nella scheda Tempo.",
@@ -1241,7 +1241,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       lead_0: "Puntuale",
       lead_1: "0,1 s prima",
       lead_2: "0,2 s prima",
-      barSize: "Spessore barra",
+      rest: "Pausa tra i colpi", rest_l1: "Senza luci", rest_l2: "2 luci", rest_l3: "3 luci", barSize: "Spessore barra",
       bar_s: "Sottile",
       bar_m: "Medio",
       bar_l: "Spesso",
@@ -1310,7 +1310,9 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   var BACK = TOUR.back;
   var FWD = TOUR.fwd;
   var STROKE = BACK + FWD;   // 0.9 s (67 bpm)
-  var CYCLE = STROKE + 1;    // one stroke, then one second of rest at the top
+  var REST = 1;              // seconds of rest at the top between strokes: 1 (no lights), 2 (red, green) or 3 (red, yellow, green)
+  try { var rr = parseInt(localStorage.getItem('putting-tempo-rest'), 10); if (rr === 2 || rr === 3) REST = rr; } catch (e) {}
+  var CYCLE = STROKE + REST;    // one stroke, then the rest at the top
 
   var sound = 'metronome';
   var running = false;
@@ -1408,6 +1410,35 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
     timer = setTimeout(schedule, 25);
   }
 
+  // Traffic light for the rest between strokes. It is hidden for the first second after impact, then:
+  // 3 s rest: red, yellow, then green = the stroke starts; 2 s rest: red, then green = the stroke starts.
+  // Green shows for the first moment of the stroke and the light fades away until the next rest.
+  var lightsEl = document.getElementById('lights');
+  var lampR = lightsEl.querySelector('.r');
+  var lampY = lightsEl.querySelector('.y');
+  var lampG = lightsEl.querySelector('.g');
+  var lastLamp = undefined;   // 'r' | 'y' | 'g' | '' (dark) | null (no lights at all)
+
+  function lampAt(t, ph) {
+    if (REST < 2) return null;
+    var pos;
+    if (t < 0) pos = REST + t;                      // counting down before the very first stroke
+    else if (ph < STROKE) return ph < 0.6 ? 'g' : null;   // green for the first moment of the stroke, then the light fades away
+    else pos = ph - STROKE;                         // seconds since impact
+    if (pos < 1) return null;                       // hidden for the first second after impact
+    return (REST === 3 && pos >= 2) ? 'y' : 'r';
+  }
+
+  function setLamp(l) {
+    if (l === lastLamp) return;
+    lastLamp = l;
+    lampY.hidden = REST !== 3;
+    lightsEl.classList.toggle('show', l !== null);
+    lampR.classList.toggle('on', l === 'r');
+    lampY.classList.toggle('on', l === 'y');
+    lampG.classList.toggle('on', l === 'g');
+  }
+
   function easeInOut(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
 
   function frame() {
@@ -1430,6 +1461,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       }
     }
     barEl.style.transform = 'translateY(' + (y * travel) + 'px)';
+    setLamp(lampAt(t, t >= 0 ? t % CYCLE : 0));
     if (inTurn !== wasTurn) {
       if (turnFx === 'flash') barEl.classList.toggle('turn', inTurn);
       if (inTurn) fireTurn(turnFx, false);
@@ -1458,7 +1490,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   function start() {
     if (!ensureCtx()) return;
     running = true;
-    baseT = ctx.currentTime + 1.2;
+    baseT = ctx.currentTime + Math.max(1.2, REST);   // lead-in: the lights count down before the first stroke
     nextN = 0;
     schedule();
     panelEl.classList.add('running');
@@ -1477,6 +1509,9 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
     clearTimeout(timer);
     cancelAnimationFrame(raf);
     barEl.style.transform = 'translateY(0)';
+    lastLamp = undefined;
+    lightsEl.classList.remove('show');
+    lampR.classList.remove('on'); lampY.classList.remove('on'); lampG.classList.remove('on');
     barEl.classList.remove('hit', 'turn');
     ballEl.classList.remove('hit');
     wasTurn = false;
@@ -1530,7 +1565,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
     BACK = T.back;
     FWD = T.fwd;
     STROKE = BACK + FWD;
-    CYCLE = STROKE + 1;
+    CYCLE = STROKE + REST;
     if (typeof pvStart === 'function') pvStart();
   }
 
@@ -1905,8 +1940,8 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
     var ld = pressedText('[data-lead]');
     document.getElementById('accv-sound').textContent = pressedText('[data-sound]');
     document.getElementById('accv-turn').textContent = turn + (lead > 0 ? ' · ' + ld : '');
-    document.getElementById('accv-auto').textContent = pressedText('[data-auto]');
     document.getElementById('accv-bar').textContent = pressedText('[data-bar]');
+    document.getElementById('accv-rest').textContent = t('sec')(REST) + ' \u00b7 ' + t('rest_l' + REST);
     document.getElementById('accv-lang').textContent = pressedText('[data-lang]');
   }
 
@@ -1966,8 +2001,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   var okSince = 0;
   var motionBound = false;
   var motionSeen = false;   // the hint only shows once the phone really reports motion
-  autoOn = typeof DeviceMotionEvent !== 'undefined';   // on by default; '0' means the user switched it off
-  try { if (localStorage.getItem('putting-tempo-auto') === '0') autoOn = false; } catch (e) {}
+  autoOn = typeof DeviceMotionEvent !== 'undefined';   // always on when the phone has a motion sensor; there is no switch
 
   // auto mode is only 'active' once the phone really reports motion
   function autoActive() { return autoOn && motionSeen; }
@@ -2026,47 +2060,10 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   }
 
   function renderAuto() {
-    Array.prototype.forEach.call(document.querySelectorAll('[data-auto]'), function (b) {
-      b.setAttribute('aria-pressed', String((b.getAttribute('data-auto') === '1') === autoOn));
-    });
     var hint = document.getElementById('autoHint');
     hint.hidden = !autoShown();
     if (autoOn) hint.textContent = t('autoHint');
   }
-
-  function setAuto(on) {
-    if (!on) {
-      autoOn = false;
-      armed = false;
-      try { localStorage.setItem('putting-tempo-auto', '0'); } catch (e) {}
-      if (!running) unlockScreen();
-      renderAuto();
-      renderHome();
-      return;
-    }
-    requestMotion().then(function (ok) {
-      if (!ok) {
-        autoOn = false;
-        msgEl.textContent = t('autoDenied');
-        renderAuto();
-        return;
-      }
-      autoOn = true;
-      armed = false;
-      msgEl.textContent = '';
-      try { localStorage.setItem('putting-tempo-auto', '1'); } catch (e) {}
-      bindMotion();
-      ensureCtx();     // unlock audio while we still have a user gesture
-      lockScreen();    // keep the screen on while waiting for the phone to be put down
-      renderAuto();
-      renderHome();
-      renderSummaries();
-    });
-  }
-
-  Array.prototype.forEach.call(document.querySelectorAll('[data-auto]'), function (b) {
-    b.addEventListener('click', function () { setAuto(b.getAttribute('data-auto') === '1'); });
-  });
 
   function applyAuto() {
     if (autoOn) {
@@ -2075,7 +2072,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
         document.addEventListener('pointerdown', function () {
           requestMotion().then(function (ok) {
             if (ok) bindMotion();
-            else { autoOn = false; try { localStorage.setItem('putting-tempo-auto', '0'); } catch (e) {} renderAuto(); renderSummaries(); }
+            else { autoOn = false; renderAuto(); renderSummaries(); }   // permission refused: manual start only, this session
           });
         }, { once: true });
       } else bindMotion();
@@ -2087,6 +2084,24 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   // audio can only start after a touch: unlock it on the first one
   document.addEventListener('pointerdown', function () { ensureCtx(); }, { once: true });
   document.addEventListener('visibilitychange', function () { if (!document.hidden && (autoOn || running)) lockScreen(); });
+
+  // ---- rest between strokes: basic (1 s, no lights) or 3 s with traffic lights ----
+  function renderRest() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-rest]'), function (b) {
+      var n = parseInt(b.getAttribute('data-rest'), 10);
+      b.setAttribute('aria-pressed', String(n === REST));
+      b.querySelector('[data-rest-label]').textContent = t('sec')(n);
+    });
+    document.getElementById('accv-rest').textContent = t('sec')(REST) + ' \u00b7 ' + t('rest_l' + REST);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rest]'), function (b) {
+    b.addEventListener('click', function () {
+      REST = parseInt(b.getAttribute('data-rest'), 10);
+      try { localStorage.setItem('putting-tempo-rest', String(REST)); } catch (e) {}
+      applyTempo();
+      renderRest();
+    });
+  });
 
   // ---- tabs: Practice / Tempo / Settings ----
   var runs = 0;
@@ -2160,7 +2175,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       if (isStandalone()) return;
       try { if (localStorage.getItem('putting-tempo-install') === '1') return; } catch (e) {}
     }
-    if (!forceInstall && (!howtoSeen() || !howtoEl.hidden)) return;
+    if (!forceInstall && (!howtoSeen() || !manualEl.hidden)) return;
     if (!deferredInstall && !isIOS && !forceInstall) return;
     document.getElementById('installText').textContent = deferredInstall ? t('install_android') : t('install_ios');
     document.getElementById('installGo').hidden = !deferredInstall;
@@ -2189,7 +2204,6 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   setTimeout(showInstall, 2800);
 
   // ---- how-to sheet: shown once on first launch, reopen from Settings ----
-  var howtoEl = document.getElementById('howto');
   var scrimEl = document.getElementById('scrim');
 
   function howtoSeen() {
@@ -2199,7 +2213,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   // ---- manual: folded sections, one language at a time ----
   var MAN = {
     ko: [
-      ['시작하기', `<p>폰을 퍼팅 매트나 바닥에 <b>평평하게</b> 놓으세요. 1초쯤 가만히 있으면 자동으로 시작해요. 폰을 <b>들면 멈춰요</b>. 설정에서 자동 시작을 끌 수 있어요.</p>
+      ['시작하기', `<p>폰을 퍼팅 매트나 바닥에 <b>평평하게</b> 놓으세요. 1초쯤 가만히 있으면 자동으로 시작해요. 폰을 <b>들면 멈춰요</b>.</p>
 <p>손에 든 채로 시작하고 싶으면 <b>시작 버튼</b>이나 화면 아무 곳이나 누르세요. 이때는 폰을 바닥에 한 번 놓은 뒤부터 들어 올리면 멈춰요. 연습 중에 화면을 누르면 멈춰요.</p>
 <ul><li><b>바가 내려가는 동안</b>이 백스트로크예요.</li><li><b>맨 아래</b>에서 포워드로 바뀌어요(전환).</li><li><b>바가 올라와 맨 위에 닿는 순간</b>이 임팩트예요.</li></ul>
 <p>소리는 <b>백스트로크가 시작될 때 한 번, 임팩트에서 한 번</b> 나요. 스트로크가 끝나면 1초 쉬고 다시 시작해요.</p>
@@ -2218,7 +2232,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ['소리와 표시 설정', `<p><b>설정</b> 탭에서 바꿀 수 있어요.</p>
 <ul><li><b>소리</b>: 15가지 중에 골라요. 누르면 시작 소리와 임팩트 소리를 차례로 들려줘요.</li>
 <li><b>전환 표시</b>: 백스트로크가 끝나고 포워드로 바뀌는 순간을 알려 줘요. 없음, 화면 번쩍(기본), 아랫부분, 바 번쩍, 파동 중에 고를 수 있어요.</li>
-<li><b>자동 시작</b>: 바닥에 놓으면 시작하고 들면 멈춰요.</li>
+<li><b>쉬는 시간</b>: 1초, 2초, 3초 중에 고릅니다. 2초와 3초에는 신호등이 나와요. 3초는 빨강·노랑·초록, 2초는 빨강·초록 순서로 켜지고, 초록불이 켜지는 순간 바가 출발해요.</li>
 <li><b>바 굵기</b>, <b>언어</b>(한국어·日本語·简体中文·English·Español·Deutsch·Français·Svenska·Italiano)도 바꿀 수 있어요.</li></ul>
 <p class="note">폰의 무음 모드나 볼륨이 꺼져 있으면 소리가 나지 않아요. 아이폰은 처음에 모션 사용 허용을 물어볼 수 있어요.</p>`],
       ['연습 방법', `<p>연구 결과와 앱 구조를 바탕으로 한 <b>권장 사용법</b>이에요. 검증된 처방이 아니에요.</p>
@@ -2243,7 +2257,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>저장하면 다른 폰에서도 보이나요?</b><br>아니요. 이 폰에만 저장돼요.</p>`]
     ],
     en: [
-      ['Getting started', `<p>Lay the phone <b>flat</b> on a putting mat or the floor and keep it still for about a second. It starts by itself. <b>Lift the phone to stop.</b> You can turn auto start off in Settings.</p>
+      ['Getting started', `<p>Lay the phone <b>flat</b> on a putting mat or the floor and keep it still for about a second. It starts by itself. <b>Lift the phone to stop.</b></p>
 <p>To start with the phone in your hand, tap the <b>Start button</b> or anywhere on the screen. After that, lifting the phone stops it only once you have laid it flat. Tap the screen to stop while you practice.</p>
 <ul><li>While the <b>bar goes down</b> is the backstroke.</li><li>At the <b>bottom</b> it turns into the forward stroke.</li><li>The moment the bar <b>reaches the top</b> is impact.</li></ul>
 <p>You hear a sound <b>once when the backstroke starts and once at impact</b>. After each stroke there is a one-second rest.</p>
@@ -2262,7 +2276,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ['Sound and cue settings', `<p>Change these in the <b>Settings</b> tab.</p>
 <ul><li><b>Sound</b>: choose from 15. Tap one to hear the start sound and the impact sound.</li>
 <li><b>Transition cue</b>: marks the moment the backstroke ends and the forward stroke begins. Choose Off, Screen flash (default), Bottom glow, Bar flash or Ripple.</li>
-<li><b>Auto start</b>: starts when you lay the phone down and stops when you lift it.</li>
+<li><b>Rest between strokes</b>: choose 1, 2 or 3 seconds. With 2 or 3 seconds a traffic light appears: red, yellow, green for 3 seconds, red and green for 2 seconds. The bar starts the moment the green light comes on.</li>
 <li>You can also change the <b>bar thickness</b> and the <b>language</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">No sound? Check the silent mode and the volume. On iPhone you may be asked to allow motion access the first time.</p>`],
       ['How to practice', `<p>These are <b>suggestions</b> based on research and how the app works. They are not a proven prescription.</p>
@@ -2287,7 +2301,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>Do my saved tempos show on another phone?</b><br>No. They are stored on this phone only.</p>`]
     ],
     ja: [
-      ['はじめに', `<p>パッティングマットや床にスマホを<b>平らに</b>置き、1秒ほど動かさないでください。自動で始まります。スマホを<b>持ち上げると止まります</b>。自動スタートは設定でオフにできます。</p>
+      ['はじめに', `<p>パッティングマットや床にスマホを<b>平らに</b>置き、1秒ほど動かさないでください。自動で始まります。スマホを<b>持ち上げると止まります</b>。</p>
 <p>手に持ったまま始めるときは<b>スタートボタン</b>か画面のどこかをタップします。その場合は、一度スマホを平らに置いたあとで持ち上げると止まります。練習中に画面をタップしても止まります。</p>
 <ul><li><b>バーが下がる間</b>がバックスイングです。</li><li><b>一番下</b>でダウンに切り替わります。</li><li><b>バーが上に戻って頂点に着く瞬間</b>がインパクトです。</li></ul>
 <p>音は<b>バックスイングの始まりに1回、インパクトに1回</b>鳴ります。1ストロークが終わると1秒休んでまた始まります。</p>
@@ -2306,7 +2320,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ['音と表示の設定', `<p><b>設定</b>タブで変更できます。</p>
 <ul><li><b>サウンド</b>: 15種類から選びます。タップすると開始音とインパクト音を続けて聞けます。</li>
 <li><b>切り替え表示</b>: バックスイングが終わってダウンに切り替わる瞬間を知らせます。なし、画面点滅(初期値)、下部、バー点滅、波紋から選べます。</li>
-<li><b>自動スタート</b>: 置くと始まり、持ち上げると止まります。</li>
+<li><b>休憩時間</b>: 1秒・2秒・3秒から選びます。2秒と3秒では信号が出ます。3秒は赤・黄・青、2秒は赤・青の順に点灯し、青が点いた瞬間にバーが出発します。</li>
 <li><b>バーの太さ</b>と<b>言語</b>(한국어・日本語・简体中文・English・Español・Deutsch・Français・Svenska・Italiano)も変えられます。</li></ul>
 <p class="note">音が出ないときはマナーモードと音量を確認してください。iPhoneでは初回にモーションの許可を求められることがあります。</p>`],
       ['練習のしかた', `<p>研究結果とアプリの仕組みに基づく<b>おすすめの使い方</b>です。効果が証明された処方ではありません。</p>
@@ -2331,7 +2345,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>保存したテンポは別のスマホでも見えますか?</b><br>いいえ。このスマホにだけ保存されます。</p>`]
     ],
     zh: [
-      ["开始使用", `<p>将手机<b>平放</b>在推杆垫或地面上，保持不动约一秒，就会自动开始。<b>拿起手机即可停止。</b>可在设置中关闭自动开始。</p>
+      ["开始使用", `<p>将手机<b>平放</b>在推杆垫或地面上，保持不动约一秒，就会自动开始。<b>拿起手机即可停止。</b></p>
 <p>如果想拿在手里开始，请点击<b>开始按钮</b>或屏幕任意位置。之后，只有把手机平放过，拿起手机才会停止。练习时也可以点击屏幕停止。</p>
 <ul><li><b>光条下移</b>的过程是上杆。</li><li>到<b>底部</b>时转为推杆。</li><li>光条<b>到达顶端</b>的瞬间就是击球。</li></ul>
 <p>你会听到声音：<b>上杆开始时一次，击球时一次</b>。每次挥杆后有一秒的休息。</p>
@@ -2350,7 +2364,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ["声音与提示设置", `<p>在<b>设置</b>页中更改。</p>
 <ul><li><b>声音</b>：共 15 种可选。点击一种即可听到开始音和击球音。</li>
 <li><b>转换提示</b>：标记上杆结束、推杆开始的瞬间。可选关、屏幕闪烁（默认）、底部光晕、光条闪烁或涟漪。</li>
-<li><b>自动开始</b>：放下手机时开始，拿起时停止。</li>
+<li><b>间隔时间</b>：可选 1 秒、2 秒、3 秒。选 2 秒或 3 秒时会出现信号灯：3 秒依次亮红、黄、绿，2 秒依次亮红、绿，绿灯亮起的瞬间光条出发。</li>
 <li>还可以更改<b>光条粗细</b>和<b>语言</b>（한국어、日本語、简体中文、English、Español、Deutsch、Français、Svenska、Italiano）。</li></ul>
 <p class="note">没有声音？请检查静音模式和音量。在 iPhone 上，首次使用时可能会请求允许访问动作传感器。</p>`],
       ["练习建议", `<p>以下只是根据研究和应用特点给出的<b>建议</b>，并非经过验证的处方。</p>
@@ -2375,7 +2389,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>我保存的节奏会在另一部手机上显示吗？</b><br>不会，它们只保存在这部手机上。</p>`]
     ],
     es: [
-      ["Primeros pasos", `<p>Coloca el móvil <b>plano</b> sobre una alfombrilla de putt o en el suelo y mantenlo quieto aproximadamente un segundo. Empieza solo. <b>Levanta el móvil para parar.</b> Puedes desactivar el inicio automático en Ajustes.</p>
+      ["Primeros pasos", `<p>Coloca el móvil <b>plano</b> sobre una alfombrilla de putt o en el suelo y mantenlo quieto aproximadamente un segundo. Empieza solo. <b>Levanta el móvil para parar.</b></p>
 <p>Para empezar con el móvil en la mano, toca el <b>botón Iniciar</b> o cualquier parte de la pantalla. Después, levantar el móvil solo lo detiene una vez que lo hayas dejado plano. Toca la pantalla para parar mientras practicas.</p>
 <ul><li>Mientras la <b>barra baja</b> es el backswing.</li><li>Abajo <b>cambia</b> al swing hacia adelante.</li><li>El momento en que la barra <b>llega arriba</b> es el impacto.</li></ul>
 <p>Oyes un sonido <b>una vez al empezar el backswing y otra en el impacto</b>. Después de cada golpe hay un descanso de un segundo.</p>
@@ -2394,7 +2408,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ["Ajustes de sonido y señales", `<p>Cámbialos en la pestaña <b>Ajustes</b>.</p>
 <ul><li><b>Sonido</b>: elige entre 15. Toca uno para oír el sonido de inicio y el de impacto.</li>
 <li><b>Señal de cambio</b>: marca el momento en que termina el backswing y empieza el swing hacia adelante. Elige No, Destello pantalla (por defecto), Brillo inferior, Destello barra u Onda.</li>
-<li><b>Inicio automático</b>: empieza al dejar el móvil plano y se detiene al levantarlo.</li>
+<li><b>Pausa entre golpes</b>: elige 1, 2 o 3 segundos. Con 2 o 3 segundos aparece un semáforo: rojo, ámbar y verde con 3 segundos; rojo y verde con 2 segundos. La barra arranca en cuanto se enciende la luz verde.</li>
 <li>También puedes cambiar el <b>grosor de la barra</b> y el <b>idioma</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">¿No hay sonido? Revisa el modo silencio y el volumen. En iPhone, la primera vez puede pedirte permiso de acceso al movimiento.</p>`],
       ["Cómo practicar", `<p>Son <b>sugerencias</b> basadas en estudios y en cómo funciona la app. No son una receta probada.</p>
@@ -2419,7 +2433,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>¿Mis tempos guardados aparecen en otro móvil?</b><br>No. Se guardan solo en este móvil.</p>`]
     ],
     de: [
-      ["Erste Schritte", `<p>Leg das Handy <b>flach</b> auf eine Puttingmatte oder den Boden und halte es etwa eine Sekunde ruhig. Es startet von selbst. <b>Heb das Handy an, um zu stoppen.</b> Den Autostart kannst du in den Einstellungen ausschalten.</p>
+      ["Erste Schritte", `<p>Leg das Handy <b>flach</b> auf eine Puttingmatte oder den Boden und halte es etwa eine Sekunde ruhig. Es startet von selbst. <b>Heb das Handy an, um zu stoppen.</b></p>
 <p>Wenn du mit dem Handy in der Hand starten willst, tippe auf den <b>Start-Button</b> oder irgendwo auf den Bildschirm. Danach stoppt das Anheben das Handy erst, nachdem du es flach hingelegt hast. Tippe beim Üben auf den Bildschirm, um zu stoppen.</p>
 <ul><li>Solange der <b>Balken nach unten geht</b>, ist es der Rückschwung.</li><li><b>Unten</b> wechselt er in den Durchschwung.</li><li>Der Moment, in dem der Balken <b>oben ankommt</b>, ist der Treffmoment.</li></ul>
 <p>Du hörst einen Ton <b>einmal beim Start des Rückschwungs und einmal beim Treffmoment</b>. Nach jedem Schlag gibt es eine Sekunde Pause.</p>
@@ -2438,7 +2452,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ["Sound- und Signal-Einstellungen", `<p>Ändere sie im Tab <b>Einstellungen</b>.</p>
 <ul><li><b>Sound</b>: Wähle aus 15. Tippe auf einen, um den Startton und den Treffton zu hören.</li>
 <li><b>Wechsel-Signal</b>: markiert den Moment, in dem der Rückschwung endet und der Durchschwung beginnt. Wähle Aus, Bildschirm-Blitz (Standard), Unten leuchten, Balken-Blitz oder Welle.</li>
-<li><b>Autostart</b>: startet, wenn du das Handy hinlegst, und stoppt, wenn du es anhebst.</li>
+<li><b>Pause zwischen Schlägen</b>: Wähle 1, 2 oder 3 Sekunden. Bei 2 oder 3 Sekunden erscheint eine Ampel: bei 3 Sekunden Rot, Gelb, Grün, bei 2 Sekunden Rot, Grün. Der Balken startet in dem Moment, in dem das grüne Licht angeht.</li>
 <li>Du kannst auch die <b>Balkendicke</b> und die <b>Sprache</b> ändern (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">Kein Ton? Prüfe den Stummmodus und die Lautstärke. Auf dem iPhone wirst du beim ersten Mal eventuell gebeten, den Zugriff auf Bewegungssensoren zu erlauben.</p>`],
       ["So übst du", `<p>Das sind <b>Vorschläge</b>, die auf Forschung und der Funktionsweise der App beruhen. Sie sind kein bewährtes Rezept.</p>
@@ -2463,7 +2477,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>Erscheinen meine gespeicherten Tempos auf einem anderen Handy?</b><br>Nein. Sie sind nur auf diesem Handy gespeichert.</p>`]
     ],
     fr: [
-      ["Pour commencer", `<p>Pose le téléphone <b>à plat</b> sur un tapis de putting ou par terre et ne bouge plus pendant environ une seconde. Il démarre tout seul. <b>Soulève le téléphone pour arrêter.</b> Tu peux désactiver le démarrage auto dans les réglages.</p>
+      ["Pour commencer", `<p>Pose le téléphone <b>à plat</b> sur un tapis de putting ou par terre et ne bouge plus pendant environ une seconde. Il démarre tout seul. <b>Soulève le téléphone pour arrêter.</b></p>
 <p>Pour démarrer avec le téléphone en main, touche le <b>bouton Démarrer</b> ou n'importe où sur l'écran. Ensuite, soulever le téléphone ne l'arrête qu'après l'avoir posé à plat. Touche l'écran pour arrêter pendant ton entraînement.</p>
 <ul><li>Quand la <b>barre descend</b>, c'est le mouvement arrière.</li><li>En <b>bas</b>, elle passe au mouvement avant.</li><li>Le moment où la barre <b>arrive en haut</b> est l'impact.</li></ul>
 <p>Tu entends un son <b>une fois au début du mouvement arrière et une fois à l'impact</b>. Après chaque coup, il y a une pause d'une seconde.</p>
@@ -2482,7 +2496,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ["Réglages du son et du signal", `<p>Modifie-les dans l'onglet <b>Réglages</b>.</p>
 <ul><li><b>Son</b> : choisis parmi 15. Touche-en un pour entendre le son de départ et celui de l'impact.</li>
 <li><b>Signal de transition</b> : marque le moment où le mouvement arrière se termine et où le mouvement avant commence. Choisis Aucun, Éclair écran (par défaut), Lueur bas, Éclair barre ou Onde.</li>
-<li><b>Démarrage auto</b> : démarre quand tu poses le téléphone et s'arrête quand tu le soulèves.</li>
+<li><b>Pause entre les coups</b> : choisis 1, 2 ou 3 secondes. Avec 2 ou 3 secondes, un feu apparaît : rouge, orange, vert pour 3 secondes ; rouge, vert pour 2 secondes. La barre part dès que le feu vert s'allume.</li>
 <li>Tu peux aussi changer l'<b>épaisseur de la barre</b> et la <b>langue</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">Pas de son ? Vérifie le mode silencieux et le volume. Sur iPhone, l'accès au mouvement peut t'être demandé la première fois.</p>`],
       ["Comment s'entraîner", `<p>Ce sont des <b>suggestions</b> fondées sur des études et sur le fonctionnement de l'appli. Ce n'est pas une méthode prouvée.</p>
@@ -2507,7 +2521,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>Mes tempos enregistrés s'affichent-ils sur un autre téléphone ?</b><br>Non. Ils sont stockés uniquement sur ce téléphone.</p>`]
     ],
     sv: [
-      ["Kom igång", `<p>Lägg telefonen <b>platt</b> på en puttingmatta eller golvet och håll den stilla i ungefär en sekund. Den startar av sig själv. <b>Lyft telefonen för att stoppa.</b> Du kan stänga av autostart i Inställningar.</p>
+      ["Kom igång", `<p>Lägg telefonen <b>platt</b> på en puttingmatta eller golvet och håll den stilla i ungefär en sekund. Den startar av sig själv. <b>Lyft telefonen för att stoppa.</b></p>
 <p>Vill du starta med telefonen i handen trycker du på <b>Start-knappen</b> eller var som helst på skärmen. Därefter stoppar den när du lyfter telefonen först efter att du har lagt den platt. Tryck på skärmen för att stoppa medan du tränar.</p>
 <ul><li>När <b>staven går ner</b> är det baksvinget.</li><li>Längst <b>ner</b> går det över i framsvinget.</li><li>I ögonblicket då staven <b>når toppen</b> är det träff.</li></ul>
 <p>Du hör ett ljud <b>en gång när baksvinget startar och en gång vid träffen</b>. Efter varje slag är det en sekunds paus.</p>
@@ -2526,7 +2540,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ["Ljud- och signalinställningar", `<p>Ändra dessa på fliken <b>Inställningar</b>.</p>
 <ul><li><b>Ljud</b>: välj bland 15. Tryck på ett för att höra startljudet och träffljudet.</li>
 <li><b>Vändningssignal</b>: markerar ögonblicket då baksvinget slutar och framsvinget börjar. Välj Av, Skärmblink (standard), Glöd nedtill, Stavblink eller Ringar.</li>
-<li><b>Autostart</b>: startar när du lägger ner telefonen och stoppar när du lyfter den.</li>
+<li><b>Paus mellan slag</b>: välj 1, 2 eller 3 sekunder. Vid 2 eller 3 sekunder visas ett trafikljus: röd, gul, grön vid 3 sekunder, röd, grön vid 2 sekunder. Staven startar i samma ögonblick som det gröna ljuset tänds.</li>
 <li>Du kan också ändra <b>stavens tjocklek</b> och <b>språket</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">Inget ljud? Kontrollera ljudlöst läge och volymen. På iPhone kan du bli ombedd att tillåta åtkomst till rörelsesensorer första gången.</p>`],
       ["Så tränar du", `<p>Det här är <b>förslag</b> baserade på forskning och på hur appen fungerar. De är inte beprövade recept.</p>
@@ -2551,7 +2565,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 <p><b>Syns mina sparade tempon på en annan telefon?</b><br>Nej. De sparas bara på den här telefonen.</p>`]
     ],
     it: [
-      ["Per iniziare", `<p>Appoggia il telefono <b>in piano</b> su un tappeto da putt o sul pavimento e tienilo fermo per circa un secondo. Parte da solo. <b>Solleva il telefono per fermare.</b> Puoi disattivare l'avvio automatico nelle Impostazioni.</p>
+      ["Per iniziare", `<p>Appoggia il telefono <b>in piano</b> su un tappeto da putt o sul pavimento e tienilo fermo per circa un secondo. Parte da solo. <b>Solleva il telefono per fermare.</b></p>
 <p>Per iniziare con il telefono in mano, tocca il <b>pulsante Avvia</b> o un punto qualsiasi dello schermo. Dopo, sollevare il telefono lo ferma solo dopo che l'hai appoggiato in piano. Mentre ti alleni, tocca lo schermo per fermare.</p>
 <ul><li>Mentre la <b>barra scende</b> sei nel backswing.</li><li>In <b>basso</b> diventa il movimento in avanti.</li><li>Il momento in cui la barra <b>arriva in alto</b> è l'impatto.</li></ul>
 <p>Senti un suono <b>una volta all'inizio del backswing e una volta all'impatto</b>. Dopo ogni colpo c'è una pausa di un secondo.</p>
@@ -2570,7 +2584,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
       ["Impostazioni di suono e segnale", `<p>Le modifichi nella scheda <b>Impostazioni</b>.</p>
 <ul><li><b>Suono</b>: scegli tra 15. Toccane uno per sentire il suono di inizio e quello dell'impatto.</li>
 <li><b>Segnale di cambio</b>: indica il momento in cui finisce il backswing e inizia il movimento in avanti. Scegli tra No, Lampo schermo (predefinito), Luce in basso, Lampo barra od Onda.</li>
-<li><b>Avvio automatico</b>: parte quando appoggi il telefono e si ferma quando lo sollevi.</li>
+<li><b>Pausa tra i colpi</b>: scegli 1, 2 o 3 secondi. Con 2 o 3 secondi compare un semaforo: rosso, giallo, verde con 3 secondi; rosso e verde con 2 secondi. La barra parte nel momento in cui si accende la luce verde.</li>
 <li>Puoi cambiare anche lo <b>spessore della barra</b> e la <b>lingua</b> (한국어, 日本語, 简体中文, English, Español, Deutsch, Français, Svenska, Italiano).</li></ul>
 <p class="note">Non senti nulla? Controlla la modalità silenziosa e il volume. Su iPhone la prima volta potrebbe essere richiesto di consentire l'accesso al movimento.</p>`],
       ["Come allenarti", `<p>Sono <b>suggerimenti</b> basati su ricerche e sul funzionamento dell'app. Non sono una prescrizione provata.</p>
@@ -2650,6 +2664,11 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
 
   function renderManual() {
     manualBody.textContent = '';
+    var quick = document.createElement('div');
+    quick.className = 'man-quick';
+    quick.innerHTML = '<strong class="howto-title">' + t('howto_title') + '</strong><ol class="steps">' +
+      [1, 2, 3, 4].map(function (n) { return '<li><i>' + n + '</i><span>' + t('howto_' + n) + '</span></li>'; }).join('') + '</ol>';
+    manualBody.appendChild(quick);
     MAN[lang].forEach(function (sec, i) {
       var d = document.createElement('details');
       if (i === 0) d.open = true;
@@ -2672,7 +2691,10 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
     manualBody.scrollTop = 0;
   }
 
-  function showManual() {
+  var manualFirst = false;   // true while the manual is open on the very first launch
+
+  function showManual(first) {
+    manualFirst = first === true;
     renderManual();
     scrimEl.hidden = false;
     manualEl.hidden = false;
@@ -2681,34 +2703,21 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
   }
 
   function hideManual() {
-    var done = function () { manualEl.hidden = true; if (howtoEl.hidden) scrimEl.hidden = true; };
+    try { localStorage.setItem('putting-tempo-howto', '1'); } catch (e) {}
+    var done = function () {
+      manualEl.hidden = true;
+      scrimEl.hidden = true;
+      if (manualFirst) { manualFirst = false; setTimeout(showInstall, 700); }
+    };
     if (!manualEl.animate) { done(); return; }
     manualEl.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(20px)' }], { duration: 200, easing: 'ease-in' }).onfinish = done;
   }
 
-  document.getElementById('manualRow').addEventListener('click', showManual);
+  document.getElementById('manualRow').addEventListener('click', function () { showManual(false); });
   document.getElementById('manualClose').addEventListener('click', hideManual);
-  document.getElementById('howtoMore').addEventListener('click', showManual);
 
-  function showHowto() {
-    scrimEl.hidden = false;
-    howtoEl.hidden = false;
-    if (scrimEl.animate) scrimEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease-out' });
-    if (howtoEl.animate) howtoEl.animate([{ opacity: 0, transform: 'translateY(32px) scale(0.97)' }, { opacity: 1, transform: 'none' }], { duration: 480, easing: 'cubic-bezier(0.34, 1.4, 0.64, 1)' });
-  }
-
-  function hideHowto() {
-    try { localStorage.setItem('putting-tempo-howto', '1'); } catch (e) {}
-    var done = function () { howtoEl.hidden = true; scrimEl.hidden = true; setTimeout(showInstall, 700); };
-    if (!howtoEl.animate) { done(); return; }
-    scrimEl.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220 });
-    howtoEl.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(24px)' }], { duration: 220, easing: 'ease-in' }).onfinish = done;
-  }
-
-  document.getElementById('howtoGo').addEventListener('click', hideHowto);
-  scrimEl.addEventListener('click', function () { if (!manualEl.hidden) hideManual(); else hideHowto(); });
-  document.getElementById('howtoRow').addEventListener('click', showHowto);
-  setTimeout(function () { if (!howtoSeen() && !forceInstall) showHowto(); }, 1100);
+  scrimEl.addEventListener('click', function () { if (!manualEl.hidden) hideManual(); });
+  setTimeout(function () { if (!howtoSeen() && !forceInstall) showManual(true); }, 1100);
 
   // ---- splash: logo while fonts load ----
   (function () {
@@ -2789,6 +2798,7 @@ html:lang(ja) *, html:lang(zh-CN) * { word-break: normal !important; overflow-wr
     renderSummaries();
     syncSegs();
     document.getElementById('saveName').placeholder = t('namePh');
+    renderRest();
     if (typeof renderManual === 'function' && manualEl && !manualEl.hidden) renderManual();
     renderSaved();
     if (!measureEl.hidden) renderMeasure();
