@@ -1,4 +1,4 @@
-var CACHE = 'putting-tempo-v32';
+var CACHE = 'putting-tempo-v33';
 var ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png', './fonts/sora-latin.woff2', './sounds/metronome_start.wav','./sounds/metronome_impact.wav','./sounds/digital_start.wav','./sounds/digital_impact.wav','./sounds/bat_start.wav','./sounds/bat_impact.wav','./sounds/deskbell_start.wav','./sounds/deskbell_impact.wav','./sounds/glock_start.wav','./sounds/glock_impact.wav','./sounds/bike_start.wav','./sounds/bike_impact.wav','./sounds/cowbell_start.wav','./sounds/cowbell_impact.wav','./sounds/bowl_start.wav','./sounds/bowl_impact.wav','./sounds/snap_start.wav','./sounds/snap_impact.wav','./sounds/marimba_start.wav','./sounds/marimba_impact.wav','./sounds/kalimba_start.wav','./sounds/kalimba_impact.wav','./sounds/retro_start.wav','./sounds/retro_impact.wav','./sounds/drip_start.wav','./sounds/drip_impact.wav','./sounds/wood_start.wav','./sounds/wood_impact.wav','./sounds/comic_start.wav','./sounds/comic_impact.wav'];
 
 self.addEventListener('install', function (e) {
