@@ -279,6 +279,9 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 .pv-lab svg { color: var(--accent); }
 .pv-lab.on { opacity: 1; color: var(--fg); }
 @media (max-height: 660px) { .preview { display: none; } }
+/* tablets: the home screen is scaled up (phones are untouched); the practice screen is not affected */
+@media (min-width: 700px) and (min-height: 900px) { .panel:not(.running) .home { zoom: 1.35; } }
+@media (min-width: 700px) and (max-height: 899px) { .panel:not(.running) .home { zoom: 1.2; } }
 .brand { align-self: center; font: 600 12px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.1em; padding: 6px 10px; }
 
 /* ---- segmented controls ---- */
