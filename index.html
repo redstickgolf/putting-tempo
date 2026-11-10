@@ -279,9 +279,11 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 .pv-lab svg { color: var(--accent); }
 .pv-lab.on { opacity: 1; color: var(--fg); }
 @media (max-height: 660px) { .preview { display: none; } }
+/* the home screen always fits one screen: fitHome() sets --fit (<1) when the content would scroll */
+.panel:not(.running) .home { zoom: var(--fit, 1); }
 /* tablets: the home screen is scaled up (phones are untouched); the practice screen is not affected */
-@media (min-width: 700px) and (min-height: 900px) { .panel:not(.running) .home { zoom: 1.35; } }
-@media (min-width: 700px) and (max-height: 899px) { .panel:not(.running) .home { zoom: 1.2; } }
+@media (min-width: 700px) and (min-height: 900px) { .panel:not(.running) .home { zoom: calc(1.35 * var(--fit, 1)); } }
+@media (min-width: 700px) and (max-height: 899px) { .panel:not(.running) .home { zoom: calc(1.2 * var(--fit, 1)); } }
 .brand { align-self: center; font: 600 12px var(--font-display); color: var(--muted); text-decoration: none; letter-spacing: 0.1em; padding: 6px 10px; }
 
 /* ---- segmented controls ---- */
@@ -1589,8 +1591,8 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
     document.getElementById('factRatio').textContent = dec((BACK / FWD).toFixed(1)) + ' : 1';
     document.getElementById('factTotal').textContent = t('total')(+STROKE.toFixed(2));
     var tipEl = document.getElementById('homeTip');
-    tipEl.hidden = runs >= 3;
-    tipEl.innerHTML = t(autoShown() ? 'tip1Auto' : 'tip1');
+    tipEl.hidden = runs >= 3 || autoShown();   // the bar explanation lives in the manual; only the manual-start line stays when there is no auto start
+    tipEl.innerHTML = t('tip1').split('<br>')[0];
     var sig = BACK + '|' + FWD;
     if (sig !== lastFacts) {
       if (lastFacts !== null) { pulse(document.getElementById('factBpm')); }
@@ -1601,7 +1603,20 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
     if (!ht.hidden) ht.textContent = t('type_' + typeOf(mine));
     var ah = document.getElementById('autoHint');
     if (ah) { ah.hidden = !autoShown(); if (!ah.hidden) ah.textContent = t('autoHint'); }
+    fitHome();
   }
+
+  // The home screen never scrolls: when the content is taller than the screen it is scaled down just enough.
+  function fitHome() {
+    var pn = document.getElementById('panel');
+    if (!pn || pn.classList.contains('running') || homeEl.hidden) return;
+    homeEl.style.setProperty('--fit', '1');
+    var cs = getComputedStyle(pn);
+    var pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    var need = pn.scrollHeight - pad, have = pn.clientHeight - pad;
+    if (need > have + 1) homeEl.style.setProperty('--fit', String(Math.max(0.62, have / need * 0.995).toFixed(3)));
+  }
+  window.addEventListener('resize', function () { requestAnimationFrame(fitHome); });
 
   function setMode(next) {
     if (running) stop();
@@ -2168,6 +2183,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
     if (name === tab && !homeEl.hidden + measureEl.hidden + settingsEl.hidden === 0) { updateTabbar(); return; }
     tab = name;
     homeEl.hidden = name !== 'home';
+    if (name === 'home') fitHome();
     measureEl.hidden = name !== 'measure';
     settingsEl.hidden = name !== 'settings';
     if (name === 'measure') {
