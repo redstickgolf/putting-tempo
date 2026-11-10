@@ -123,6 +123,9 @@ h2 { font-size: 18px; }
 .wordmark { margin: 6px 0 0; align-self: flex-start; font: 800 15.5px/1 var(--font-display); letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap; user-select: none; }
 .putt-art { display: flex; justify-content: center; margin: 4px 0 0; }
 .putt-art svg { display: block; width: 204px; height: 46px; }
+.pa-ball { transform-box: fill-box; transform-origin: center; transition: transform 0.12s ease-out; }
+.pa-ball.hit { transform: translateX(3px) scale(1.3); filter: drop-shadow(0 0 3px rgba(244,241,236,.95)); }
+.pa-ring { transform-box: fill-box; transform-origin: center; }
 .logo { display: block; height: 26px; width: auto; align-self: flex-start; }
 .kicker { margin: 0 0 6px; font: 600 10.5px/1 var(--font-display); letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); }
 .tip { margin: 0; font-size: 14px; line-height: 1.75; color: var(--muted); text-align: center; text-wrap: balance; word-break: keep-all; }
@@ -269,7 +272,8 @@ button.acc-link { width: 100%; text-align: left; background: var(--surface-2); c
 .preview { display: flex; align-items: center; justify-content: center; gap: 14px; }
 .pv-phone { position: relative; flex: none; width: 92px; height: 164px; padding: 5px; border-radius: 20px; border: 1.5px solid var(--hair-2); background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
 .pv-track { position: relative; width: 100%; height: 100%; border-radius: 15px; overflow: hidden; background: #121214; transition: box-shadow 0.15s; }
-.pv-track.turn { box-shadow: inset 0 -30px 24px -16px rgba(200, 21, 29, 0.65); }
+.pv-track.turn { box-shadow: inset 0 -46px 30px -12px rgba(224, 56, 62, 0.95), inset 0 0 0 2px rgba(224, 56, 62, 0.9), 0 0 22px 2px rgba(224, 56, 62, 0.6); }
+.pv-track.turn .pv-bar { background: var(--fg); box-shadow: 0 0 22px 8px rgba(255, 255, 255, 0.85), 0 -14px 32px 6px rgba(255, 255, 255, 0.45); }
 .pv-bar { position: absolute; left: 0; right: 0; top: 0; height: 5px; background: linear-gradient(180deg, #DC2229, var(--accent-lo)); box-shadow: 0 0 14px rgba(200, 21, 29, 0.55); will-change: transform; }
 .pv-bar.hit { background: var(--fg); box-shadow: 0 0 14px rgba(244, 241, 236, 0.5); }
 .pv-ball { position: absolute; top: -12px; left: 50%; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: radial-gradient(circle at 40% 68%, #fff 0%, #ebe6de 52%, #b4ada3 100%); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); transition: transform 0.12s ease-out; }
@@ -452,7 +456,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
       <button id="modeTour" class="pill" type="button" aria-pressed="true" data-i18n="tour">투어 평균</button>
       <button id="modeMine" class="pill" type="button" aria-pressed="false" data-i18n="mine">나의 템포</button>
     </div>
-    <div class="extra putt-art" aria-hidden="true"><svg viewBox="0 0 168 38" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 31H164" stroke="#F4F1EC" stroke-opacity=".22" stroke-width="1.5"/><path d="M30 4 46 28" stroke="#F4F1EC" stroke-width="2.2"/><path d="M42.5 28.5h13" stroke="#F4F1EC" stroke-width="4"/><circle cx="78" cy="27" r="4" fill="#F4F1EC"/><path d="M60 31h12M84 31h8" stroke="#F4F1EC" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="1 5"/><ellipse cx="128" cy="31" rx="9" ry="2.4" fill="#0A0504" stroke="#F4F1EC" stroke-opacity=".55" stroke-width="1.5"/><path d="M128 30V5" stroke="#F4F1EC" stroke-width="1.8"/><path d="M128.9 5.5 142 10.2 128.9 15z" fill="#C8151D"/></svg></div>
+    <div class="extra putt-art" aria-hidden="true"><svg viewBox="0 0 168 38" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 31H164" stroke="#F4F1EC" stroke-opacity=".22" stroke-width="1.5"/><g class="pa-putter" id="paPutter"><g transform="translate(0 -1)"><path d="M77.4 1 76.4 20.8" stroke="#F4F1EC" stroke-width="2"/><path d="M66.4 23.2Q66.4 20.4 69.2 20.4H80.4Q83.2 20.4 83.2 23.2V28.2Q83.2 30.4 81 30.4H68.6Q66.4 30.4 66.4 28.2Z" fill="#F4F1EC" stroke="none"/><path d="M81.7 22V28.8" stroke="#C8151D" stroke-width="1.8"/></g></g><circle class="pa-ring" id="paRing" cx="87.4" cy="26.2" r="4.4" fill="none" stroke="#F4F1EC" stroke-width="1.4" opacity="0"/><circle class="pa-ball" id="paBall" cx="87.4" cy="26.2" r="4" fill="#F4F1EC"/></svg></div>
       <div class="extra preview" aria-hidden="true">
       <span id="pvBack" class="pv-lab"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg><i data-i18n="backLabel">백스트로크</i></span>
       <div class="pv-phone"><div id="pvTrack" class="pv-track"><div id="pvBar" class="pv-bar"></div><div id="pvBall" class="pv-ball"></div></div></div>
@@ -2804,6 +2808,10 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
   var pvBar = document.getElementById('pvBar');
   var pvBall = document.getElementById('pvBall');
   var pvTrack = document.getElementById('pvTrack');
+  var paPutter = document.getElementById('paPutter');
+  var paBall = document.getElementById('paBall');
+  var paRing = document.getElementById('paRing');
+  var paWasHit = false;
   var pvBack = document.getElementById('pvBack');
   var pvFwd = document.getElementById('pvFwd');
   var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -2818,6 +2826,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
     pvBar.classList.toggle('hit', hit);
     pvBall.classList.toggle('hit', hit);
     pvTrack.classList.toggle('turn', turn);
+    if (paPutter) { paPutter.setAttribute('transform', 'translate(' + (-y * 13).toFixed(2) + ' 0)'); paBall.classList.toggle('hit', hit); if (hit && !paWasHit && paRing.animate) { paRing.animate([{ transform: 'scale(1)', opacity: 0.85 }, { transform: 'scale(3.2)', opacity: 0 }], { duration: 480, easing: 'ease-out' }); } paWasHit = hit; }
     pvBack.classList.toggle('on', phase === 1);
     pvFwd.classList.toggle('on', phase === 2);
   }
@@ -2833,7 +2842,7 @@ body.lefty .lights { left: 80%; flex-direction: column-reverse; }
     } else if (ph < STROKE) {
       y = 1 - easeInOut((ph - BACK) / FWD);
       phase = 2;
-      turn = ph - BACK < 0.16;
+      turn = ph - BACK < 0.24;
     } else {
       hit = ph < STROKE + 0.18;
     }
